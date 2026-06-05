@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export const prerender = false;
+---
+
+<BaseLayout title="Settings">
+  <div class="min-h-screen pt-32 pb-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <a href="/admin" class="font-mono text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
+      <h1 class="font-display text-4xl font-bold mt-4 mb-8">Settings</h1>
+
+      <!-- Environment Status -->
+      <div class="space-y-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h2 class="font-display text-lg font-semibold mb-4">Environment Variables</h2>
+          <div class="space-y-3">
+            {[
+              { key: "DATABASE_URL", label: "Database", sensitive: true },
+              { key: "SMS_ENABLED", label: "SMS Service" },
+              { key: "TWILIO_ACCOUNT_SID", label: "Twilio Account", sensitive: true },
+              { key: "TWILIO_FROM_NUMBER", label: "Twilio From Number" },
+              { key: "CLERK_PUBLISHABLE_KEY", label: "Clerk Publishable Key", sensitive: true },
+            ].map(({ key, label, sensitive }) => (
+              <div class="flex items-center justify-between py-2 border-b border-[var(--color-border-subtle)] last:border-0">
+                <span class="text-sm text-[var(--color-text-secondary)]">{label}</span>
+                <span class="font-mono text-xs">
+                  {import.meta.env[key]
+                    ? sensitive
+                      ? `${import.meta.env[key].slice(0, 8)}...`
+                      : import.meta.env[key]
+                    : <span class="text-[var(--color-rose)]">Not Set</span>
+                  }
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Follow-up Tasks -->
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h2 class="font-display text-lg font-semibold mb-4">Follow-Up Tasks</h2>
+          <ul class="space-y-3 text-sm text-[var(--color-text-secondary)]">
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">Google Business Profile</strong> — Claim and verify the GBP listing for accurate NAP and hours.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">Citation NAP Audit</strong> — Ensure NAP consistency across Yelp, TripAdvisor, and other directories.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">Professional Photography</strong> — Capture 30+ images of interior, exterior, and signature dishes.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">Twilio LA Number</strong> — Purchase a local (323) number and update TWILIO_FROM_NUMBER. Set SMS_ENABLED=true.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">Custom Domain</strong> — Configure domain and deploy to Vercel production.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

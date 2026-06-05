@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+---
+
+<BaseLayout title="Home">
+  <Hero />
+
+  <!-- About snapshot -->
+  <Section eyebrow="About" title="Southern Hospitality, Right Here in LA" description="We bring the taste of the South to Los Angeles with every dish made from scratch — family recipes passed down through generations.">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <h3 class="font-display text-lg font-semibold mb-2">Home Cooking</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Every dish is made from scratch using family recipes passed down through generations.</p>
+      </div>
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <h3 class="font-display text-lg font-semibold mb-2">Fresh Ingredients</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">We source the freshest ingredients from local markets — because quality starts at the source.</p>
+      </div>
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">We believe food brings people together. Our table is your table.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Upcoming Events -->
+  <Section eyebrow="Events" title="Come Through & Eat" description="From live music nights to Sunday brunch, there's always something happening." class="bg-[var(--color-surface-card)]" wide>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <EventCard
+        title="Sunday Brunch Special"
+        date="Every Sunday"
+        description="Bottomless mimosas and our famous chicken & waffles. Reserve your table."
+        href="/events"
+        cta="Reserve Now"
+      />
+      <EventCard
+        title="Live Jazz Night"
+        date="Every Friday"
+        description="Enjoy live jazz while you dine. Featured local LA artists every week."
+        href="/events"
+      />
+      <EventCard
+        title="Soul Food Festival"
+        date="August 15, 2026"
+        description="Our annual block party with live music, food trucks, and family fun."
+        href="/events"
+        cta="Get Tickets"
+      />
+    </div>
+  </Section>
+
+  <!-- SMS Signup Teaser -->
+  <Section eyebrow="Stay Connected" title="Join the SoulFood Fam" description="Be the first to know about new menu items, events, and exclusive offers.">
+    <div class="mt-8 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg">
+      <p class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-3">Text Us</p>
+      <p class="text-base md:text-lg font-semibold mb-2">Text <span class="text-[var(--color-accent)]">SOUL</span> to <span class="text-[var(--color-accent)]">(323) XXX-XXXX</span></p>
+      <p class="text-sm text-[var(--color-text-secondary)] mb-4">Get 10% off your next order + free champagne brunch upgrade. New subscribers only.</p>
+      <a href="/community#sms-signup" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity">
+        Text Us to Join
+      </a>
+    </div>
+  </Section>
+</BaseLayout>

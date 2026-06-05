@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<BaseLayout title="Our Story">
+  <div class="min-h-screen pt-32 pb-16">
+    <Section eyebrow="Our Roots" title="From Grandma's Kitchen to LA" description="Lonell's Soul Food started with a dream — to share the taste of home with everyone who walked through the door." />
+
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="aspect-square rounded-xl bg-gradient-to-br from-[var(--color-brand-amber)]/10 to-transparent border border-[var(--color-border-subtle)] flex items-center justify-center">
+              <span class="font-display text-6xl text-[var(--color-accent)]/30">L</span>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
+              What started as Sunday dinners in a small kitchen in South LA has grown into a gathering place for everyone who craves authentic Southern soul food. Our founder, Lonell, learned to cook from his grandmother — standing on a stool to reach the stove, stirring pots of collard greens and watching her turn simple ingredients into magic.
+            </p>
+            <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
+              Today, we carry those recipes and that spirit forward. Every dish is made from scratch, every guest is treated like family, and every meal is an invitation to slow down and savor.
+            </p>
+            <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
+              We're not just serving food — we're serving tradition, one plate at a time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Section eyebrow="Values" title="What We Stand For">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Family Recipes</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Our menu is built on generations of passed-down recipes. No shortcuts, no compromises.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">We partner with local organizations, schools, and artists to keep LA thriving.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Made From Scratch</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">From our cornbread to our gumbo, everything is made in-house daily.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Southern Hospitality</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Every guest is family. That's not a slogan — it's how we run our business.</p>
+        </div>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<BaseLayout title="Community">
+  <div class="min-h-screen pt-32 pb-16">
+    <Section eyebrow="Giving Back" title="We Love LA" description="Lonell's is proud to give back to the community that's supported us from day one.">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Local Partnerships</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">We partner with LA schools, community centers, and local artists to keep our neighborhood thriving.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Donation Program</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">A portion of every meal goes to supporting local food banks and youth programs in South LA.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Community Events</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">From our annual Soul Food Festival to monthly open mic nights — our doors are always open.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Catering for Good</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Discounted catering for non-profits, schools, and community organizations. Let us feed your next event.</p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- SMS Signup -->
+    <section id="sms-signup" class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-lg mx-auto text-center">
+        <span class="eyebrow">Join the Fam</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">SoulFood SMS Club</h2>
+        <p class="text-[var(--color-text-secondary)] mb-6 leading-relaxed">
+          Text <strong class="text-[var(--color-accent)]">SOUL</strong> to <strong class="text-[var(--color-accent)]">(323) XXX-XXXX</strong> to join our VIP list.
+          Get exclusive offers, menu previews, event invites and your <strong class="text-white">SOUL10</strong> promo code
+          for 10% off + a free champagne brunch upgrade.
+        </p>
+        <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)]">
+          <div class="flex flex-col items-center gap-3">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-neon)]">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            </svg>
+            <p class="font-mono text-sm text-[var(--color-neon)]">Text SOUL to (323) XXX-XXXX</p>
+            <p class="text-xs text-[var(--color-text-muted)]">Message & data rates may apply. Reply STOP to cancel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <Section eyebrow="Reviews" title="What People Are Saying">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+            {"★".repeat(5)}
+          </div>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">"Best soul food I've had outside of the South. The oxtails are incredible."</p>
+          <p class="font-mono text-xs text-[var(--color-text-muted)]">— Marcus T.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+            {"★".repeat(5)}
+          </div>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">"The chicken & waffles are life-changing. Sunday brunch is a must."</p>
+          <p class="font-mono text-xs text-[var(--color-text-muted)]">— Keisha R.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+            {"★".repeat(5)}
+          </div>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">"The peach cobbler alone is worth the drive. Real Southern hospitality."</p>
+          <p class="font-mono text-xs text-[var(--color-text-muted)]">— Dionne W.</p>
+        </div>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

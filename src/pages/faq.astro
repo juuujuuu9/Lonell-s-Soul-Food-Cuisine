@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+const faqs = [
+  {
+    q: "What type of cuisine do you serve?",
+    a: "We serve authentic Southern soul food — from smothered pork chops and fried chicken to collard greens, mac & cheese, and sweet potato pie. Everything is made from scratch using family recipes.",
+  },
+  {
+    q: "Do you offer vegan or vegetarian options?",
+    a: "Yes! We have several vegetarian sides and can accommodate vegan requests. Our collard greens (cooked with smoked turkey), red beans & rice, and cornbread are vegetarian-friendly.",
+  },
+  {
+    q: "Do you take reservations?",
+    a: "We accept reservations for parties of 6 or more. For smaller groups, walk-ins are always welcome. Call us at (323) 451-3104 to book.",
+  },
+  {
+    q: "Do you cater events?",
+    a: "Absolutely! We cater everything from small family gatherings to corporate events and weddings. Contact us for a custom quote.",
+  },
+  {
+    q: "What are your hours?",
+    a: "Monday–Thursday: 11 AM–9 PM, Friday: 11 AM–10 PM, Saturday: 10 AM–10 PM, Sunday: 10 AM–8 PM.",
+  },
+  {
+    q: "Do you have gluten-free options?",
+    a: "Several of our dishes are gluten-free or can be modified. Let your server know about dietary restrictions and we'll take care of you.",
+  },
+  {
+    q: "How does the SMS club work?",
+    a: "Text SOUL to (323) XXX-XXXX to join. You'll get exclusive offers, menu previews, and event invitations. Reply STOP anytime to cancel. Message & data rates may apply.",
+  },
+  {
+    q: "Do you sell gift cards?",
+    a: "Yes! Gift cards are available in any denomination at the restaurant or by calling us directly.",
+  },
+];
+---
+
+<BaseLayout title="FAQ">
+  <div class="min-h-screen pt-32 pb-16">
+    <Section eyebrow="Questions" title="Frequently Asked Questions" description="Everything you need to know before you visit — and then some.">
+      <div class="mt-12 space-y-0">
+        {faqs.map(({ q, a }, i) => (
+          <details class="group border-b border-[var(--color-border-subtle)] last:border-0">
+            <summary class="flex items-center justify-between py-5 cursor-pointer list-none hover:text-[var(--color-accent)] transition-colors">
+              <span class="font-display text-lg font-medium pr-4">{q}</span>
+              <svg class="w-4 h-4 shrink-0 transition-transform duration-200 group-open:rotate-45 text-[var(--color-text-muted)]" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="8" y1="2" x2="8" y2="14" />
+                <line x1="2" y1="8" x2="14" y2="8" />
+              </svg>
+            </summary>
+            <div class="pb-5">
+              <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">{a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

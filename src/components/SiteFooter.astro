@@ -1,0 +1,62 @@
+---
+const hours = [
+  { day: "Monday", time: "11:00 AM – 9:00 PM" },
+  { day: "Tuesday", time: "11:00 AM – 9:00 PM" },
+  { day: "Wednesday", time: "11:00 AM – 9:00 PM" },
+  { day: "Thursday", time: "11:00 AM – 9:00 PM" },
+  { day: "Friday", time: "11:00 AM – 10:00 PM" },
+  { day: "Saturday", time: "10:00 AM – 10:00 PM" },
+  { day: "Sunday", time: "10:00 AM – 8:00 PM" },
+];
+---
+
+<footer class="border-t border-[var(--color-border-subtle)] section-padding">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+      <!-- Brand -->
+      <div>
+        <h3 class="font-display text-xl font-semibold mb-4">Lonell's Soul Food</h3>
+        <p class="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+          Authentic Southern soul food served with love in the heart of Los Angeles. Every dish tells a story.
+        </p>
+      </div>
+
+      <!-- Address & Contact -->
+      <div>
+        <h4 class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Visit Us</h4>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+          1234 Soul Food Lane<br />
+          Los Angeles, CA 90001
+        </p>
+        <p class="mt-3">
+          <a href="tel:+13234513104" class="footer-link text-sm">(323) 451-3104</a>
+        </p>
+      </div>
+
+      <!-- Hours -->
+      <div>
+        <h4 class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Hours</h4>
+        <ul class="space-y-1">
+          {hours.map(({ day, time }) => (
+            <li class="flex justify-between text-sm text-[var(--color-text-secondary)]">
+              <span>{day}</span>
+              <span>{time}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-12 pt-8 border-t border-[var(--color-border-subtle)] flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-[var(--color-text-muted)]">
+        &copy; {new Date().getFullYear()} Lonell's Soul Food. All rights reserved.
+      </p>
+      <div class="flex items-center gap-4">
+        <a href="https://instagram.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://facebook.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://yelp.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Yelp</a>
+      </div>
+    </div>
+  </div>
+</footer>

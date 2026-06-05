@@ -1,0 +1,21 @@
+---
+const links = [
+  { href: "/", label: "HOME" },
+  { href: "/menu", label: "MENU" },
+  { href: "/our-story", label: "OUR STORY" },
+  { href: "/events", label: "EVENTS" },
+  { href: "/community", label: "COMMUNITY" },
+  { href: "/faq", label: "FAQ" },
+];
+---
+
+<nav class="nav-overlay" aria-label="Main navigation">
+  <div class="text-center">
+    <p class="font-mono text-xs tracking-[0.2em] uppercase text-[var(--color-text-muted)] mb-8">Navigate</p>
+    {
+      links.map((link) => (
+        <a href={link.href} class="block py-3 hover:text-[var(--color-accent)] transition-colors" data-nav-link>{link.label}</a>
+      ))
+    }
+  </div>
+</nav>

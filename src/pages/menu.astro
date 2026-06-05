@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+interface MenuCategory {
+  name: string;
+  items: { name: string; description: string; price: string }[];
+}
+
+const menu: MenuCategory[] = [
+  {
+    name: "Appetizers",
+    items: [
+      { name: "Fried Green Tomatoes", description: "Crispy cornmeal crust, remoulade sauce", price: "$12" },
+      { name: "Catfish Bites", description: "Louisiana-style seasoned, spicy aioli", price: "$14" },
+      { name: "Buffalo Mac & Cheese Balls", description: "Creamy mac fried golden, buffalo drizzle", price: "$13" },
+    ],
+  },
+  {
+    name: "Mains",
+    items: [
+      { name: "Smothered Pork Chops", description: "Braised bone-in chops, rich onion gravy, rice & greens", price: "$24" },
+      { name: "Fried Chicken Dinner", description: "Buttermilk brined, served with two sides & cornbread", price: "$22" },
+      { name: "Catfish & Grits", description: "Blackened catfish, cheesy grits, crawfish cream sauce", price: "$26" },
+      { name: "Oxtail Plate", description: "Slow-braised oxtail, butter beans, rice, collard greens", price: "$28" },
+    ],
+  },
+  {
+    name: "Sides",
+    items: [
+      { name: "Collard Greens", description: "Smoked turkey, slow-cooked", price: "$7" },
+      { name: "Mac & Cheese", description: "Five-cheese blend, baked golden", price: "$8" },
+      { name: "Red Beans & Rice", description: "Cajun-style, andouille sausage", price: "$7" },
+      { name: "Cornbread Muffin", description: "Honey butter on the side", price: "$4" },
+    ],
+  },
+  {
+    name: "Desserts",
+    items: [
+      { name: "Sweet Potato Pie", description: "Warm, flaky crust, whipped cream", price: "$9" },
+      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, homemade custard", price: "$8" },
+      { name: "Peach Cobbler", description: "Southern-style, vanilla ice cream", price: "$10" },
+    ],
+  },
+];
+---
+
+<BaseLayout title="Menu">
+  <div class="min-h-screen pt-32 pb-16">
+    <Section eyebrow="Eat Good" title="Our Menu" description="Southern classics made from scratch with love. Every dish is a taste of home.">
+      <div class="mt-12 space-y-16">
+        {menu.map((category) => (
+          <div>
+            <h3 class="font-display text-2xl font-semibold mb-6 text-[var(--color-accent)]">{category.name}</h3>
+            <div class="space-y-6">
+              {category.items.map((item) => (
+                <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
+                  <div>
+                    <h4 class="font-display text-lg font-medium">{item.name}</h4>
+                    <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
+                  </div>
+                  <span class="font-mono text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

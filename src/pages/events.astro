@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+
+const events = [
+  {
+    title: "Sunday Brunch Special",
+    date: "Every Sunday",
+    description: "Bottomless mimosas, live jazz, and our famous chicken & waffles. Reserve your table in advance — we fill up fast.",
+    href: "#",
+    cta: "Reserve Now",
+  },
+  {
+    title: "Live Jazz Night",
+    date: "Every Friday",
+    description: "Featured local LA artists every week. Enjoy live jazz while you dine on your favorite soul food classics.",
+    href: "#",
+  },
+  {
+    title: "Soul Food Festival",
+    date: "August 15, 2026",
+    description: "Our annual block party returns! Live music, food trucks, cooking demos, and family fun for everyone.",
+    href: "#",
+    cta: "Get Tickets",
+  },
+  {
+    title: "Thanksgiving Family Dinner",
+    date: "November 26, 2026",
+    description: "Spend Thanksgiving with us. Family-style feast with all the trimmings. Dine-in or take-home.",
+    href: "#",
+    cta: "Pre-Order",
+  },
+  {
+    title: "New Year's Eve Dinner",
+    date: "December 31, 2026",
+    description: "Ring in the new year with a special multi-course dinner, live music, and midnight champagne toast.",
+    href: "#",
+    cta: "Reserve",
+  },
+  {
+    title: "Cooking Class: Soul Food 101",
+    date: "TBD",
+    description: "Learn to make collard greens, cornbread, and smothered pork chops from our head chef.",
+    href: undefined,
+  },
+];
+---
+
+<BaseLayout title="Events">
+  <div class="min-h-screen pt-32 pb-16">
+    <Section eyebrow="Come Through" title="Events & Happenings" description="From weekly brunch to annual festivals — there's always something cooking at Lonell's." wide>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {events.map((event) => (
+          <EventCard {...event} />
+        ))}
+      </div>
+    </Section>
+
+    <!-- Private Events -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow">Host With Us</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6">Book a Private Event</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-8">
+          Birthdays, anniversaries, corporate dinners — we'd love to host your next gathering. Our private dining room seats up to 40 guests.
+        </p>
+        <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+          Call Us to Book
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
