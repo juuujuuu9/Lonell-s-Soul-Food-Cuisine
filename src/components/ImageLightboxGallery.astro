@@ -12,35 +12,67 @@ export interface GalleryPhoto {
 interface Props {
   photos: GalleryPhoto[];
   class?: string;
+  mobileCarousel?: boolean;
 }
 
-const { photos, class: className = "" } = Astro.props;
+const { photos, class: className = "", mobileCarousel = false } = Astro.props;
 const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<div class={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${className}`} data-lightbox-gallery={galleryId}>
+<div class={className} data-lightbox-gallery={galleryId}>
   {
-    photos.map((photo, index) => (
-      <button
-        type="button"
-        class="group block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
-        data-lightbox-open={index}
-        aria-label={`View larger: ${photo.alt}`}
-      >
-        <picture class="block">
-          <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
-          <img
-            src={photo.jpg}
-            alt={photo.alt}
-            width={photo.width}
-            height={photo.height}
-            class="w-full h-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-105"
-            loading="lazy"
-          />
-        </picture>
-      </button>
-    ))
+    mobileCarousel ? (
+      <div class="gallery-carousel md:hidden" aria-label="Restaurant photo gallery">
+        {
+          photos.map((photo, index) => (
+            <button
+              type="button"
+              class="gallery-carousel-slide group block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+              data-lightbox-open={index}
+              aria-label={`View larger: ${photo.alt}`}
+            >
+              <picture class="block">
+                <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
+                <img
+                  src={photo.jpg}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  class="w-full h-full object-cover aspect-[4/3] transition-transform duration-300 group-active:scale-105"
+                  loading="lazy"
+                />
+              </picture>
+            </button>
+          ))
+        }
+      </div>
+    ) : null
   }
+
+  <div class={`${mobileCarousel ? "hidden md:grid md:grid-cols-2 lg:grid-cols-3" : "grid grid-cols-1 sm:grid-cols-2"} gap-4`}>
+    {
+      photos.map((photo, index) => (
+        <button
+          type="button"
+          class="group block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+          data-lightbox-open={index}
+          aria-label={`View larger: ${photo.alt}`}
+        >
+          <picture class="block">
+            <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
+            <img
+              src={photo.jpg}
+              alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
+              class="w-full h-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+            />
+          </picture>
+        </button>
+      ))
+    }
+  </div>
 </div>
 
 <dialog id={galleryId} class="lightbox-dialog" aria-label="Image gallery lightbox">
@@ -176,6 +208,25 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
 </script>
 
 <style>
+  .gallery-carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .gallery-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gallery-carousel-slide {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+
   .lightbox-dialog {
     width: 100vw;
     height: 100dvh;

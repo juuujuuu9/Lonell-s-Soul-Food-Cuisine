@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ImageLightboxGallery from "../components/ImageLightboxGallery.astro";
 import Section from "../components/Section.astro";
 
 interface MenuItem {
@@ -79,6 +80,63 @@ const menuCategories: MenuCategory[] = [
     ],
   },
 ];
+
+const menuPhotos = [
+  {
+    webp: "/media/images/bar-daytime.webp",
+    webp2x: "/media/images/bar-daytime@2x.webp",
+    jpg: "/media/images/bar-daytime.jpg",
+    full: "/media/images/bar-daytime@2x.webp",
+    width: 1024,
+    height: 767,
+    alt: "Lonnell's Soul Food bar and dining area during the day",
+  },
+  {
+    webp: "/media/images/bar-far-end.webp",
+    webp2x: "/media/images/bar-far-end@2x.webp",
+    jpg: "/media/images/bar-far-end.jpg",
+    full: "/media/images/bar-far-end@2x.webp",
+    width: 767,
+    height: 1024,
+    alt: "Counter seating with beverage dispensers and Lonnell's Soul Food Cafe logo",
+  },
+  {
+    webp: "/media/images/bar-pitchers.webp",
+    webp2x: "/media/images/bar-pitchers@2x.webp",
+    jpg: "/media/images/bar-pitchers.jpg",
+    full: "/media/images/bar-pitchers@2x.webp",
+    width: 1024,
+    height: 731,
+    alt: "Beverage dispensers with water, iced tea, and fruit punch at the bar",
+  },
+  {
+    webp: "/media/images/dining-from-rear.webp",
+    webp2x: "/media/images/dining-from-rear@2x.webp",
+    jpg: "/media/images/dining-from-rear.jpg",
+    full: "/media/images/dining-from-rear@2x.webp",
+    width: 768,
+    height: 1024,
+    alt: "Full dining room view with bar seating and chandelier",
+  },
+  {
+    webp: "/media/images/interior-dining.webp",
+    webp2x: "/media/images/interior-dining@2x.webp",
+    jpg: "/media/images/interior-dining.jpg",
+    full: "/media/images/interior-dining@2x.webp",
+    width: 767,
+    height: 1024,
+    alt: "Dining room with natural light, orchid centerpieces, and woven pendant lighting",
+  },
+  {
+    webp: "/media/images/side-tables-dining.webp",
+    webp2x: "/media/images/side-tables-dining@2x.webp",
+    jpg: "/media/images/side-tables-dining.jpg",
+    full: "/media/images/side-tables-dining@2x.webp",
+    width: 767,
+    height: 1024,
+    alt: "Booth seating with leather banquette and table lamps",
+  },
+];
 ---
 
 <!-- Menu schema -->
@@ -143,20 +201,11 @@ const menuCategories: MenuCategory[] = [
         <p class="text-sm text-[var(--color-text-secondary)]">10% off for seniors every Sunday</p>
       </div>
 
-      <picture class="mt-16 block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
-        <source
-          srcset="/media/images/bar-daytime.webp 1x, /media/images/bar-daytime@2x.webp 2x"
-          type="image/webp"
-        />
-        <img
-          src="/media/images/bar-daytime.jpg"
-          alt="Lonnell's Soul Food bar and dining area during the day"
-          width="1024"
-          height="767"
-          class="w-full h-auto object-cover"
-          loading="lazy"
-        />
-      </picture>
+      <div class="mt-16">
+        <span class="eyebrow">Inside Lonnell's</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6">Where We Serve</h2>
+        <ImageLightboxGallery photos={menuPhotos} mobileCarousel />
+      </div>
     </Section>
   </div>
 </BaseLayout>

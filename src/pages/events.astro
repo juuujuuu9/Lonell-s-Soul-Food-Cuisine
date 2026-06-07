@@ -9,7 +9,7 @@ const weeklyEvents = [
     date: "Every Wednesday",
     type: "jazz" as const,
     description: "Kick off the middle of your week with live jazz from local LA artists. Dinner service runs 11am-7pm. Music starts at 6pm.",
-    href: "#schedule",
+    href: "#reserve",
     cta: "Make a Reservation",
   },
   {
@@ -17,7 +17,7 @@ const weeklyEvents = [
     date: "Every Friday",
     type: "jazz" as const,
     description: "End your week on a high note. Live jazz from 6pm to 9pm while you enjoy your favorite soul food classics. Extended hours until 9pm.",
-    href: "#schedule",
+    href: "#reserve",
     cta: "Reserve Your Table",
   },
   {
@@ -25,7 +25,7 @@ const weeklyEvents = [
     date: "Every Saturday",
     type: "karaoke" as const,
     description: "Grab the mic and sing your heart out! Karaoke from 6pm to 9pm. Great food, great vibes, great company.",
-    href: "#schedule",
+    href: "#reserve",
     cta: "Come Through",
   },
   {
@@ -33,7 +33,7 @@ const weeklyEvents = [
     date: "Every Sunday",
     type: "brunch" as const,
     description: "Brunch served 11am-5pm with live music from 1pm to 5pm. Free champagne with brunch while it lasts. Senior discount (10%) available.",
-    href: "#schedule",
+    href: "#reserve",
     cta: "Join Us",
   },
 ];
@@ -92,7 +92,7 @@ const weeklyEvents = [
       </div>
 
       <!-- Weekly Schedule Summary -->
-      <div id="schedule" class="mt-16 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div id="schedule" class="mt-16 p-4 md:p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
         <h3 class="font-display text-2xl font-semibold mb-6 text-center">At a Glance</h3>
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
@@ -150,6 +150,27 @@ const weeklyEvents = [
         </div>
       </div>
     </Section>
+
+    <section id="reserve" class="section-padding">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow">Reserve</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Book Your Table</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6 leading-relaxed">
+          Walk-ins welcome, reservations accepted for parties of any size. Call or email to reserve.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Call (323) 451-3104
+          </a>
+          <a href="mailto:reservations@lonells.com" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            Email reservations@lonells.com
+          </a>
+          <a href="/contact" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            More Info
+          </a>
+        </div>
+      </div>
+    </section>
 
     <!-- Sunday Brunch highlight -->
     <section class="section-padding bg-[var(--color-surface-card)]">
