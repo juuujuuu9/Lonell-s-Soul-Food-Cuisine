@@ -1,0 +1,135 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<!-- Review + AggregateRating schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "AggregateRating",
+  "itemReviewed": {
+    "@type": "Restaurant",
+    "name": "Lonnell's Soul Food Cuisine"
+  },
+  "ratingValue": "4.2",
+  "reviewCount": "139",
+  "bestRating": "5"
+})}></script>
+
+<BaseLayout title="Reviews & Press" description="See what everyone's saying about Lonnell's Soul Food Cuisine. Rated 4.2 stars on Yelp with 139 reviews. Read reviews and press mentions.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Word on the Street" title="Rated 4.2 Stars on Yelp" description="139 reviews and counting. Here's what our guests are saying about the food, the music, and the experience.">
+      <div class="mt-8 flex items-center justify-center gap-2 mb-8">
+        <div class="flex items-center gap-1 text-[var(--color-accent)] text-2xl">
+          {"★".repeat(4)}
+          <span class="text-[var(--color-text-muted)]">★</span>
+        </div>
+        <span class="text-sm text-[var(--color-text-muted)]">4.2 / 5.0</span>
+      </div>
+    </Section>
+
+    <!-- Featured Reviews -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto">
+        <h3 class="font-display text-2xl font-semibold mb-8 text-center">Featured Reviews</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+              {"★".repeat(5)}
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"This will be the new spot to catch up with my friend! We both ordered oxtails; divine tender well seasoned."</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+          </div>
+
+          <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+              {"★".repeat(5)}
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Absolutely Delightful! Parking a breeze on the street."</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+          </div>
+
+          <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+              {"★".repeat(5)}
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Met my foodie friend there and we were completely pleased with the service, the music, the food."</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+          </div>
+
+          <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+              {"★".repeat(5)}
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"The food was divine. The oxtails were fall-off-the-bone tender. Great service and atmosphere too."</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Review Themes -->
+    <Section eyebrow="What People Love" title="Review Highlights">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+          <span class="font-display text-4xl font-bold text-[var(--color-accent)]">🥩</span>
+          <h3 class="font-display text-lg font-semibold mt-3 mb-2">Oxtails</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Frequently mentioned as the standout dish — "fall-off-the-bone" tender and well-seasoned.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+          <span class="font-display text-4xl font-bold text-[var(--color-accent)]">🎵</span>
+          <h3 class="font-display text-lg font-semibold mt-3 mb-2">Live Music</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Guests love the live jazz and karaoke nights — a unique experience for a soul food spot.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+          <span class="font-display text-4xl font-bold text-[var(--color-accent)]">🚗</span>
+          <h3 class="font-display text-lg font-semibold mt-3 mb-2">Easy Parking</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">"Parking a breeze on the street" — a rare find in LA that guests consistently appreciate.</p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- Press Mentions -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow">As Seen In</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-8">Press & Media</h2>
+        <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+          <div class="flex items-center justify-center gap-4 mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-text-muted)]">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
+            <h3 class="font-display text-xl font-semibold">The Infatuation</h3>
+          </div>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic max-w-xl mx-auto">
+            "We haven't been here yet, but want you to know this spot exists."<br />
+            <span class="text-[var(--color-text-muted)] not-italic">— July 2025</span>
+          </p>
+          <p class="text-xs text-[var(--color-text-muted)]">
+            More press features coming soon. If you're a member of the media, <a href="/contact" class="text-[var(--color-accent)] hover:underline">contact us</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <Section eyebrow="Join the Community" title="@lonellssoulfood">
+      <p class="text-[var(--color-text-secondary)] mb-8 max-w-xl">
+        Follow us on Instagram for daily specials, event announcements, and behind-the-scenes looks at what's cooking. 
+        7,400+ followers and growing.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="https://www.instagram.com/lonellssoulfood/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-accent)] text-black font-semibold text-sm rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+          Follow on Instagram
+        </a>
+        <a href="https://yelp.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+          Read Yelp Reviews
+        </a>
+        <a href="https://facebook.com/lonellssoulfoodcuisine" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+          Follow on Facebook
+        </a>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

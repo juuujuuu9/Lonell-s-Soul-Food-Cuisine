@@ -1,0 +1,25 @@
+---
+export interface Props {
+  toggleId: string;
+  labelId: string;
+  iconId: string;
+}
+
+const { toggleId, labelId, iconId } = Astro.props;
+---
+
+<button
+  id={toggleId}
+  type="button"
+  class="flex items-center gap-1.5 md:gap-2 p-2 md:px-4 md:py-2 text-sm font-medium tracking-widest uppercase text-[var(--color-text-primary)] bg-[var(--color-surface-base)]/80 backdrop-blur-sm border border-[var(--color-border-subtle)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors"
+  aria-label="Toggle navigation menu"
+  aria-expanded="false"
+  aria-controls="main-nav-overlay"
+>
+  <span id={labelId} class="hidden md:inline">MENU</span>
+  <svg id={iconId} width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <line x1="2" y1="4" x2="14" y2="4" />
+    <line x1="2" y1="8" x2="14" y2="8" />
+    <line x1="2" y1="12" x2="14" y2="12" />
+  </svg>
+</button>

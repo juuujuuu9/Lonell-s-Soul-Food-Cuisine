@@ -5,9 +5,9 @@ export const prerender = false;
 ---
 
 <BaseLayout title="Settings">
-  <div class="min-h-screen pt-32 pb-16">
+  <div class="min-h-screen pb-16">
     <div class="max-w-4xl mx-auto px-4">
-      <a href="/admin" class="font-mono text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
+      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">Settings</h1>
 
       <!-- Environment Status -->
@@ -24,7 +24,7 @@ export const prerender = false;
             ].map(({ key, label, sensitive }) => (
               <div class="flex items-center justify-between py-2 border-b border-[var(--color-border-subtle)] last:border-0">
                 <span class="text-sm text-[var(--color-text-secondary)]">{label}</span>
-                <span class="font-mono text-xs">
+                <span class="text-xs">
                   {import.meta.env[key]
                     ? sensitive
                       ? `${import.meta.env[key].slice(0, 8)}...`

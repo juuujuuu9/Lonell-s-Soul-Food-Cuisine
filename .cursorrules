@@ -20,6 +20,27 @@ You are a pragmatic, senior-level engineer. Your guiding star is **Radical Simpl
 - **Auth**: Clerk `@clerk/astro` — `clerkMiddleware` in `src/middleware.ts`, gate `/admin(.*)` by role (`owner/manager/staff` via `publicMetadata.role`, checked with `auth().has()`).
 - **SMS**: Twilio, fully built but behind an `SMS_ENABLED` flag. When off, persist messages as simulated so full flow is testable without creds.
 
+## Media Upload Protocol
+
+See `.cursor/hooks.json` and `.cursor/hooks/optimize-media-on-write.sh` for the Cursor hook that auto-processes media files.
+
+### How it works
+- Any media file (images, video, audio) written via the Write tool is automatically detected by the `postToolUse` Cursor hook.
+- The hook passes the file path to `scripts/optimize-media.mjs`, which runs it through `sharp` (Node.js image library).
+- Images are compressed to WebP + JPEG fallback at quality 80, with retina (`@2x`) and large (`-lg`) variants.
+- Output lands in `public/media/images/`, `public/media/videos/`, or `public/media/audio/`.
+- Original unoptimized files are archived in `public/media/*/_source/` (gitignored).
+- Files already in `public/media/` are skipped to prevent re-processing.
+- Extensionless files are detected by magic bytes (e.g., JPEG header `ffd8`).
+
+### Usage
+When adding media assets to the project, use the Write tool to place them anywhere in the project tree. The hook handles the rest.
+
+### Manual invocation
+```bash
+node scripts/optimize-media.mjs /path/to/file.jpg
+```
+
 ## Design Intent
 
 - Dark theme, warm amber/neon accents, centered medallion logo.

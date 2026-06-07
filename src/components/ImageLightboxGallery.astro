@@ -1,0 +1,326 @@
+---
+export interface GalleryPhoto {
+  webp: string;
+  webp2x: string;
+  jpg: string;
+  full: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+interface Props {
+  photos: GalleryPhoto[];
+  class?: string;
+}
+
+const { photos, class: className = "" } = Astro.props;
+const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${className}`} data-lightbox-gallery={galleryId}>
+  {
+    photos.map((photo, index) => (
+      <button
+        type="button"
+        class="group block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)]"
+        data-lightbox-open={index}
+        aria-label={`View larger: ${photo.alt}`}
+      >
+        <picture class="block">
+          <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
+          <img
+            src={photo.jpg}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            class="w-full h-full object-cover aspect-[4/3] transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        </picture>
+      </button>
+    ))
+  }
+</div>
+
+<dialog id={galleryId} class="lightbox-dialog" aria-label="Image gallery lightbox">
+  <div class="lightbox-shell">
+    <header class="lightbox-toolbar">
+      {
+        photos.length > 1 ? (
+          <p data-lightbox-counter class="text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">
+            1 / {photos.length}
+          </p>
+        ) : (
+          <span />
+        )
+      }
+      <button
+        type="button"
+        class="lightbox-control"
+        data-lightbox-close
+        aria-label="Close gallery"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </header>
+
+    <div class="lightbox-stage">
+      {
+        photos.length > 1 && (
+          <button type="button" class="lightbox-control lightbox-nav" data-lightbox-prev aria-label="Previous image">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+        )
+      }
+
+      <figure class="lightbox-figure">
+        <img data-lightbox-image src="" alt="" />
+      </figure>
+
+      {
+        photos.length > 1 && (
+          <button type="button" class="lightbox-control lightbox-nav" data-lightbox-next aria-label="Next image">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        )
+      }
+    </div>
+
+    <footer class="lightbox-footer">
+      {
+        photos.length > 1 && (
+          <button type="button" class="lightbox-control lightbox-nav-mobile" data-lightbox-prev aria-label="Previous image">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+        )
+      }
+      <p data-lightbox-caption class="text-sm text-[var(--color-text-secondary)] leading-relaxed"></p>
+      {
+        photos.length > 1 && (
+          <button type="button" class="lightbox-control lightbox-nav-mobile" data-lightbox-next aria-label="Next image">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        )
+      }
+    </footer>
+  </div>
+</dialog>
+
+<script define:vars={{ photos, galleryId }}>
+  const dialog = document.getElementById(galleryId);
+  const gallery = document.querySelector(`[data-lightbox-gallery="${galleryId}"]`);
+  if (!dialog || !gallery) throw new Error();
+
+  const imageEl = dialog.querySelector("[data-lightbox-image]");
+  const captionEl = dialog.querySelector("[data-lightbox-caption]");
+  const counterEl = dialog.querySelector("[data-lightbox-counter]");
+  const closeBtn = dialog.querySelector("[data-lightbox-close]");
+  if (!imageEl || !captionEl || !closeBtn) throw new Error();
+
+  let currentIndex = 0;
+
+  const showPhoto = (index) => {
+    currentIndex = (index + photos.length) % photos.length;
+    const photo = photos[currentIndex];
+    imageEl.src = photo.full;
+    imageEl.alt = photo.alt;
+    captionEl.textContent = photo.alt;
+    if (counterEl) counterEl.textContent = `${currentIndex + 1} / ${photos.length}`;
+  };
+
+  gallery.querySelectorAll("[data-lightbox-open]").forEach((button) => {
+    button.addEventListener("click", () => {
+      showPhoto(Number(button.getAttribute("data-lightbox-open")));
+      dialog.showModal();
+    });
+  });
+
+  closeBtn.addEventListener("click", () => dialog.close());
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") dialog.close();
+    if (photos.length <= 1) return;
+    if (event.key === "ArrowLeft") showPhoto(currentIndex - 1);
+    if (event.key === "ArrowRight") showPhoto(currentIndex + 1);
+  });
+
+  dialog.querySelectorAll("[data-lightbox-prev]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showPhoto(currentIndex - 1);
+    });
+  });
+
+  dialog.querySelectorAll("[data-lightbox-next]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      showPhoto(currentIndex + 1);
+    });
+  });
+</script>
+
+<style>
+  .lightbox-dialog {
+    width: 100vw;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .lightbox-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+  }
+
+  .lightbox-shell {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    width: 100%;
+    height: 100dvh;
+    padding: 1rem;
+    box-sizing: border-box;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .lightbox-shell {
+      padding: 1.25rem 1.5rem;
+      gap: 1rem;
+    }
+  }
+
+  .lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.75rem;
+  }
+
+  .lightbox-stage {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 0;
+  }
+
+  @media (min-width: 640px) {
+    .lightbox-stage {
+      gap: 1.25rem;
+    }
+  }
+
+  .lightbox-figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    margin: 0;
+  }
+
+  .lightbox-figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  }
+
+  .lightbox-footer {
+    min-height: 2.75rem;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+    padding-inline: 0.5rem;
+  }
+
+  .lightbox-footer p {
+    max-width: 42rem;
+    margin: 0;
+    justify-self: center;
+  }
+
+  .lightbox-nav-mobile {
+    display: inline-flex;
+  }
+
+  @media (min-width: 640px) {
+    .lightbox-footer {
+      display: flex;
+      justify-content: center;
+    }
+
+    .lightbox-nav-mobile {
+      display: none;
+    }
+  }
+
+  .lightbox-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background: rgba(20, 20, 20, 0.85);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .lightbox-control:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .lightbox-control:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 639px) {
+    .lightbox-stage {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .lightbox-nav {
+      display: none;
+    }
+
+    .lightbox-figure {
+      grid-row: 1;
+    }
+  }
+</style>

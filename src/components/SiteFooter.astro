@@ -1,13 +1,17 @@
 ---
 const hours = [
-  { day: "Monday", time: "11:00 AM – 9:00 PM" },
-  { day: "Tuesday", time: "11:00 AM – 9:00 PM" },
-  { day: "Wednesday", time: "11:00 AM – 9:00 PM" },
-  { day: "Thursday", time: "11:00 AM – 9:00 PM" },
-  { day: "Friday", time: "11:00 AM – 10:00 PM" },
-  { day: "Saturday", time: "10:00 AM – 10:00 PM" },
-  { day: "Sunday", time: "10:00 AM – 8:00 PM" },
+  { day: "Monday", time: "CLOSED" },
+  { day: "Tuesday", time: "CLOSED" },
+  { day: "Wednesday", time: "11:00 AM – 7:00 PM" },
+  { day: "Thursday", time: "11:00 AM – 7:00 PM" },
+  { day: "Friday", time: "11:00 AM – 9:00 PM" },
+  { day: "Saturday", time: "11:00 AM – 9:00 PM" },
+  { day: "Sunday", time: "11:00 AM – 5:00 PM" },
 ];
+
+const todayIndex = new Date().getDay(); // 0=Sun, 6=Sat
+const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const todayName = dayNames[todayIndex];
 ---
 
 <footer class="border-t border-[var(--color-border-subtle)] section-padding">
@@ -15,34 +19,71 @@ const hours = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
       <!-- Brand -->
       <div>
-        <h3 class="font-display text-xl font-semibold mb-4">Lonell's Soul Food</h3>
-        <p class="text-[var(--color-text-secondary)] text-sm leading-relaxed">
-          Authentic Southern soul food served with love in the heart of Los Angeles. Every dish tells a story.
+        <h3 class="font-display text-xl font-semibold mb-4">Lonnell's Soul Food Cuisine</h3>
+        <p class="text-[var(--color-text-secondary)] text-sm leading-relaxed italic">
+          "A Taste of Love" — Authentic soul food with live entertainment in South Los Angeles.
         </p>
+        <div class="mt-4">
+          <a
+            href="https://www.google.com/maps?q=8501+S+Vermont+Ave+Los+Angeles+CA+90044"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Open in Google Maps
+          </a>
+        </div>
       </div>
 
       <!-- Address & Contact -->
       <div>
-        <h4 class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Visit Us</h4>
+        <h4 class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Visit Us</h4>
         <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">
-          1234 Soul Food Lane<br />
-          Los Angeles, CA 90001
+          8501 S Vermont Ave<br />
+          Los Angeles, CA 90044<br />
+          <span class="text-[var(--color-text-muted)]">Vermont Knolls, South LA</span>
         </p>
         <p class="mt-3">
           <a href="tel:+13234513104" class="footer-link text-sm">(323) 451-3104</a>
+        </p>
+        <p class="mt-1">
+          <a href="mailto:reservations@lonells.com" class="footer-link text-sm">reservations@lonells.com</a>
+        </p>
+        <p class="mt-4">
+          <a
+            href="https://search.google.com/local/writereview?placeid="
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 text-xs text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            Leave a Review
+          </a>
         </p>
       </div>
 
       <!-- Hours -->
       <div>
-        <h4 class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Hours</h4>
+        <h4 class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Hours</h4>
         <ul class="space-y-1">
-          {hours.map(({ day, time }) => (
-            <li class="flex justify-between text-sm text-[var(--color-text-secondary)]">
-              <span>{day}</span>
-              <span>{time}</span>
-            </li>
-          ))}
+          {hours.map(({ day, time }) => {
+            const isToday = day === todayName;
+            return (
+              <li class="flex justify-between text-sm text-[var(--color-text-secondary)]">
+                <span class={isToday ? "text-[var(--color-accent)] font-semibold" : ""}>
+                  {day}
+                  {isToday && <span class="ml-1.5 text-[10px] uppercase text-[var(--color-neon)]">Today</span>}
+                </span>
+                <span class={`${time === "CLOSED" ? "text-[var(--color-text-muted)]" : ""} ${isToday ? "text-[var(--color-text-primary)] font-medium" : ""}`}>{time}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
@@ -50,11 +91,16 @@ const hours = [
     <!-- Bottom bar -->
     <div class="mt-12 pt-8 border-t border-[var(--color-border-subtle)] flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-xs text-[var(--color-text-muted)]">
-        &copy; {new Date().getFullYear()} Lonell's Soul Food. All rights reserved.
+        &copy; {new Date().getFullYear()} Lonnell's Soul Food Cuisine. All rights reserved.
       </p>
       <div class="flex items-center gap-4">
-        <a href="https://instagram.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://facebook.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="/privacy" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">Privacy</a>
+        <a href="/sms-terms" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">SMS Terms</a>
+        <a href="/accessibility" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">Accessibility</a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://www.instagram.com/lonellssoulfood/" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://facebook.com/lonellssoulfoodcuisine" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Facebook</a>
         <a href="https://yelp.com" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]" target="_blank" rel="noopener noreferrer">Yelp</a>
       </div>
     </div>

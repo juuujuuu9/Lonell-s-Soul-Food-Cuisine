@@ -14,18 +14,19 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "astro": "^5.7.0",
     "@astrojs/vercel": "^8.1.0",
     "@clerk/astro": "^2.8.0",
-    "drizzle-orm": "^0.43.0",
     "@neondatabase/serverless": "^1.0.0",
+    "astro": "^5.7.0",
+    "drizzle-orm": "^0.43.0",
+    "sharp": "^0.34.5",
     "twilio": "^5.5.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",
-    "tailwindcss": "^4.1.0",
-    "drizzle-kit": "^0.30.0",
     "@types/node": "^22.0.0",
+    "drizzle-kit": "^0.30.0",
+    "tailwindcss": "^4.1.0",
     "typescript": "^5.8.0"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": ".cursor/hooks/optimize-media-on-write.sh",
+        "matcher": "Write",
+        "timeout": 35
+      }
+    ]
+  }
+}

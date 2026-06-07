@@ -28,15 +28,15 @@ try {
 ---
 
 <BaseLayout title="Messages">
-  <div class="min-h-screen pt-32 pb-16">
+  <div class="min-h-screen pb-16">
     <div class="max-w-6xl mx-auto px-4">
-      <a href="/admin" class="font-mono text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
+      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">SMS Messages</h1>
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
-            <tr class="border-b border-[var(--color-border-subtle)] font-mono text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
+            <tr class="border-b border-[var(--color-border-subtle)] text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
               <th class="text-left py-3 pr-4">ID</th>
               <th class="text-left py-3 pr-4">Direction</th>
               <th class="text-left py-3 pr-4">To</th>
@@ -52,14 +52,14 @@ try {
             )}
             {messages.map((msg) => (
               <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
-                <td class="py-3 pr-4 font-mono text-xs">{msg.id}</td>
+                <td class="py-3 pr-4 text-xs">{msg.id}</td>
                 <td class="py-3 pr-4">
-                  <span class={`font-mono text-xs ${msg.direction === 'outbound' ? 'text-[var(--color-accent)]' : 'text-[var(--color-neon)]'}`}>
+                  <span class={`text-xs ${msg.direction === 'outbound' ? 'text-[var(--color-accent)]' : 'text-[var(--color-neon)]'}`}>
                     {msg.direction}
                   </span>
                 </td>
-                <td class="py-3 pr-4 font-mono text-xs">{msg.toNumber}</td>
-                <td class="py-3 pr-4 font-mono text-xs">{msg.fromNumber}</td>
+                <td class="py-3 pr-4 text-xs">{msg.toNumber}</td>
+                <td class="py-3 pr-4 text-xs">{msg.fromNumber}</td>
                 <td class="py-3 pr-4 max-w-xs truncate text-[var(--color-text-secondary)]">{msg.body}</td>
                 <td class="py-3 pr-4">
                   <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${msg.simulated ? 'bg-amber-900/30 text-amber-400' : 'bg-green-900/30 text-green-400'}`}>

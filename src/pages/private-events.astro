@@ -1,0 +1,134 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ImageLightboxGallery from "../components/ImageLightboxGallery.astro";
+import Section from "../components/Section.astro";
+
+const eventPhotos = [
+  {
+    webp: "/media/images/event-room-1.webp",
+    webp2x: "/media/images/event-room-1@2x.webp",
+    jpg: "/media/images/event-room-1.jpg",
+    full: "/media/images/event-room-1@2x.webp",
+    width: 767,
+    height: 1024,
+    alt: "Private event space with hexagonal ceiling lighting and banquet tables",
+  },
+  {
+    webp: "/media/images/event-room-2.webp",
+    webp2x: "/media/images/event-room-2@2x.webp",
+    jpg: "/media/images/event-room-2.jpg",
+    full: "/media/images/event-room-2@2x.webp",
+    width: 1024,
+    height: 768,
+    alt: "Event room setup with decorated tables and balloon display",
+  },
+  {
+    webp: "/media/images/event-room-3.webp",
+    webp2x: "/media/images/event-room-3@2x.webp",
+    jpg: "/media/images/event-room-3.jpg",
+    full: "/media/images/event-room-3@2x.webp",
+    width: 767,
+    height: 1024,
+    alt: "Private dining room with gold chiavari chairs and table linens",
+  },
+  {
+    webp: "/media/images/event-room-4.webp",
+    webp2x: "/media/images/event-room-4@2x.webp",
+    jpg: "/media/images/event-room-4.jpg",
+    full: "/media/images/event-room-4@2x.webp",
+    width: 1024,
+    height: 768,
+    alt: "Event space with black banquet tables, blue cocktail table, and balloon decor",
+  },
+];
+---
+
+<BaseLayout title="Private Events & Catering" description="Host your celebration at Lonnell's Soul Food. Two private event spaces (50 capacity each), catering, and live entertainment. South Los Angeles. (323) 451-3104.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Host With Us" title="Private Events & Catering" description="Lonnell's offers two private event spaces plus full-service catering — perfect for birthdays, corporate events, anniversaries, celebrations, and community gatherings." />
+
+    <!-- Event spaces -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto">
+        <h3 class="font-display text-2xl font-semibold mb-8 text-center">Our Event Spaces</h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h4 class="font-display text-xl font-semibold mb-2">Smoking Room</h4>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Maximum capacity of 50 guests. A warm, intimate setting for your next celebration.</p>
+            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase">
+              <span class="w-2 h-2 rounded-full bg-[var(--color-neon)]" />
+              Up to 50 guests
+            </div>
+          </div>
+          <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h4 class="font-display text-xl font-semibold mb-2">Small Room</h4>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Maximum capacity of 50 guests. Cozy and versatile for any occasion.</p>
+            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase">
+              <span class="w-2 h-2 rounded-full bg-[var(--color-neon)]" />
+              Up to 50 guests
+            </div>
+          </div>
+        </div>
+
+        <ImageLightboxGallery photos={eventPhotos} class="mt-12" />
+      </div>
+    </section>
+
+    <!-- Event Types -->
+    <Section eyebrow="Occasions" title="Perfect For">
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Birthday Parties</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Celebrate your special day with great food, great company, and optional live entertainment.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Corporate Events</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Team dinners, client appreciation events, and holiday parties with catering and private space.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Anniversaries & Reunions</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Family reunions, anniversaries, and milestone celebrations in a warm, welcoming setting.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Community Events</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Support your community with a gathering at Lonnell's. We're proud to host local organizations.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Celebrations of Life</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Honor your loved ones with a catered gathering and the comfort of Southern hospitality.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Catered Anywhere</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Not just in-house — we cater events at your venue too. Custom menus available.</p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- Booking CTA -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-2xl mx-auto text-center">
+        <span class="eyebrow">Book Now</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Reserve Your Event</h2>
+        <p class="text-[var(--color-text-secondary)] mb-8 leading-relaxed">
+          Ready to book? We'd love to host your next gathering. Contact us by phone or email, 
+          and we'll help you plan the perfect event.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Call (323) 451-3104
+          </a>
+          <a href="mailto:reservations@lonells.com" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            Email reservations@lonells.com
+          </a>
+        </div>
+        <div class="p-4 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)] inline-block">
+          <p class="text-xs text-[var(--color-text-muted)]">
+            Both rooms accommodate up to 50 guests. Catering menu available upon request. 
+            Ask about live entertainment options for your event.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

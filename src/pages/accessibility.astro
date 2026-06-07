@@ -1,0 +1,45 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<BaseLayout title="Accessibility Statement" description="Accessibility statement for Lonnell's Soul Food Cuisine — our commitment to digital accessibility.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Legal" title="Accessibility Statement" description="Last updated: June 2026">
+      <div class="mt-12 max-w-3xl mx-auto text-sm text-[var(--color-text-secondary)] leading-relaxed space-y-6">
+        <p>
+          Lonnell's Soul Food Cuisine is committed to ensuring digital accessibility for all visitors,
+          including those with disabilities. We strive to provide a website experience that is accessible
+          to the widest possible audience, regardless of technology or ability.
+        </p>
+
+        <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Our Efforts</h3>
+        <p>We aim to comply with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standards. Our ongoing accessibility efforts include:</p>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Semantic HTML structure for screen reader compatibility</li>
+          <li>ARIA labels on interactive elements</li>
+          <li>Keyboard-navigable menus and forms</li>
+          <li>High-contrast color schemes meeting WCAG AA requirements</li>
+          <li>Descriptive alt text on all images</li>
+          <li>Skip-to-content navigation links</li>
+        </ul>
+
+        <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Feedback</h3>
+        <p>
+          We welcome your feedback on the accessibility of our website. If you encounter any barriers or
+          have suggestions for improvement, please contact us:
+        </p>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Phone: <a href="tel:+13234513104" class="text-[var(--color-accent)] hover:underline">(323) 451-3104</a></li>
+          <li>Email: <a href="mailto:reservations@lonells.com" class="text-[var(--color-accent)] hover:underline">reservations@lonells.com</a></li>
+        </ul>
+
+        <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Ongoing Improvement</h3>
+        <p>
+          Accessibility is an ongoing effort. We regularly review our website to identify and fix
+          accessibility issues, and we are committed to providing a seamless experience for all visitors.
+        </p>
+      </div>
+    </Section>
+  </div>
+</BaseLayout>

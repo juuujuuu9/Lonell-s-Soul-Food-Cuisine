@@ -28,9 +28,9 @@ try {
 ---
 
 <BaseLayout title="Reviews">
-  <div class="min-h-screen pt-32 pb-16">
+  <div class="min-h-screen pb-16">
     <div class="max-w-6xl mx-auto px-4">
-      <a href="/admin" class="font-mono text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
+      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">Reputation & Reviews</h1>
 
       <div class="mb-8 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
@@ -38,15 +38,15 @@ try {
         <p class="text-sm text-[var(--color-text-secondary)] mb-4">Use these templates when responding to reviews on Google, Yelp, or Facebook.</p>
         <div class="space-y-4">
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
-            <p class="font-mono text-xs text-[var(--color-neon)] mb-2">5-Star Response</p>
+            <p class="text-xs text-[var(--color-neon)] mb-2">5-Star Response</p>
             <p class="text-sm text-[var(--color-text-secondary)]">"Thank you so much for the kind words, {name}! We're thrilled you enjoyed your experience at Lonell's. Hope to see you again soon — bring a friend next time!"</p>
           </div>
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
-            <p class="font-mono text-xs text-[var(--color-accent)] mb-2">4-Star / Positive Feedback</p>
+            <p class="text-xs text-[var(--color-accent)] mb-2">4-Star / Positive Feedback</p>
             <p class="text-sm text-[var(--color-text-secondary)]">"Thanks for the feedback, {name}! We appreciate your support and will share your comments with our team. Can't wait to have you back!"</p>
           </div>
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
-            <p class="font-mono text-xs text-[var(--color-rose)] mb-2">3-Star / Constructive</p>
+            <p class="text-xs text-[var(--color-rose)] mb-2">3-Star / Constructive</p>
             <p class="text-sm text-[var(--color-text-secondary)]">"Hi {name}, thank you for your honest feedback. We're sorry your visit didn't fully meet expectations. We'd love the chance to make it right — please reach out to us at (323) 451-3104."</p>
           </div>
         </div>
@@ -55,7 +55,7 @@ try {
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
-            <tr class="border-b border-[var(--color-border-subtle)] font-mono text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
+            <tr class="border-b border-[var(--color-border-subtle)] text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
               <th class="text-left py-3 pr-4">Platform</th>
               <th class="text-left py-3 pr-4">Reviewer</th>
               <th class="text-left py-3 pr-4">Rating</th>
@@ -70,7 +70,7 @@ try {
             )}
             {reviews.map((rev) => (
               <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
-                <td class="py-3 pr-4 font-mono text-xs">{rev.platform}</td>
+                <td class="py-3 pr-4 text-xs">{rev.platform}</td>
                 <td class="py-3 pr-4">{rev.reviewerName || 'Anonymous'}</td>
                 <td class="py-3 pr-4">
                   <span class="text-[var(--color-accent)]">{'★'.repeat(rev.rating ?? 0)}{'☆'.repeat(5 - (rev.rating ?? 0))}</span>

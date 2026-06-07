@@ -2,70 +2,161 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 
-interface MenuCategory {
+interface MenuItem {
   name: string;
-  items: { name: string; description: string; price: string }[];
+  description: string;
+  price: string;
+  slug?: string;
 }
 
-const menu: MenuCategory[] = [
+interface MenuCategory {
+  name: string;
+  subtitle: string;
+  items: MenuItem[];
+}
+
+const menuCategories: MenuCategory[] = [
   {
-    name: "Appetizers",
+    name: "Dinner Plates",
+    subtitle: "Served with 2 Sides",
     items: [
-      { name: "Fried Green Tomatoes", description: "Crispy cornmeal crust, remoulade sauce", price: "$12" },
-      { name: "Catfish Bites", description: "Louisiana-style seasoned, spicy aioli", price: "$14" },
-      { name: "Buffalo Mac & Cheese Balls", description: "Creamy mac fried golden, buffalo drizzle", price: "$13" },
+      { name: "Baked Chicken or Fried Chicken", description: "Golden-brown, seasoned to perfection. A classic done right.", price: "$24", slug: "fried-chicken" },
+      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy.", price: "$23", slug: "meatloaf" },
+      { name: "Oxtail", description: "Slow-cooked, fall-off-the-bone tender. Our most popular dish.", price: "$32", slug: "oxtails" },
+      { name: "Pork Chops", description: "Cooked to order, thick-cut and well-seasoned.", price: "$24", slug: "pork-chops" },
+      { name: "Turkey Chop", description: "Cooked to order — a lean, flavorful alternative.", price: "$27", slug: "turkey-chop" },
+      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish.", price: "$26", slug: "catfish" },
+      { name: "Short Ribs", description: "Rich, braised short ribs. Available Friday & Saturday only.", price: "$28", slug: "short-ribs" },
+      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced.", price: "$21", slug: "brisket" },
     ],
   },
   {
-    name: "Mains",
+    name: "A La Carte Proteins",
+    subtitle: "No sides included",
     items: [
-      { name: "Smothered Pork Chops", description: "Braised bone-in chops, rich onion gravy, rice & greens", price: "$24" },
-      { name: "Fried Chicken Dinner", description: "Buttermilk brined, served with two sides & cornbread", price: "$22" },
-      { name: "Catfish & Grits", description: "Blackened catfish, cheesy grits, crawfish cream sauce", price: "$26" },
-      { name: "Oxtail Plate", description: "Slow-braised oxtail, butter beans, rice, collard greens", price: "$28" },
+      { name: "Baked Chicken or Fried Chicken", description: "", price: "$15" },
+      { name: "Meatloaf", description: "", price: "$15" },
+      { name: "Pork Chop", description: "Cooked to order", price: "$15" },
+      { name: "Turkey Chop", description: "Cooked to order", price: "$17" },
+      { name: "Catfish", description: "", price: "$17" },
+      { name: "Short Ribs", description: "Fri & Sat only", price: "$20" },
+      { name: "Brisket", description: "", price: "$18" },
     ],
   },
   {
     name: "Sides",
+    subtitle: "$8 each",
     items: [
-      { name: "Collard Greens", description: "Smoked turkey, slow-cooked", price: "$7" },
-      { name: "Mac & Cheese", description: "Five-cheese blend, baked golden", price: "$8" },
-      { name: "Red Beans & Rice", description: "Cajun-style, andouille sausage", price: "$7" },
-      { name: "Cornbread Muffin", description: "Honey butter on the side", price: "$4" },
+      { name: "String Beans", description: "Fresh green beans, Southern-style", price: "" },
+      { name: "Collard Greens", description: "Slow-cooked with smoked turkey", price: "" },
+      { name: "Red Beans & Rice", description: "Cajun-style with Andouille sausage", price: "" },
+      { name: "Mac and Cheese", description: "Five-cheese blend, baked golden", price: "" },
+      { name: "Black-Eyed Peas", description: "Hearty, seasoned, and slow-simmered", price: "" },
+      { name: "Yams", description: "Candied yams, sweet and tender", price: "" },
+      { name: "Mashed Potatoes", description: "Creamy, buttery mashed potatoes", price: "" },
+      { name: "Gravy", description: "Rich brown gravy", price: "" },
+      { name: "Hot Water Cornbread (2)", description: "Crispy, golden cornmeal cakes", price: "" },
+      { name: "Cornbread (1)", description: "Classic Southern cornbread muffin", price: "" },
     ],
   },
   {
     name: "Desserts",
+    subtitle: "By the slice",
     items: [
-      { name: "Sweet Potato Pie", description: "Warm, flaky crust, whipped cream", price: "$9" },
-      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, homemade custard", price: "$8" },
-      { name: "Peach Cobbler", description: "Southern-style, vanilla ice cream", price: "$10" },
+      { name: "Pound Cake", description: "Classic buttery pound cake", price: "" },
+      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "" },
+      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, and homemade custard", price: "" },
+    ],
+  },
+  {
+    name: "Beverages",
+    subtitle: "",
+    items: [
+      { name: "Drinks", description: "Coke products", price: "$3.00" },
+      { name: "Muddy Water", description: "House specialty beverage", price: "$3.75" },
+      { name: "Lemonade", description: "Fresh-squeezed", price: "$3.50" },
+      { name: "Bottled Water", description: "Aqua Panna", price: "$5.00" },
     ],
   },
 ];
 ---
 
+<!-- Menu schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Menu",
+  "name": "Lonnell's Soul Food Cuisine Menu",
+  "description": "Dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
+  "hasMenuItem": [
+    { "@type": "MenuItem", "name": "Oxtail Plate", "offers": { "@type": "Offer", "price": "32.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Catfish", "offers": { "@type": "Offer", "price": "26.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Short Ribs", "offers": { "@type": "Offer", "price": "28.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Pork Chops", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Brisket", "offers": { "@type": "Offer", "price": "21.00", "priceCurrency": "USD" } }
+  ]
+})}></script>
+
 <BaseLayout title="Menu">
-  <div class="min-h-screen pt-32 pb-16">
-    <Section eyebrow="Eat Good" title="Our Menu" description="Southern classics made from scratch with love. Every dish is a taste of home.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="A Taste of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <div class="mt-12 space-y-16">
-        {menu.map((category) => (
+        {menuCategories.map((category) => (
           <div>
-            <h3 class="font-display text-2xl font-semibold mb-6 text-[var(--color-accent)]">{category.name}</h3>
+            <div class="flex items-baseline gap-3 mb-6">
+              <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{category.name}</h3>
+              {category.subtitle && (
+                <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
+              )}
+            </div>
             <div class="space-y-6">
               {category.items.map((item) => (
                 <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
                   <div>
-                    <h4 class="font-display text-lg font-medium">{item.name}</h4>
-                    <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
+                    <h4 class="font-display text-lg font-medium">
+                      {item.slug ? (
+                        <a href={`/menu/${item.slug}`} class="hover:text-[var(--color-accent)] transition-colors">
+                          {item.name}
+                        </a>
+                      ) : (
+                        item.name
+                      )}
+                    </h4>
+                    {item.description && (
+                      <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
+                    )}
                   </div>
-                  <span class="font-mono text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
+                  {item.price && (
+                    <span class="text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         ))}
       </div>
+
+      <!-- Promotions -->
+      <div class="mt-16 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center">
+        <span class="eyebrow">Special Offer</span>
+        <h3 class="font-display text-xl font-semibold mb-2">Senior Discount</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">10% off for seniors every Sunday</p>
+      </div>
+
+      <picture class="mt-16 block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+        <source
+          srcset="/media/images/bar-daytime.webp 1x, /media/images/bar-daytime@2x.webp 2x"
+          type="image/webp"
+        />
+        <img
+          src="/media/images/bar-daytime.jpg"
+          alt="Lonnell's Soul Food bar and dining area during the day"
+          width="1024"
+          height="767"
+          class="w-full h-auto object-cover"
+          loading="lazy"
+        />
+      </picture>
     </Section>
   </div>
 </BaseLayout>

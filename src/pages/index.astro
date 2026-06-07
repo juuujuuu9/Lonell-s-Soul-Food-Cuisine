@@ -1,64 +1,141 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EventScheduleIcon from "../components/EventScheduleIcon.astro";
 import Hero from "../components/Hero.astro";
 import Section from "../components/Section.astro";
-import EventCard from "../components/EventCard.astro";
 ---
 
 <BaseLayout title="Home">
   <Hero />
 
   <!-- About snapshot -->
-  <Section eyebrow="About" title="Southern Hospitality, Right Here in LA" description="We bring the taste of the South to Los Angeles with every dish made from scratch — family recipes passed down through generations.">
+  <Section eyebrow="About" title="Soul Food with a Side of Live Entertainment" description="Lonnell's Soul Food Cuisine is one of the few soul food spots in Los Angeles that combines authentic, made-from-scratch cooking with consistent live entertainment — jazz, karaoke, and Sunday brunch performances.">
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-        <h3 class="font-display text-lg font-semibold mb-2">Home Cooking</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Every dish is made from scratch using family recipes passed down through generations.</p>
+        <h3 class="font-display text-lg font-semibold mb-2">Authentic Soul Food</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Oxtails, fried chicken, catfish, short ribs, and classic Southern sides — every dish made from scratch with family recipes.</p>
       </div>
       <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-        <h3 class="font-display text-lg font-semibold mb-2">Fresh Ingredients</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">We source the freshest ingredients from local markets — because quality starts at the source.</p>
+        <h3 class="font-display text-lg font-semibold mb-2">Live Music Venue</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Jazz Wednesdays & Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
       </div>
       <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-        <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">We believe food brings people together. Our table is your table.</p>
+        <h3 class="font-display text-lg font-semibold mb-2">Private Events</h3>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Two private event spaces (50 capacity each). Perfect for birthdays, corporate events, celebrations, and community gatherings.</p>
       </div>
+    </div>
+
+    <!-- Key differentiator highlight -->
+    <div class="mt-8 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center">
+      <p class="text-sm text-[var(--color-text-secondary)]">
+        <span class="text-[var(--color-accent)] font-semibold">Proudly Black-owned</span> in the Vermont Knolls neighborhood of South Los Angeles. 
+        4.2 stars on Yelp &middot; 7,400+ Instagram followers
+      </p>
     </div>
   </Section>
 
-  <!-- Upcoming Events -->
-  <Section eyebrow="Events" title="Come Through & Eat" description="From live music nights to Sunday brunch, there's always something happening." class="bg-[var(--color-surface-card)]" wide>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <EventCard
-        title="Sunday Brunch Special"
-        date="Every Sunday"
-        description="Bottomless mimosas and our famous chicken & waffles. Reserve your table."
-        href="/events"
-        cta="Reserve Now"
-      />
-      <EventCard
-        title="Live Jazz Night"
-        date="Every Friday"
-        description="Enjoy live jazz while you dine. Featured local LA artists every week."
-        href="/events"
-      />
-      <EventCard
-        title="Soul Food Festival"
-        date="August 15, 2026"
-        description="Our annual block party with live music, food trucks, and family fun."
-        href="/events"
-        cta="Get Tickets"
-      />
+  <!-- Weekly Entertainment Schedule -->
+  <Section eyebrow="This Week" title="Live Entertainment Schedule" description="Every week at Lonnell's — good food, good music, good vibes." class="bg-[var(--color-surface-card)]" wide>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="event-card rounded-xl p-6 text-center">
+        <div class="flex flex-col items-center gap-2 mb-4">
+          <EventScheduleIcon type="jazz" />
+          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Wednesday</span>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-1">Live Jazz</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">6:00 PM – 9:00 PM</p>
+      </div>
+      <div class="event-card rounded-xl p-6 text-center">
+        <div class="flex flex-col items-center gap-2 mb-4">
+          <EventScheduleIcon type="jazz" />
+          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Friday</span>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-1">Live Jazz</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">6:00 PM – 9:00 PM</p>
+      </div>
+      <div class="event-card rounded-xl p-6 text-center">
+        <div class="flex flex-col items-center gap-2 mb-4">
+          <EventScheduleIcon type="karaoke" />
+          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Saturday</span>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-1">Karaoke</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">6:00 PM – 9:00 PM</p>
+      </div>
+      <div class="event-card rounded-xl p-6 text-center">
+        <div class="flex flex-col items-center gap-2 mb-4">
+          <EventScheduleIcon type="brunch" />
+          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Sunday</span>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-1">Brunch + Live Music</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">1:00 PM – 5:00 PM</p>
+      </div>
+    </div>
+    <div class="mt-6 text-center">
+      <a href="/events" class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+        Full Event Details
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="7" x2="11" y2="7" />
+          <polyline points="7,3 11,7 7,11" />
+        </svg>
+      </a>
+    </div>
+  </Section>
+
+  <!-- Reservation & Contact CTA -->
+  <Section eyebrow="Reserve" title="Book Your Table" description="Walk-ins welcome, reservations accepted for parties of any size. Call or email to reserve.">
+    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+        Call (323) 451-3104
+      </a>
+      <a href="mailto:reservations@lonells.com" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        Email reservations@lonells.com
+      </a>
+      <a href="/contact" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        More Info
+      </a>
+    </div>
+  </Section>
+
+  <!-- Review highlight -->
+  <Section eyebrow="What People Say" title="Rated 4.2 Stars" description="" class="bg-[var(--color-surface-card)]">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+        <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+          {"★".repeat(5)}
+        </div>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"This will be the new spot to catch up with my friend! We both ordered oxtails; divine tender well seasoned."</p>
+      </div>
+      <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+        <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+          {"★".repeat(5)}
+        </div>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Absolutely Delightful! Parking a breeze on the street."</p>
+      </div>
+      <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
+        <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
+          {"★".repeat(5)}
+        </div>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Met my foodie friend there and we were completely pleased with the service, the music, the food."</p>
+      </div>
+    </div>
+    <div class="mt-6 text-center">
+      <a href="/reviews" class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-white transition-colors">
+        Read More Reviews
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="7" x2="11" y2="7" />
+          <polyline points="7,3 11,7 7,11" />
+        </svg>
+      </a>
     </div>
   </Section>
 
   <!-- SMS Signup Teaser -->
   <Section eyebrow="Stay Connected" title="Join the SoulFood Fam" description="Be the first to know about new menu items, events, and exclusive offers.">
     <div class="mt-8 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg">
-      <p class="font-mono text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-3">Text Us</p>
+      <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-3">Text Us</p>
       <p class="text-base md:text-lg font-semibold mb-2">Text <span class="text-[var(--color-accent)]">SOUL</span> to <span class="text-[var(--color-accent)]">(323) XXX-XXXX</span></p>
       <p class="text-sm text-[var(--color-text-secondary)] mb-4">Get 10% off your next order + free champagne brunch upgrade. New subscribers only.</p>
-      <a href="/community#sms-signup" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity">
+      <a href="/contact#sms-signup" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity">
         Text Us to Join
       </a>
     </div>

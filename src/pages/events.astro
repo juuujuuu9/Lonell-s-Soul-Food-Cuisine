@@ -3,70 +3,185 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 import EventCard from "../components/EventCard.astro";
 
-const events = [
+const weeklyEvents = [
   {
-    title: "Sunday Brunch Special",
-    date: "Every Sunday",
-    description: "Bottomless mimosas, live jazz, and our famous chicken & waffles. Reserve your table in advance — we fill up fast.",
-    href: "#",
-    cta: "Reserve Now",
+    title: "Live Jazz Wednesdays",
+    date: "Every Wednesday",
+    type: "jazz" as const,
+    description: "Kick off the middle of your week with live jazz from local LA artists. Dinner service runs 11am-7pm. Music starts at 6pm.",
+    href: "#schedule",
+    cta: "Make a Reservation",
   },
   {
-    title: "Live Jazz Night",
+    title: "Live Jazz Fridays",
     date: "Every Friday",
-    description: "Featured local LA artists every week. Enjoy live jazz while you dine on your favorite soul food classics.",
-    href: "#",
+    type: "jazz" as const,
+    description: "End your week on a high note. Live jazz from 6pm to 9pm while you enjoy your favorite soul food classics. Extended hours until 9pm.",
+    href: "#schedule",
+    cta: "Reserve Your Table",
   },
   {
-    title: "Soul Food Festival",
-    date: "August 15, 2026",
-    description: "Our annual block party returns! Live music, food trucks, cooking demos, and family fun for everyone.",
-    href: "#",
-    cta: "Get Tickets",
+    title: "Karaoke Saturdays",
+    date: "Every Saturday",
+    type: "karaoke" as const,
+    description: "Grab the mic and sing your heart out! Karaoke from 6pm to 9pm. Great food, great vibes, great company.",
+    href: "#schedule",
+    cta: "Come Through",
   },
   {
-    title: "Thanksgiving Family Dinner",
-    date: "November 26, 2026",
-    description: "Spend Thanksgiving with us. Family-style feast with all the trimmings. Dine-in or take-home.",
-    href: "#",
-    cta: "Pre-Order",
-  },
-  {
-    title: "New Year's Eve Dinner",
-    date: "December 31, 2026",
-    description: "Ring in the new year with a special multi-course dinner, live music, and midnight champagne toast.",
-    href: "#",
-    cta: "Reserve",
-  },
-  {
-    title: "Cooking Class: Soul Food 101",
-    date: "TBD",
-    description: "Learn to make collard greens, cornbread, and smothered pork chops from our head chef.",
-    href: undefined,
+    title: "Sunday Brunch with Live Music",
+    date: "Every Sunday",
+    type: "brunch" as const,
+    description: "Brunch served 11am-5pm with live music from 1pm to 5pm. Free champagne with brunch while it lasts. Senior discount (10%) available.",
+    href: "#schedule",
+    cta: "Join Us",
   },
 ];
 ---
 
-<BaseLayout title="Events">
-  <div class="min-h-screen pt-32 pb-16">
-    <Section eyebrow="Come Through" title="Events & Happenings" description="From weekly brunch to annual festivals — there's always something cooking at Lonell's." wide>
-      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event) => (
+<!-- Event schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Event",
+      "name": "Live Jazz Wednesday",
+      "description": "Live jazz music at Lonnell's Soul Food Cuisine. Dinner served 11am-7pm, music 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonnell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Live Jazz Friday",
+      "description": "Live jazz music every Friday at Lonnell's. Dinner served 11am-9pm, music 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonnell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Karaoke Saturday",
+      "description": "Karaoke night every Saturday at Lonnell's Soul Food. Dinner served 11am-9pm, karaoke 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonnell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Sunday Brunch with Live Music",
+      "description": "Sunday brunch with live music at Lonnell's Soul Food. Brunch 11am-5pm, music 1-5pm. Free champagne with brunch.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonnell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  ]
+})}></script>
+
+<BaseLayout title="Entertainment & Events" description="Live Jazz Wednesdays & Fridays, Karaoke Saturdays, Sunday Brunch with Live Music at Lonnell's Soul Food in South LA. Reserve your table.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Come Through" title="Entertainment Schedule" description="One of the only soul food spots in LA with consistent live entertainment programming. Dinner and a show, every week." wide>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {weeklyEvents.map((event) => (
           <EventCard {...event} />
         ))}
       </div>
+
+      <!-- Weekly Schedule Summary -->
+      <div id="schedule" class="mt-16 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <h3 class="font-display text-2xl font-semibold mb-6 text-center">At a Glance</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <th class="text-left py-3 pr-4 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Day</th>
+                <th class="text-left py-3 pr-4 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Hours</th>
+                <th class="text-left py-3 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Entertainment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Monday</td>
+                <td class="py-3 pr-4 text-[var(--color-text-muted)]">CLOSED</td>
+                <td class="py-3 text-[var(--color-text-muted)]">—</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Tuesday</td>
+                <td class="py-3 pr-4 text-[var(--color-text-muted)]">CLOSED</td>
+                <td class="py-3 text-[var(--color-text-muted)]">—</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Wednesday</td>
+                <td class="py-3 pr-4">11:00 AM – 7:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Thursday</td>
+                <td class="py-3 pr-4">11:00 AM – 7:00 PM</td>
+                <td class="py-3 text-[var(--color-text-muted)]">—</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Friday</td>
+                <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Saturday</td>
+                <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Karaoke 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-medium">Sunday</td>
+                <td class="py-3 pr-4">11:00 AM – 5:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Brunch + Live Music 1:00 PM – 5:00 PM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 p-4 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
+          <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+            <span class="text-[var(--color-accent)] font-semibold">Sunday Brunch Special:</span> Free champagne with brunch. 10% Senior Discount on Sundays.
+          </p>
+        </div>
+      </div>
     </Section>
 
-    <!-- Private Events -->
+    <!-- Sunday Brunch highlight -->
     <section class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-4xl mx-auto text-center">
-        <span class="eyebrow">Host With Us</span>
-        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6">Book a Private Event</h2>
-        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-8">
-          Birthdays, anniversaries, corporate dinners — we'd love to host your next gathering. Our private dining room seats up to 40 guests.
+        <span class="eyebrow">Brunch</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Sunday Brunch with Live Music</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6 leading-relaxed">
+          Join us every Sunday for brunch served 11am–5pm with live music from 1pm–5pm. 
+          Free champagne with brunch — a unique soul food brunch experience in South LA.
         </p>
-        <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
-          Call Us to Book
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Reserve
+          </a>
+          <a href="/menu" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            View Brunch Menu
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Private Events summary -->
+    <section class="section-padding">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow">Host With Us</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Private Events</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6 leading-relaxed">
+          Two private event spaces available — the Smoking Room and Small Room, each with a maximum capacity of 50 guests. 
+          Perfect for birthdays, anniversaries, corporate dinners, and community gatherings.
+        </p>
+        <a href="/private-events" class="inline-flex items-center px-8 py-3 bg-[var(--color-neon)] text-black font-semibold rounded-full hover:opacity-90 transition-opacity">
+          Learn More & Book
         </a>
       </div>
     </section>

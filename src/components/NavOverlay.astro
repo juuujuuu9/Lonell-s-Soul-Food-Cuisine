@@ -1,20 +1,21 @@
 ---
 const links = [
-  { href: "/", label: "HOME" },
   { href: "/menu", label: "MENU" },
   { href: "/our-story", label: "OUR STORY" },
-  { href: "/events", label: "EVENTS" },
-  { href: "/community", label: "COMMUNITY" },
+  { href: "/private-events", label: "PRIVATE EVENTS" },
+  { href: "/events", label: "ENTERTAINMENT" },
+  { href: "/reviews", label: "REVIEWS" },
+  { href: "/contact", label: "CONTACT" },
   { href: "/faq", label: "FAQ" },
+  { href: "tel:+13234513104", label: "CALL TO ORDER", class: "nav-overlay-cta" },
 ];
 ---
 
-<nav class="nav-overlay" aria-label="Main navigation">
+<nav id="main-nav-overlay" class="nav-overlay" aria-label="Main navigation">
   <div class="text-center">
-    <p class="font-mono text-xs tracking-[0.2em] uppercase text-[var(--color-text-muted)] mb-8">Navigate</p>
     {
       links.map((link) => (
-        <a href={link.href} class="block py-3 hover:text-[var(--color-accent)] transition-colors" data-nav-link>{link.label}</a>
+        <a href={link.href} class={`block py-3 hover:text-[var(--color-accent)] transition-colors ${link.class || ''}`} data-nav-link>{link.label}</a>
       ))
     }
   </div>

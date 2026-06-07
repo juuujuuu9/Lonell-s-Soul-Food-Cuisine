@@ -1,0 +1,208 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+---
+
+<BaseLayout title="Contact & Hours" description="Find Lonnell's Soul Food at 8501 S Vermont Ave, Los Angeles. Hours, parking, phone (323-451-3104), reservations, and directions. Closed Mon & Tue.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Get In Touch" title="Contact & Location" description="We'd love to hear from you. Whether you're booking a table, ordering takeout, or planning an event — reach out anytime." />
+
+    <!-- Contact Info -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <!-- Left: Contact details -->
+          <div class="space-y-8">
+            <div>
+              <h3 class="font-display text-xl font-semibold mb-4">Contact Us</h3>
+              <div class="space-y-4">
+                <div>
+                  <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-1">Phone</p>
+                  <a href="tel:+13234513104" class="text-lg hover:text-[var(--color-accent)] transition-colors">(323) 451-3104</a>
+                </div>
+                <div>
+                  <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-1">Email</p>
+                  <a href="mailto:reservations@lonells.com" class="text-lg hover:text-[var(--color-accent)] transition-colors break-all">reservations@lonells.com</a>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="font-display text-xl font-semibold mb-4">Location</h3>
+              <div class="mb-4">
+                <p class="text-base">8501 S Vermont Ave</p>
+                <p class="text-base text-[var(--color-text-secondary)]">Los Angeles, CA 90044</p>
+                <p class="text-sm text-[var(--color-text-muted)] mt-1">Vermont Knolls, South Los Angeles</p>
+              </div>
+              <picture class="mb-4 block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+                <source
+                  srcset="/media/images/front-street-corner.webp 1x, /media/images/front-street-corner@2x.webp 2x"
+                  type="image/webp"
+                />
+                <img
+                  src="/media/images/front-street-corner.jpg"
+                  alt="Front entrance of Lonnell's Soul Food at 8501 S Vermont Ave"
+                  width="1003"
+                  height="1024"
+                  class="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+              </picture>
+              <div class="p-4 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
+                <div class="flex items-start gap-3">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-neon)] shrink-0 mt-0.5">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                  <div>
+                    <p class="text-sm font-medium mb-1">Parking</p>
+                    <p class="text-xs text-[var(--color-text-secondary)]">Street parking available — described by guests as "a breeze." Additional parking nearby.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Hours -->
+          <div class="space-y-8">
+            <div>
+              <h3 class="font-display text-xl font-semibold mb-6">Hours of Operation</h3>
+              <div class="space-y-0 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)] overflow-hidden">
+              <table class="w-full text-sm">
+                <tbody>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Monday</td>
+                    <td class="py-4 px-6 text-[var(--color-text-muted)]">CLOSED</td>
+                    <td class="py-4 px-6 text-[var(--color-text-muted)]">—</td>
+                  </tr>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Tuesday</td>
+                    <td class="py-4 px-6 text-[var(--color-text-muted)]">CLOSED</td>
+                    <td class="py-4 px-6 text-[var(--color-text-muted)]">—</td>
+                  </tr>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Wednesday</td>
+                    <td class="py-4 px-6">11:00 AM – 7:00 PM</td>
+                    <td class="py-4 px-6 text-[var(--color-neon)] text-xs">Live Jazz 6pm</td>
+                  </tr>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Thursday</td>
+                    <td class="py-4 px-6">11:00 AM – 7:00 PM</td>
+                    <td class="py-4 px-6"></td>
+                  </tr>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Friday</td>
+                    <td class="py-4 px-6">11:00 AM – 9:00 PM</td>
+                    <td class="py-4 px-6 text-[var(--color-neon)] text-xs">Live Jazz 6pm</td>
+                  </tr>
+                  <tr class="border-b border-[var(--color-border-subtle)]">
+                    <td class="py-4 px-6 font-medium">Saturday</td>
+                    <td class="py-4 px-6">11:00 AM – 9:00 PM</td>
+                    <td class="py-4 px-6 text-[var(--color-neon)] text-xs">Karaoke 6pm</td>
+                  </tr>
+                  <tr>
+                    <td class="py-4 px-6 font-medium">Sunday</td>
+                    <td class="py-4 px-6">11:00 AM – 5:00 PM</td>
+                    <td class="py-4 px-6 text-[var(--color-neon)] text-xs">Brunch + Live Music</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4 p-3 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
+              <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">
+                <span class="text-[var(--color-accent)]">Sunday Specials:</span> Free champagne with brunch. 10% Senior Discount.
+              </p>
+            </div>
+            </div>
+
+            <div>
+              <h3 class="font-display text-xl font-semibold mb-4">Services</h3>
+              <div class="grid grid-cols-2 gap-2">
+                {["Takeout", "Delivery", "Catering", "Reservations Accepted", "Good for Groups", "Casual Ambiance", "Pets Welcome", "Accepts Credit Cards", "Contactless Payments", "Live Entertainment", "Private Event Spaces", "Senior Discount"].map((service) => (
+                  <div class="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[var(--color-neon)] shrink-0">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {service}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Map embed -->
+    <section class="section-padding">
+      <div class="max-w-5xl mx-auto text-center">
+        <span class="eyebrow">Directions</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6">Find Us</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+            <source
+              srcset="/media/images/street-window-lg.webp"
+              media="(min-width: 1024px)"
+              type="image/webp"
+            />
+            <source
+              srcset="/media/images/street-window.webp 1x, /media/images/street-window@2x.webp 2x"
+              type="image/webp"
+            />
+            <img
+              src="/media/images/street-window.jpg"
+              alt="Street-level view of Lonnell's Soul Food storefront along Vermont Ave"
+              width="3389"
+              height="2542"
+              class="w-full h-full object-cover aspect-[4/3]"
+              loading="lazy"
+            />
+          </picture>
+          <div class="rounded-xl overflow-hidden border border-[var(--color-border-subtle)] aspect-[4/3] min-h-[280px]">
+            <iframe
+              src="https://maps.google.com/maps?q=8501+S+Vermont+Ave+Los+Angeles+CA+90044&t=&z=15&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              style="border:0; display: block; min-height: 280px;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Lonnell's Soul Food Cuisine location on Google Maps"
+            ></iframe>
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://maps.google.com/?q=8501+S+Vermont+Ave+Los+Angeles+CA+90044" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Open in Google Maps
+          </a>
+          <a href="https://maps.apple.com/?address=8501+S+Vermont+Ave+Los+Angeles+CA+90044" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            Open in Apple Maps
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SMS Signup -->
+    <section id="sms-signup" class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-lg mx-auto text-center">
+        <span class="eyebrow">Join the Fam</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">SoulFood SMS Club</h2>
+        <p class="text-[var(--color-text-secondary)] mb-6 leading-relaxed">
+          Text <strong class="text-[var(--color-accent)]">SOUL</strong> to <strong class="text-[var(--color-accent)]">(323) XXX-XXXX</strong> to join our VIP list.
+          Get exclusive offers, menu previews, event invites and your <strong class="text-white">SOUL10</strong> promo code
+          for 10% off + a free champagne brunch upgrade.
+        </p>
+        <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)]">
+          <div class="flex flex-col items-center gap-3">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-neon)]">
+              <path d="M22 2L11 13" />
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+            </svg>
+            <p class="text-sm text-[var(--color-neon)]">Text SOUL to (323) XXX-XXXX</p>
+            <p class="text-xs text-[var(--color-text-muted)]">Message & data rates may apply. Reply STOP to cancel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

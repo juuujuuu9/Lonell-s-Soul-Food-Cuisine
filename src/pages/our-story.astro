@@ -3,52 +3,112 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 ---
 
-<BaseLayout title="Our Story">
-  <div class="min-h-screen pt-32 pb-16">
-    <Section eyebrow="Our Roots" title="From Grandma's Kitchen to LA" description="Lonell's Soul Food started with a dream — to share the taste of home with everyone who walked through the door." />
+<BaseLayout title="Our Story" description="Discover the story behind Lonnell's Soul Food Cuisine. Family recipes, community roots, and 'A Taste of Love' in every dish. Black-owned in South Los Angeles.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Our Roots" title="'A Taste of Love'" description="Lonnell's Soul Food Cuisine is more than a restaurant — it's a gathering place built on family recipes, community pride, and the belief that food made with love tastes better." />
 
     <section class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-4xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <div class="aspect-square rounded-xl bg-gradient-to-br from-[var(--color-brand-amber)]/10 to-transparent border border-[var(--color-border-subtle)] flex items-center justify-center">
-              <span class="font-display text-6xl text-[var(--color-accent)]/30">L</span>
-            </div>
+            <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+              <source
+                srcset="/media/images/dining-bar.webp 1x, /media/images/dining-bar@2x.webp 2x"
+                type="image/webp"
+              />
+              <img
+                src="/media/images/dining-bar.jpg"
+                alt="Interior of Lonnell's Soul Food dining room and bar"
+                width="768"
+                height="1024"
+                class="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </picture>
           </div>
           <div class="space-y-4">
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
-              What started as Sunday dinners in a small kitchen in South LA has grown into a gathering place for everyone who craves authentic Southern soul food. Our founder, Lonell, learned to cook from his grandmother — standing on a stool to reach the stove, stirring pots of collard greens and watching her turn simple ingredients into magic.
+              Lonnell's Soul Food Cuisine was born from a dream — to share the taste of home with everyone who walked through the door. 
+              Located in the Vermont Knolls neighborhood of South Los Angeles, Lonnell's has become a beloved destination for authentic 
+              soul food, live entertainment, and genuine hospitality.
             </p>
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
-              Today, we carry those recipes and that spirit forward. Every dish is made from scratch, every guest is treated like family, and every meal is an invitation to slow down and savor.
+              Every dish tells a story. From the oxtails — slow-cooked until fall-off-the-bone tender — to the fried chicken golden and crisp, 
+              to the collard greens simmered with smoked turkey, each recipe carries forward traditions passed down through generations. 
+              This is food that nourishes both body and soul.
             </p>
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
-              We're not just serving food — we're serving tradition, one plate at a time.
+              What sets Lonnell's apart is the marriage of authentic soul food with vibrant live entertainment. 
+              Jazz Wednesdays and Fridays, karaoke Saturdays, and Sunday brunch with live music make every visit an experience. 
+              Add two private event spaces and a welcoming, casual atmosphere, and you have a true community hub.
+            </p>
+            <p class="text-base text-[var(--color-text-secondary)] leading-relaxed">
+              <strong class="text-[var(--color-accent)]">"A Taste of Love"</strong> isn't just a tagline — it's our promise. 
+              Every guest is treated like family. Every meal is made from scratch. Every visit is an invitation to slow down, 
+              connect, and savor something real.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <Section eyebrow="Values" title="What We Stand For">
+    <Section eyebrow="What We Stand For" title="Our Values">
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+          <h3 class="font-display text-lg font-semibold mb-2">Proudly Black-Owned</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">Lonnell's is a Black-owned business rooted in South Los Angeles. We honor the culinary traditions of the African American community and contribute to the cultural fabric of our neighborhood.</p>
+        </div>
+        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <h3 class="font-display text-lg font-semibold mb-2">Family Recipes</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">Our menu is built on generations of passed-down recipes. No shortcuts, no compromises.</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Our menu is built on generations of passed-down family recipes. No shortcuts, no compromises — just honest, made-from-scratch soul food.</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">We partner with local organizations, schools, and artists to keep LA thriving.</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">We partner with local organizations, schools, and artists to keep South LA thriving. Our table is your table.</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Made From Scratch</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">From our cornbread to our gumbo, everything is made in-house daily.</p>
-        </div>
-        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Southern Hospitality</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">Every guest is family. That's not a slogan — it's how we run our business.</p>
+          <h3 class="font-display text-lg font-semibold mb-2">Live Entertainment</h3>
+          <p class="text-sm text-[var(--color-text-secondary)]">We're one of the few soul food restaurants in LA with consistent live entertainment — jazz, karaoke, and Sunday brunch performances. Dinner and a show, every week.</p>
         </div>
       </div>
     </Section>
+
+    <!-- Location context -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="text-center md:text-left">
+            <span class="eyebrow">Where We Are</span>
+            <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Vermont Knolls, South LA</h2>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed">
+              Located at 8501 S Vermont Ave in the Vermont Knolls neighborhood of South Los Angeles — an area with 
+              deep African American cultural heritage and a thriving community. We're proud to serve this neighborhood 
+              and everyone who visits.
+            </p>
+            <div class="mt-8">
+              <a href="/contact" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+                Find Us
+              </a>
+            </div>
+          </div>
+          <div>
+            <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+              <source
+                srcset="/media/images/street-corner.webp 1x, /media/images/street-corner@2x.webp 2x"
+                type="image/webp"
+              />
+              <img
+                src="/media/images/street-corner.jpg"
+                alt="Street corner at 85th St and Vermont Ave showing Lonnell's Soul Food"
+                width="767"
+                height="1024"
+                class="w-full h-auto object-cover"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </BaseLayout>

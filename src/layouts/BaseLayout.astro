@@ -1,7 +1,10 @@
 ---
 import "../styles/global.css";
 import NavOverlay from "../components/NavOverlay.astro";
+import PageTopLogo from "../components/PageTopLogo.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import StickyHeader from "../components/StickyHeader.astro";
+import TopMenuBar from "../components/TopMenuBar.astro";
 
 export interface Props {
   title: string;
@@ -9,7 +12,14 @@ export interface Props {
   ogImage?: string;
 }
 
-const { title, description = "Authentic Southern soul food in the heart of Los Angeles. Catering, events, and that homemade taste since day one.", ogImage = "/og-default.jpg" } = Astro.props;
+const siteName = "Lonnell's Soul Food Cuisine";
+const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday brunch in South Los Angeles. Oxtails, fried chicken, private events. 'A Taste of Love.' (323) 451-3104";
+const defaultOgImage = "/og-default.jpg";
+const siteUrl = "https://lonells.com";
+
+const { title, description = defaultDescription, ogImage = defaultOgImage } = Astro.props;
+const pageTitle = title === "Home" ? `${siteName} | Authentic Soul Food & Live Jazz in South LA` : `${title} | ${siteName}`;
+const isHome = Astro.url.pathname === "/";
 ---
 
 <!DOCTYPE html>
@@ -17,37 +27,149 @@ const { title, description = "Authentic Southern soul food in the heart of Los A
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Lonell's Soul Food</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
 
+    <!-- Canonical -->
+    <link rel="canonical" href={`${siteUrl}${Astro.url.pathname}`} />
+
     <!-- Open Graph -->
-    <meta property="og:title" content={`${title} | Lonell's Soul Food`} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:url" content={`${siteUrl}${Astro.url.pathname}`} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Schema.org -->
+    <!-- Hero image preload -->
+    <link rel="preload" href="/media/images/wide-bar-lg.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/media/images/lonells-logo.webp" as="image" type="image/webp" fetchpriority="high" />
+
+    <!-- Schema.org: LocalBusiness + Restaurant -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Restaurant",
-      name: "Lonell's Soul Food",
-      description: "Authentic Southern soul food restaurant in Los Angeles.",
-      servesCuisine: "Soul Food",
-      telephone: "(323) 451-3104",
-      address: {
+      "@type": ["Restaurant", "FoodEstablishment"],
+      "name": "Lonnell's Soul Food Cuisine",
+      "alternateName": "Lonell's Soul Food Cuisine",
+      "description": "Authentic soul food restaurant with live jazz, karaoke, Sunday brunch, and private event space in South Los Angeles.",
+      "servesCuisine": "Soul Food",
+      "image": "/media/images/lonells-logo.jpg",
+      "telephone": "(323) 451-3104",
+      "email": "reservations@lonells.com",
+      "address": {
         "@type": "PostalAddress",
-        addressLocality: "Los Angeles",
-        addressRegion: "CA",
-        addressCountry: "US"
+        "streetAddress": "8501 S Vermont Ave",
+        "addressLocality": "Los Angeles",
+        "addressRegion": "CA",
+        "postalCode": "90044",
+        "addressCountry": "US"
       },
-      url: "https://lonellssoulfood.com",
-      priceRange: "$$"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 33.9612,
+        "longitude": -118.2917
+      },
+      "url": siteUrl,
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "11:00", "closes": "19:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "11:00", "closes": "19:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:00", "closes": "21:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "11:00", "closes": "21:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "11:00", "closes": "17:00" }
+      ],
+      "hasMenu": `${siteUrl}/menu`,
+      "acceptsReservations": "true",
+      "paymentAccepted": ["Cash", "Credit Card"],
+      "currenciesAccepted": "USD",
+      "areaServed": "South Los Angeles"
     })}></script>
+
+    <!-- FAQ Schema (expanded — 13 Qs for AI search readiness) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What type of cuisine does Lonnell's serve?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We serve authentic Southern soul food including oxtails (slow-cooked, fall-off-the-bone tender), fried chicken, baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Friday & Saturday only), brisket, and classic Southern sides like collard greens, mac and cheese, yams, black-eyed peas, red beans & rice, and string beans. Everything is made from scratch using family recipes." }
+        },
+        {
+          "@type": "Question",
+          "name": "What are Lonnell's hours of operation?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We are open Wednesday through Sunday. Closed Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Lonnell's have live music?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! Live entertainment is a cornerstone of what makes Lonnell's special. Wednesday: Live Jazz 6-9pm. Friday: Live Jazz 6-9pm. Saturday: Karaoke 6-9pm. Sunday: Live Music during Brunch 1-5pm." }
+        },
+        {
+          "@type": "Question",
+          "name": "When is Sunday Brunch and what's special about it?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sunday Brunch is served from 11:00 AM to 5:00 PM with live music from 1:00 PM to 5:00 PM. Free champagne is included with your brunch. Seniors receive a 10% discount on Sundays." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer vegan or vegetarian soul food options?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We have several vegetarian-friendly sides including collard greens, red beans & rice, mac and cheese, string beans, black-eyed peas, yams, and cornbread. Please let your server know about any dietary restrictions and we will do our best to accommodate you." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you take reservations?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we accept reservations. Call us at (323) 451-3104 or email reservations@lonells.com to book a table. Walk-ins are also always welcome." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Lonnell's offer takeout or delivery?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we offer both takeout and delivery. Call (323) 451-3104 to place a takeout order or check your favorite delivery app." }
+        },
+        {
+          "@type": "Question",
+          "name": "What catering services do you offer?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We cater events of all sizes — from small family gatherings to corporate events and celebrations. Contact us at reservations@lonells.com or call (323) 451-3104 for a custom quote." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you have private event spaces?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer two private event spaces: the Smoking Room and the Small Room, each with a maximum capacity of 50 guests. Perfect for birthday parties, anniversaries, corporate dinners, community events, and celebrations. Email reservations@lonells.com or call (323) 451-3104 to book." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Lonnell's family-owned and Black-owned?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, Lonnell's Soul Food Cuisine is a proud Black-owned, family-owned business in South Los Angeles. 'A Taste of Love' is our promise — every guest is treated like family." }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the parking situation?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Street parking is available and has been described by guests as 'a breeze.' There is also additional parking nearby." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a senior discount?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer a 10% senior discount every Sunday. Just let your server know when you order." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the SMS club work?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Text SOUL to join our SoulFood SMS Club. You will get exclusive offers, menu previews, and event invitations. Get promo code SOUL10 for 10% off your next order plus a free champagne brunch upgrade. Reply STOP anytime to cancel. Message and data rates may apply." }
+        }
+      ]
+    })}></script>
+
+    <!-- Page-level head slot (for per-page schema, etc.) -->
+    <slot name="head" />
   </head>
   <body class="min-h-screen bg-[var(--color-surface-base)] text-[var(--color-text-primary)]">
     <!-- Navigation Overlay -->
@@ -58,47 +180,14 @@ const { title, description = "Authentic Southern soul food in the heart of Los A
       Skip to main content
     </a>
 
-    <!-- Hamburger Button -->
-    <button id="menu-toggle" class="fixed top-6 right-6 z-[110] flex items-center gap-2 px-4 py-2 text-sm font-medium font-mono tracking-widest uppercase text-[var(--color-text-primary)] bg-[var(--color-surface-card)]/80 backdrop-blur-sm border border-[var(--color-border-subtle)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors" aria-label="Toggle navigation menu" aria-expanded="false">
-      <span id="menu-label">MENU</span>
-      <svg id="menu-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="2" y1="4" x2="14" y2="4" />
-        <line x1="2" y1="8" x2="14" y2="8" />
-        <line x1="2" y1="12" x2="14" y2="12" />
-      </svg>
-    </button>
+    <StickyHeader />
 
-    <main id="main-content">
+    <main id="main-content" class="relative">
+      <TopMenuBar />
+      {!isHome && <PageTopLogo />}
       <slot />
     </main>
 
     <SiteFooter />
   </body>
 </html>
-
-<script>
-  const toggle = document.getElementById("menu-toggle");
-  const overlay = document.querySelector(".nav-overlay");
-  const label = document.getElementById("menu-label");
-  const icon = document.getElementById("menu-icon");
-
-  if (toggle && overlay) {
-    toggle.addEventListener("click", () => {
-      const isOpen = overlay.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
-      label.textContent = isOpen ? "CLOSE" : "MENU";
-      icon.innerHTML = isOpen
-        ? '<line x1="3" y1="3" x2="13" y2="13" /><line x1="13" y1="3" x2="3" y2="13" />'
-        : '<line x1="2" y1="4" x2="14" y2="4" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="12" x2="14" y2="12" />';
-    });
-
-    overlay.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        overlay.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-        label.textContent = "MENU";
-        icon.innerHTML = '<line x1="2" y1="4" x2="14" y2="4" /><line x1="2" y1="8" x2="14" y2="8" /><line x1="2" y1="12" x2="14" y2="12" />';
-      });
-    });
-  }
-</script>

@@ -28,3 +28,6 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Media source files (unoptimized originals archived by optimizer)
+public/media/**/_source/

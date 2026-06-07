@@ -25,7 +25,7 @@ try {
 ---
 
 <BaseLayout title="Admin Dashboard">
-  <div class="min-h-screen pt-32 pb-16">
+  <div class="min-h-screen pb-16">
     <div class="max-w-6xl mx-auto px-4">
       <span class="eyebrow">Dashboard</span>
       <h1 class="font-display text-4xl md:text-5xl font-bold mb-2">Admin Panel</h1>
@@ -34,15 +34,15 @@ try {
       <!-- Stats Grid -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <p class="font-mono text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Subscribers</p>
+          <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Subscribers</p>
           <p class="font-display text-4xl font-bold text-[var(--color-accent)]">{subscriberCount}</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <p class="font-mono text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Messages</p>
+          <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Messages</p>
           <p class="font-display text-4xl font-bold text-[var(--color-neon)]">{messageCount}</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <p class="font-mono text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Reviews</p>
+          <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-2">Reviews</p>
           <p class="font-display text-4xl font-bold text-[var(--color-rose)]">{reviewCount}</p>
         </div>
       </div>
@@ -50,19 +50,19 @@ try {
       <!-- Quick Links -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <a href="/admin/subscribers" class="p-4 bg-[var(--color-surface-card)] rounded-lg border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-colors">
-          <span class="font-mono text-xs text-[var(--color-accent)]">Manage</span>
+          <span class="text-xs text-[var(--color-accent)]">Manage</span>
           <p class="font-medium mt-1">Subscribers</p>
         </a>
         <a href="/admin/messages" class="p-4 bg-[var(--color-surface-card)] rounded-lg border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-colors">
-          <span class="font-mono text-xs text-[var(--color-accent)]">View</span>
+          <span class="text-xs text-[var(--color-accent)]">View</span>
           <p class="font-medium mt-1">Messages</p>
         </a>
         <a href="/admin/reviews" class="p-4 bg-[var(--color-surface-card)] rounded-lg border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-colors">
-          <span class="font-mono text-xs text-[var(--color-accent)]">Track</span>
+          <span class="text-xs text-[var(--color-accent)]">Track</span>
           <p class="font-medium mt-1">Reviews</p>
         </a>
         <a href="/admin/settings" class="p-4 bg-[var(--color-surface-card)] rounded-lg border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-colors">
-          <span class="font-mono text-xs text-[var(--color-accent)]">Configure</span>
+          <span class="text-xs text-[var(--color-accent)]">Configure</span>
           <p class="font-medium mt-1">Settings</p>
         </a>
       </div>
