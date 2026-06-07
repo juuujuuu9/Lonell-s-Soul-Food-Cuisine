@@ -137,11 +137,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-overlay a.nav-overlay-cta {
-  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--color-brand-amber);
+  color: #000;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
 }
 
 .nav-overlay a.nav-overlay-cta:hover {
-  color: var(--color-accent-hover);
+  color: #000;
+  background: var(--color-brand-amber-light);
 }
 
 body.nav-open {
