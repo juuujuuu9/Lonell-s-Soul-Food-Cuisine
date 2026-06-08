@@ -193,5 +193,46 @@ const isHome = Astro.url.pathname === "/";
     </main>
 
     <SiteFooter />
+
+    <!-- Scroll-reveal observer — lightweight, no dependencies -->
+    <script>
+      if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        );
+
+        const revealed = document.querySelectorAll("[data-reveal]");
+        const aboveFold = [];
+        for (const el of revealed) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight - 40) {
+            aboveFold.push(el);
+          } else {
+            observer.observe(el);
+          }
+        }
+
+        // Animate above-fold elements after a single frame so the hidden
+        // state paints first, then the transition plays.
+        requestAnimationFrame(() => {
+          for (const el of aboveFold) {
+            el.classList.add("visible");
+          }
+        });
+      } else {
+        // No observer or reduced motion — make everything visible immediately
+        for (const el of document.querySelectorAll("[data-reveal]")) {
+          el.classList.add("visible");
+        }
+      }
+    </script>
   </body>
 </html>

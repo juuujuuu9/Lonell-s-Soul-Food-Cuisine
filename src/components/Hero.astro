@@ -25,8 +25,8 @@ const { showScrollIndicator = true } = Astro.props;
 
   <!-- Content -->
   <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
-    <!-- Logo -->
-    <h1 class="mb-8 inline-flex items-center justify-center">
+    <!-- Logo — fades in first, more deliberate -->
+    <h1 class="mb-8 inline-flex items-center justify-center animate-fade-in-up" style="animation-delay: 0.15s">
       <picture>
         <source
           srcset="/media/images/lonells-logo.webp 1x, /media/images/lonells-logo@2x.webp 2x"
@@ -44,15 +44,15 @@ const { showScrollIndicator = true } = Astro.props;
       </picture>
     </h1>
 
-    <p class="text-lg md:text-xl text-[var(--color-text-primary)] max-w-3xl mx-auto mb-4 leading-relaxed uppercase">
+    <p class="text-lg md:text-xl text-[var(--color-text-primary)] max-w-3xl mx-auto mb-4 leading-relaxed uppercase animate-fade-in-up" style="animation-delay: 0.35s">
       Authentic Soul Food<br />with Live Jazz in South LA
     </p>
-    <p class="text-lg md:text-xl text-[var(--color-accent)] max-w-2xl mx-auto mb-10 leading-relaxed italic font-display">
+    <p class="text-lg md:text-xl text-[var(--color-accent)] max-w-2xl mx-auto mb-10 leading-relaxed italic font-display animate-fade-in-up" style="animation-delay: 0.45s">
       "A Place of Love"
     </p>
 
     <!-- Key Value Props -->
-    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-sm text-[var(--color-text-primary)] tracking-wider uppercase">
+    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 text-sm text-[var(--color-text-primary)] tracking-wider uppercase animate-fade-in-up" style="animation-delay: 0.55s">
       <span>Live Music</span>
       <span class="w-1 h-1 rounded-full bg-[var(--color-text-primary)]" />
       <span>Sunday Brunch</span>
@@ -63,7 +63,7 @@ const { showScrollIndicator = true } = Astro.props;
     </div>
 
     <!-- CTAs — hierarchical: primary Order Now, secondary phone, tertiary links -->
-    <div class="flex flex-col items-center gap-6">
+    <div class="flex flex-col items-center gap-6 animate-fade-in-up" style="animation-delay: 0.65s">
       <a
         href="tel:+13234513104"
         class="inline-flex items-center px-8 md:px-10 py-3.5 md:py-4 bg-[var(--color-brand-amber)] text-black font-bold text-base md:text-lg rounded-full hover:bg-[var(--color-brand-amber-light)] transition-all min-h-[56px] shadow-lg shadow-[var(--color-brand-amber)]/20 hover:shadow-xl hover:shadow-[var(--color-brand-amber)]/30 active:scale-[0.98]"

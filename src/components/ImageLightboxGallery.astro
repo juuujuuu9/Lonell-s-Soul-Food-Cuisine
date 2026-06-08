@@ -179,20 +179,13 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
   let dragStartX = 0;
   let dragStartY = 0;
   let dragStartOffset = 0;
+  let dragStartTime = 0;
   let isDragging = false;
   let dragAxis = null;
 
   const getSlideWidth = () => viewportEl.clientWidth;
 
   const indexToOffset = (index) => -index * getSlideWidth();
-
-  const clampOffset = (offset) => {
-    const min = indexToOffset(photos.length - 1);
-    const max = 0;
-    if (offset > max) return max + (offset - max) * 0.35;
-    if (offset < min) return min + (offset - min) * 0.35;
-    return offset;
-  };
 
   const setTrackTransform = (offset, animate) => {
     trackEl.classList.toggle("is-snapping", animate);
@@ -247,17 +240,31 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
   });
 
   if (photos.length > 1) {
-    const endDrag = () => {
+    const endDrag = (event) => {
       if (!isDragging) return;
       isDragging = false;
       dragAxis = null;
       viewportEl.classList.remove("is-dragging");
 
       const slideWidth = getSlideWidth();
-      const min = indexToOffset(photos.length - 1);
-      const max = 0;
-      const snappedOffset = Math.max(min, Math.min(max, currentOffset));
-      const targetIndex = Math.round(-snappedOffset / slideWidth);
+      const dragDelta = currentOffset - dragStartOffset;
+      const absDelta = Math.abs(dragDelta);
+      const elapsed = Date.now() - dragStartTime;
+
+      // Velocity-based: if flicked fast enough and far enough, advance
+      const velocity = absDelta / Math.max(elapsed, 1);
+      const fastFlick = velocity > 0.5 && absDelta > slideWidth * 0.15;
+      // Position-based threshold: dragged more than 30% of slide width
+      const pastThreshold = absDelta > slideWidth * 0.3;
+
+      let targetIndex = currentIndex;
+
+      if (pastThreshold || fastFlick) {
+        targetIndex = dragDelta < 0 ? currentIndex + 1 : currentIndex - 1;
+      } else {
+        // Snap back to current
+        targetIndex = currentIndex;
+      }
 
       goToIndex(targetIndex, true);
     };
@@ -270,6 +277,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
       dragStartX = event.clientX;
       dragStartY = event.clientY;
       dragStartOffset = currentOffset;
+      dragStartTime = Date.now();
       trackEl.classList.remove("is-snapping");
       viewportEl.classList.add("is-dragging");
       viewportEl.setPointerCapture(event.pointerId);
@@ -282,7 +290,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
       const deltaY = event.clientY - dragStartY;
 
       if (!dragAxis) {
-        if (Math.abs(deltaX) < 6 && Math.abs(deltaY) < 6) return;
+        if (Math.abs(deltaX) < 8 && Math.abs(deltaY) < 8) return;
         dragAxis = Math.abs(deltaX) >= Math.abs(deltaY) ? "x" : "y";
         if (dragAxis === "y") {
           isDragging = false;
@@ -293,7 +301,17 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
       }
 
       event.preventDefault();
-      currentOffset = clampOffset(dragStartOffset + deltaX);
+      currentOffset = dragStartOffset + deltaX;
+
+      // Only clamp/overshoot when at first or last slide
+      const min = indexToOffset(photos.length - 1);
+      const max = 0;
+      if (currentOffset > max) {
+        currentOffset = max + (currentOffset - max) * 0.25;
+      } else if (currentOffset < min) {
+        currentOffset = min + (currentOffset - min) * 0.25;
+      }
+
       setTrackTransform(currentOffset, false);
     });
 
@@ -439,6 +457,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     border: 0;
     overflow: hidden;
     background: transparent;
+    overscroll-behavior: none;
   }
 
   .lightbox-dialog::backdrop {
@@ -495,9 +514,10 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    touch-action: pan-y pinch-zoom;
+    touch-action: pan-y;
     cursor: grab;
     user-select: none;
+    -webkit-user-select: none;
   }
 
   .lightbox-track-viewport.is-dragging {
@@ -509,10 +529,11 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     display: flex;
     height: 100%;
     will-change: transform;
+    touch-action: none;
   }
 
   .lightbox-track.is-snapping {
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .lightbox-slide {

@@ -12,10 +12,10 @@ const { eyebrow, title, description, className = "", wide = false } = Astro.prop
 
 <section class={`section-padding ${className}`}>
   <div class={wide ? "max-w-6xl mx-auto" : "max-w-4xl mx-auto"}>
-    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-    <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">{title}</h2>
+    {eyebrow && <span class="eyebrow" data-reveal>{eyebrow}</span>}
+    <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight" data-reveal>{title}</h2>
     {description && (
-      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed max-w-2xl">{description}</p>
+      <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed max-w-2xl" data-reveal>{description}</p>
     )}
     <slot />
   </div>
