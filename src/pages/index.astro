@@ -11,17 +11,38 @@ import Section from "../components/Section.astro";
   <!-- About snapshot -->
   <Section eyebrow="About" title="Soul Food with a Side of Live Entertainment" description="Lonell's Soul Food Cuisine is one of the few soul food spots in Los Angeles that combines authentic, made-from-scratch cooking with consistent live entertainment — jazz, karaoke, and Sunday brunch performances.">
     <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col">
         <h3 class="font-display text-lg font-semibold mb-2">Authentic Soul Food</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Oxtails, fried chicken, catfish, short ribs, and classic Southern sides — every dish made from scratch with family recipes.</p>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Oxtails, fried chicken, catfish, short ribs, and classic Southern sides — every dish made from scratch with family recipes.</p>
+        <a href="/menu" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+          View Menu
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="7" x2="11" y2="7" />
+            <polyline points="7,3 11,7 7,11" />
+          </svg>
+        </a>
       </div>
-      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col">
         <h3 class="font-display text-lg font-semibold mb-2">Live Music Venue</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Jazz Wednesdays & Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Jazz Wednesdays & Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
+        <a href="/events" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+          See Schedule
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="7" x2="11" y2="7" />
+            <polyline points="7,3 11,7 7,11" />
+          </svg>
+        </a>
       </div>
-      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col">
         <h3 class="font-display text-lg font-semibold mb-2">Private Events</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">Two private event spaces (50 capacity each). Perfect for birthdays, corporate events, celebrations, and community gatherings.</p>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Two private event spaces (50 capacity each). Perfect for birthdays, corporate events, celebrations, and community gatherings.</p>
+        <a href="/private-events" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+          Learn More
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="7" x2="11" y2="7" />
+            <polyline points="7,3 11,7 7,11" />
+          </svg>
+        </a>
       </div>
     </div>
 
