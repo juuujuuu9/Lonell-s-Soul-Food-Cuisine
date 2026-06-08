@@ -43,9 +43,9 @@ const eventPhotos = [
 ];
 ---
 
-<BaseLayout title="Private Events & Catering" description="Host your celebration at Lonnell's Soul Food. Two private event spaces (50 capacity each), catering, and live entertainment. South Los Angeles. (323) 451-3104.">
+<BaseLayout title="Private Events & Catering" description="Host your celebration at Lonell's Soul Food. Two private event spaces (50 capacity each), catering, and live entertainment. South Los Angeles. (323) 451-3104.">
   <div class="min-h-screen pb-16">
-    <Section eyebrow="Host With Us" title="Private Events & Catering" description="Lonnell's offers two private event spaces plus full-service catering — perfect for birthdays, corporate events, anniversaries, celebrations, and community gatherings." />
+    <Section eyebrow="Host With Us" title="Private Events & Catering" description="Lonell's offers two private event spaces plus full-service catering — perfect for birthdays, corporate events, anniversaries, celebrations, and community gatherings." />
 
     <!-- Event spaces -->
     <section class="section-padding bg-[var(--color-surface-card)]">
@@ -56,22 +56,28 @@ const eventPhotos = [
           <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
             <h4 class="font-display text-xl font-semibold mb-2">Smoking Room</h4>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Maximum capacity of 50 guests. A warm, intimate setting for your next celebration.</p>
-            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase">
+            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase mb-5">
               <span class="w-2 h-2 rounded-full bg-[var(--color-neon)]" />
               Up to 50 guests
             </div>
+            <a href="#reserve" class="inline-flex items-center px-5 py-2.5 text-sm bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+              Reserve This Room
+            </a>
           </div>
           <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
             <h4 class="font-display text-xl font-semibold mb-2">Small Room</h4>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Maximum capacity of 50 guests. Cozy and versatile for any occasion.</p>
-            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase">
+            <div class="flex items-center gap-2 text-xs text-[var(--color-text-muted)] tracking-wider uppercase mb-5">
               <span class="w-2 h-2 rounded-full bg-[var(--color-neon)]" />
               Up to 50 guests
             </div>
+            <a href="#reserve" class="inline-flex items-center px-5 py-2.5 text-sm bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+              Reserve This Room
+            </a>
           </div>
         </div>
 
-        <ImageLightboxGallery photos={eventPhotos} class="mt-12" />
+        <ImageLightboxGallery photos={eventPhotos} mobileCarousel class="mt-12" />
       </div>
     </section>
 
@@ -92,7 +98,7 @@ const eventPhotos = [
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <h3 class="font-display text-lg font-semibold mb-2">Community Events</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">Support your community with a gathering at Lonnell's. We're proud to host local organizations.</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Support your community with a gathering at Lonell's. We're proud to host local organizations.</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <h3 class="font-display text-lg font-semibold mb-2">Celebrations of Life</h3>
@@ -106,7 +112,7 @@ const eventPhotos = [
     </Section>
 
     <!-- Booking CTA -->
-    <section class="section-padding bg-[var(--color-surface-card)]">
+    <section id="reserve" class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-2xl mx-auto text-center">
         <span class="eyebrow">Book Now</span>
         <h2 class="font-display text-3xl md:text-4xl font-bold mb-4">Reserve Your Event</h2>

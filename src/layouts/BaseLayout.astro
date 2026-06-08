@@ -12,8 +12,8 @@ export interface Props {
   ogImage?: string;
 }
 
-const siteName = "Lonnell's Soul Food Cuisine";
-const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday brunch in South Los Angeles. Oxtails, fried chicken, private events. 'A Taste of Love.' (323) 451-3104";
+const siteName = "Lonell's Soul Food Cuisine";
+const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday brunch in South Los Angeles. Oxtails, fried chicken, private events. 'A Place of Love.' (323) 451-3104";
 const defaultOgImage = "/og-default.jpg";
 const siteUrl = "https://lonells.com";
 
@@ -63,7 +63,7 @@ const isHome = Astro.url.pathname === "/";
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": ["Restaurant", "FoodEstablishment"],
-      "name": "Lonnell's Soul Food Cuisine",
+      "name": "Lonell's Soul Food Cuisine",
       "alternateName": "Lonell's Soul Food Cuisine",
       "description": "Authentic soul food restaurant with live jazz, karaoke, Sunday brunch, and private event space in South Los Angeles.",
       "servesCuisine": "Soul Food",
@@ -106,18 +106,18 @@ const isHome = Astro.url.pathname === "/";
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What type of cuisine does Lonnell's serve?",
+          "name": "What type of cuisine does Lonell's serve?",
           "acceptedAnswer": { "@type": "Answer", "text": "We serve authentic Southern soul food including oxtails (slow-cooked, fall-off-the-bone tender), fried chicken, baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Friday & Saturday only), brisket, and classic Southern sides like collard greens, mac and cheese, yams, black-eyed peas, red beans & rice, and string beans. Everything is made from scratch using family recipes." }
         },
         {
           "@type": "Question",
-          "name": "What are Lonnell's hours of operation?",
+          "name": "What are Lonell's hours of operation?",
           "acceptedAnswer": { "@type": "Answer", "text": "We are open Wednesday through Sunday. Closed Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
         },
         {
           "@type": "Question",
-          "name": "Does Lonnell's have live music?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes! Live entertainment is a cornerstone of what makes Lonnell's special. Wednesday: Live Jazz 6-9pm. Friday: Live Jazz 6-9pm. Saturday: Karaoke 6-9pm. Sunday: Live Music during Brunch 1-5pm." }
+          "name": "Does Lonell's have live music?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! Live entertainment is a cornerstone of what makes Lonell's special. Wednesday: Live Jazz 6-9pm. Friday: Live Jazz 6-9pm. Saturday: Karaoke 6-9pm. Sunday: Live Music during Brunch 1-5pm." }
         },
         {
           "@type": "Question",
@@ -136,7 +136,7 @@ const isHome = Astro.url.pathname === "/";
         },
         {
           "@type": "Question",
-          "name": "Does Lonnell's offer takeout or delivery?",
+          "name": "Does Lonell's offer takeout or delivery?",
           "acceptedAnswer": { "@type": "Answer", "text": "Yes, we offer both takeout and delivery. Call (323) 451-3104 to place a takeout order or check your favorite delivery app." }
         },
         {
@@ -151,8 +151,8 @@ const isHome = Astro.url.pathname === "/";
         },
         {
           "@type": "Question",
-          "name": "Is Lonnell's family-owned and Black-owned?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, Lonnell's Soul Food Cuisine is a proud Black-owned, family-owned business in South Los Angeles. 'A Taste of Love' is our promise — every guest is treated like family." }
+          "name": "Is Lonell's family-owned and Black-owned?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, Lonell's Soul Food Cuisine is a proud Black-owned, family-owned business in South Los Angeles. 'A Place of Love' is our promise — every guest is treated like family." }
         },
         {
           "@type": "Question",
