@@ -158,8 +158,30 @@ body.nav-open {
   overflow: hidden;
 }
 
+/* ── Sticky header menu-open state ── */
 #sticky-header.is-nav-open {
   z-index: 130;
+}
+
+#sticky-header.is-nav-open .sticky-header-inner {
+  position: relative;
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+}
+
+#sticky-header.is-nav-open .sticky-header-logo {
+  display: none;
+}
+
+#sticky-header.is-nav-open .sticky-header-phone {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#sticky-header.is-nav-open .sticky-header-actions {
+  margin-left: auto;
 }
 
 /* ── Hero ── */
