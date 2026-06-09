@@ -2,7 +2,6 @@
 const links = [
   { href: "/menu", label: "MENU" },
   { href: "/contact", label: "CONTACT" },
-  { href: "tel:+13234513104", label: "CALL TO ORDER", class: "nav-overlay-cta" },
 ];
 ---
 
@@ -12,14 +11,25 @@ const links = [
       links.map((link) => (
         <a
           href={link.href}
-          class={link.class === "nav-overlay-cta"
-            ? "nav-overlay-cta"
-            : "block py-3 hover:text-[var(--color-accent)] transition-colors"}
+          class="block py-3 hover:text-[var(--color-accent)] transition-colors"
           data-nav-link
         >
           {link.label}
         </a>
       ))
     }
+    <div class="nav-overlay-cta-group">
+      <a href="tel:+13234513104" class="nav-overlay-cta" data-nav-link>
+        CALL TO ORDER
+      </a>
+      <a
+        href="tel:+13234513104"
+        class="nav-overlay-phone md:hidden"
+        aria-label="Call us at (323) 451-3104"
+        data-nav-link
+      >
+        (323) 451-3104
+      </a>
+    </div>
   </div>
 </nav>
