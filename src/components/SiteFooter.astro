@@ -19,7 +19,22 @@ const todayName = dayNames[todayIndex];
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
       <!-- Brand -->
       <div>
-        <h3 class="font-display text-xl font-semibold mb-4">Lonell's Soul Food Cuisine</h3>
+        <a href="/" class="inline-flex mb-4" aria-label="Lonell's Soul Food — Home">
+          <picture>
+            <source
+              srcset="/media/images/lonells-logo.webp 1x, /media/images/lonells-logo@2x.webp 2x"
+              type="image/webp"
+            />
+            <img
+              src="/media/images/lonells-logo.jpg"
+              alt="Lonell's Soul Food Cuisine — A Place of Love"
+              width="300"
+              height="75"
+              class="w-40 md:w-48 h-auto"
+              loading="lazy"
+            />
+          </picture>
+        </a>
         <p class="text-[var(--color-text-secondary)] text-sm leading-relaxed italic">
           "A Place of Love" — Authentic soul food with live entertainment in South Los Angeles.
         </p>
@@ -85,11 +100,18 @@ const todayName = dayNames[todayIndex];
             );
           })}
         </ul>
+        <a
+          href="tel:+13234513104"
+          id="footer-cta-btn"
+          class="md:hidden mt-10 mb-1 w-full inline-flex items-center justify-center px-6 py-3 rounded-full bg-[var(--color-brand-amber)] text-black font-display font-bold text-base tracking-wider uppercase transition-all duration-700 ease-out hover:bg-[var(--color-brand-amber-light)] opacity-0 translate-y-6"
+        >
+          Call to Order
+        </a>
       </div>
     </div>
 
     <!-- Bottom bar -->
-    <div class="mt-12 pt-8 border-t border-[var(--color-border-subtle)] flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="mt-8 md:mt-12 pt-8 border-t border-[var(--color-border-subtle)] flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-xs text-[var(--color-text-muted)]">
         &copy; {new Date().getFullYear()} Lonell's Soul Food Cuisine. All rights reserved.
       </p>
@@ -106,3 +128,19 @@ const todayName = dayNames[todayIndex];
     </div>
   </div>
 </footer>
+
+<script>
+  const cta = document.getElementById("footer-cta-btn");
+  if (cta) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          cta.classList.remove("opacity-0", "translate-y-6");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(cta);
+  }
+</script>

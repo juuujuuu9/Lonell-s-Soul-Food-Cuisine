@@ -10,73 +10,107 @@ interface MenuItem {
   slug?: string;
 }
 
+interface MenuSubtitle {
+  mobile: string;
+  desktop: string;
+}
+
 interface MenuCategory {
   name: string;
-  subtitle: string;
+  subtitle: string | MenuSubtitle;
   items: MenuItem[];
 }
 
 const menuCategories: MenuCategory[] = [
   {
-    name: "Dinner Plates",
-    subtitle: "Served with 2 Sides",
+    name: "Lunch Specials",
+    subtitle: { mobile: "Wed–Thu 11am–7pm\nFri–Sat 11am–9pm\nSun 11am–5pm", desktop: "Wed–Thu 11am–7pm · Fri–Sat 11am–9pm · Sun 11am–5pm" },
     items: [
-      { name: "Baked Chicken or Fried Chicken", description: "Golden-brown, seasoned to perfection. A classic done right.", price: "$24", slug: "fried-chicken" },
-      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy.", price: "$23", slug: "meatloaf" },
-      { name: "Oxtail", description: "Slow-cooked, fall-off-the-bone tender. Our most popular dish.", price: "$32", slug: "oxtails" },
-      { name: "Pork Chops", description: "Cooked to order, thick-cut and well-seasoned.", price: "$24", slug: "pork-chops" },
-      { name: "Turkey Chop", description: "Cooked to order — a lean, flavorful alternative.", price: "$27", slug: "turkey-chop" },
-      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish.", price: "$26", slug: "catfish" },
-      { name: "Short Ribs", description: "Rich, braised short ribs. Available Friday & Saturday only.", price: "$28", slug: "short-ribs" },
-      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced.", price: "$21", slug: "brisket" },
+      { name: "Catfish Sandwich with Fries and Drink", description: "Crispy catfish fillet, fries, and a drink", price: "$21.60" },
+      { name: "Turkey Chop Sandwich with Fries and Drink", description: "Cooked-to-order turkey chop sandwich with fries and a drink", price: "$24.00" },
+      { name: "Hamburger and Fries with Drink", description: "Classic burger, fries, and a drink", price: "$18.00" },
+      { name: "Cheeseburger, Fries with Drink", description: "Cheeseburger, fries, and a drink", price: "$20.40" },
+      { name: "Meatloaf and Two Sides", description: "Homestyle meatloaf with your choice of two sides", price: "$24.00" },
+      { name: "Fried Chicken Basket & Drink", description: "Crispy fried chicken basket with a drink", price: "$21.60" },
+      { name: "6 Piece Shrimp Basket & Drink", description: "Golden fried shrimp basket with a drink", price: "$24.00" },
+    ],
+  },
+  {
+    name: "Lunch Menu",
+    subtitle: "Served with 2 sides",
+    items: [
+      { name: "Baked Chicken Lunch", description: "Golden-brown, oven-roasted chicken", price: "$30.00" },
+      { name: "Fried Chicken Lunch", description: "Crispy, buttermilk-marinated fried chicken", price: "$30.00" },
+      { name: "Oxtails Lunch", description: "Slow-braised, fall-off-the-bone tender", price: "$40.80" },
+      { name: "Pork Chops Lunch", description: "Thick-cut, cooked to order", price: "$27.60" },
+      { name: "Turkey Chops Lunch", description: "Lean, cooked to order", price: "$30.00" },
+      { name: "Brisket Lunch", description: "Slow-smoked, tender, sliced and sauced", price: "$30.00" },
+      { name: "Catfish Lunch", description: "Crispy, Louisiana-style seasoned catfish", price: "$27.60" },
+      { name: "Meatloaf Lunch", description: "Homestyle meatloaf served with gravy", price: "$24.00" },
+      { name: "Salmon Lunch", description: "Perfectly seasoned salmon fillet", price: "$30.00" },
+    ],
+  },
+  {
+    name: "Dinner Plates",
+    subtitle: "Served with 2 sides",
+    items: [
+      { name: "Baked Chicken", description: "Golden-brown, oven-roasted chicken", price: "$31.20", slug: "baked-chicken" },
+      { name: "Fried Chicken", description: "Crispy, buttermilk-marinated fried chicken", price: "$31.20", slug: "fried-chicken" },
+      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy", price: "$27.60", slug: "meatloaf" },
+      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Our most popular dish.", price: "$42.00", slug: "oxtails" },
+      { name: "Pork Chops", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20", slug: "pork-chops" },
+      { name: "Turkey Chops", description: "Cooked to order — a lean, flavorful alternative", price: "$36.00", slug: "turkey-chop" },
+      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish", price: "$32.40", slug: "catfish" },
+      { name: "Short Ribs", description: "Rich, braised short ribs. Friday & Saturday only.", price: "$36.00", slug: "short-ribs" },
+      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced", price: "$31.20", slug: "brisket" },
+      { name: "Salmon", description: "Perfectly seasoned salmon fillet", price: "$32.40" },
     ],
   },
   {
     name: "A La Carte Proteins",
     subtitle: "No sides included",
     items: [
-      { name: "Baked Chicken or Fried Chicken", description: "", price: "$15" },
-      { name: "Meatloaf", description: "", price: "$15" },
-      { name: "Pork Chop", description: "Cooked to order", price: "$15" },
-      { name: "Turkey Chop", description: "Cooked to order", price: "$17" },
-      { name: "Catfish", description: "", price: "$17" },
-      { name: "Short Ribs", description: "Fri & Sat only", price: "$20" },
-      { name: "Brisket", description: "", price: "$18" },
+      { name: "Baked Chicken", description: "", price: "$18.00" },
+      { name: "Fried Chicken", description: "", price: "$18.00" },
+      { name: "Meatloaf", description: "", price: "$14.00" },
+      { name: "Pork Chop", description: "Cooked to order", price: "$16.80" },
+      { name: "Turkey Chop", description: "Cooked to order", price: "$19.20" },
+      { name: "Catfish", description: "", price: "$20.40" },
+      { name: "Short Ribs", description: "Fri & Sat only", price: "$24.00" },
+      { name: "Brisket", description: "", price: "$21.60" },
     ],
   },
   {
-    name: "Sides",
-    subtitle: "$8 each",
+    name: "Sides & Extras",
+    subtitle: "",
     items: [
-      { name: "String Beans", description: "Fresh green beans, Southern-style", price: "" },
-      { name: "Collard Greens", description: "Slow-cooked with smoked turkey", price: "" },
-      { name: "Red Beans & Rice", description: "Cajun-style with Andouille sausage", price: "" },
-      { name: "Mac and Cheese", description: "Five-cheese blend, baked golden", price: "" },
-      { name: "Black-Eyed Peas", description: "Hearty, seasoned, and slow-simmered", price: "" },
-      { name: "Yams", description: "Candied yams, sweet and tender", price: "" },
-      { name: "Mashed Potatoes", description: "Creamy, buttery mashed potatoes", price: "" },
-      { name: "Gravy", description: "Rich brown gravy", price: "" },
-      { name: "Hot Water Cornbread (2)", description: "Crispy, golden cornmeal cakes", price: "" },
-      { name: "Cornbread (1)", description: "Classic Southern cornbread muffin", price: "" },
+      { name: "String Beans", description: "Fresh green beans, Southern-style", price: "$7.20" },
+      { name: "Mashed Potatoes", description: "Creamy, buttery mashed potatoes", price: "$7.20" },
+      { name: "Collard Greens", description: "Slow-cooked with smoked turkey", price: "$9.60" },
+      { name: "Cabbage", description: "Seasoned Southern-style cabbage", price: "$9.60" },
+      { name: "Red Beans & Rice", description: "Cajun-style with Andouille sausage", price: "$10.80" },
+      { name: "Mac and Cheese", description: "Five-cheese blend, baked golden", price: "$10.80" },
+      { name: "Yams", description: "Candied yams, sweet and tender", price: "$10.80" },
+      { name: "Hot Water Cornbread (2 pc)", description: "Crispy, golden cornmeal cakes", price: "$6.00" },
+      { name: "Cornbread (1 pc)", description: "Classic Southern cornbread", price: "$4.20" },
     ],
   },
   {
     name: "Desserts",
-    subtitle: "By the slice",
+    subtitle: "",
     items: [
-      { name: "Pound Cake", description: "Classic buttery pound cake", price: "" },
-      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "" },
-      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, and homemade custard", price: "" },
+      { name: "Pound Cake", description: "Classic buttery pound cake", price: "$6.00" },
+      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, and homemade custard", price: "$7.20" },
+      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "$8.40", slug: "peach-cobbler" },
     ],
   },
   {
     name: "Beverages",
     subtitle: "",
     items: [
-      { name: "Drinks", description: "Coke products", price: "$3.00" },
-      { name: "Muddy Water", description: "House specialty beverage", price: "$3.75" },
-      { name: "Lemonade", description: "Fresh-squeezed", price: "$3.50" },
-      { name: "Bottled Water", description: "Aqua Panna", price: "$5.00" },
+      { name: "Soda", description: "Coke products", price: "$3.60" },
+      { name: "Lemonade", description: "Fresh-squeezed", price: "$4.20" },
+      { name: "Muddy Water", description: "House specialty beverage", price: "$4.80" },
     ],
   },
 ];
@@ -144,27 +178,39 @@ const menuPhotos = [
   "@context": "https://schema.org",
   "@type": "Menu",
   "name": "Lonell's Soul Food Cuisine Menu",
-  "description": "Dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
+  "description": "Lunch specials, lunch plates, dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
   "hasMenuItem": [
-    { "@type": "MenuItem", "name": "Oxtail Plate", "offers": { "@type": "Offer", "price": "32.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Catfish", "offers": { "@type": "Offer", "price": "26.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Short Ribs", "offers": { "@type": "Offer", "price": "28.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Pork Chops", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Brisket", "offers": { "@type": "Offer", "price": "21.00", "priceCurrency": "USD" } }
+    { "@type": "MenuItem", "name": "Oxtails Dinner", "offers": { "@type": "Offer", "price": "42.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Baked Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Catfish Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Short Ribs Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Pork Chops Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Turkey Chops Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Brisket Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Meatloaf Dinner", "offers": { "@type": "Offer", "price": "27.60", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Salmon Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Peach Cobbler", "offers": { "@type": "Offer", "price": "8.40", "priceCurrency": "USD" } }
   ]
 })}></script>
 
 <BaseLayout title="Menu">
   <div class="min-h-screen pb-16">
-    <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
+    <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Lunch plates and dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <div class="mt-12 space-y-16">
         {menuCategories.map((category) => (
           <div>
-            <div class="flex items-baseline gap-3 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-6">
               <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{category.name}</h3>
               {category.subtitle && (
-                <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
+                typeof category.subtitle === "string" ? (
+                  <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
+                ) : (
+                  <>
+                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] whitespace-pre sm:hidden">{category.subtitle.mobile}</span>
+                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] hidden sm:inline">{category.subtitle.desktop}</span>
+                  </>
+                )
               )}
             </div>
             <div class="space-y-6">

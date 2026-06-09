@@ -11,58 +11,91 @@ import Section from "../components/Section.astro";
     "@type": "Restaurant",
     "name": "Lonell's Soul Food Cuisine"
   },
-  "ratingValue": "4.2",
-  "reviewCount": "139",
+  "ratingValue": "4.3",
+  "reviewCount": "186",
   "bestRating": "5"
 })}></script>
 
-<BaseLayout title="Reviews & Press" description="See what everyone's saying about Lonell's Soul Food Cuisine. Rated 4.2 stars on Yelp with 139 reviews. Read reviews and press mentions.">
+<BaseLayout title="Reviews & Press" description="See what everyone's saying about Lonell's Soul Food Cuisine. Rated 4.3 stars across Yelp and Google with 186+ reviews. Read reviews and press mentions.">
   <div class="min-h-screen pb-16">
-    <Section eyebrow="Word on the Street" title="Rated 4.2 Stars on Yelp" description="139 reviews and counting. Here's what our guests are saying about the food, the music, and the experience.">
-      <div class="mt-8 flex items-center justify-center gap-2 mb-8">
-        <div class="flex items-center gap-1 text-[var(--color-accent)] text-2xl">
-          {"★".repeat(4)}
-          <span class="text-[var(--color-text-muted)]">★</span>
+    <Section eyebrow="Word on the Street" title="Rated 4.3 Stars Across Yelp &amp; Google" description="186+ reviews and counting. Here's what our guests are saying on Yelp and Google about the food, the music, and the experience.">
+
+      <!-- Yelp rating -->
+      <div class="mt-8 flex flex-col items-center gap-2 mb-4">
+        <span class="text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Yelp</span>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 text-[var(--color-accent)] text-2xl">
+            {"★".repeat(4)}
+            <span class="text-[var(--color-text-muted)]">★</span>
+          </div>
+          <span class="text-sm text-[var(--color-text-muted)]">4.2 / 5.0 (139 reviews)</span>
         </div>
-        <span class="text-sm text-[var(--color-text-muted)]">4.2 / 5.0</span>
+      </div>
+
+      <!-- Google rating -->
+      <div class="flex flex-col items-center gap-2 mb-8">
+        <span class="text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Google</span>
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1 text-[var(--color-accent)] text-2xl">
+            {"★".repeat(4)}
+            <span class="text-[var(--color-text-muted)]">★</span>
+          </div>
+          <span class="text-sm text-[var(--color-text-muted)]">4.4 / 5.0 (47 reviews)</span>
+        </div>
       </div>
     </Section>
 
     <!-- Featured Reviews -->
     <section class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-4xl mx-auto">
-        <h3 class="font-display text-2xl font-semibold mb-8 text-center" data-reveal>Featured Reviews</h3>
+        <h3 class="font-display text-2xl font-semibold mb-8 text-center" data-reveal>What Guests Are Saying</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Yelp -->
           <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
-            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
-              {"★".repeat(5)}
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-1 text-[var(--color-accent)]">
+                {"★".repeat(5)}
+              </div>
+              <span class="text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]">Yelp</span>
             </div>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"This will be the new spot to catch up with my friend! We both ordered oxtails; divine tender well seasoned."</p>
             <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
           </div>
 
+          <!-- Google -->
           <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
-            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
-              {"★".repeat(5)}
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-1 text-[var(--color-accent)]">
+                {"★".repeat(5)}
+              </div>
+              <span class="text-[10px] uppercase tracking-widest text-[var(--color-neon)]">Google</span>
             </div>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Absolutely Delightful! Parking a breeze on the street."</p>
-            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Google review</p>
           </div>
 
+          <!-- Yelp -->
           <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
-            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
-              {"★".repeat(5)}
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-1 text-[var(--color-accent)]">
+                {"★".repeat(5)}
+              </div>
+              <span class="text-[10px] uppercase tracking-widest text-[var(--color-text-muted)]">Yelp</span>
             </div>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"Met my foodie friend there and we were completely pleased with the service, the music, the food."</p>
             <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
           </div>
 
+          <!-- Google -->
           <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
-            <div class="flex items-center gap-1 mb-3 text-[var(--color-accent)]">
-              {"★".repeat(5)}
+            <div class="flex items-center gap-2 mb-3">
+              <div class="flex items-center gap-1 text-[var(--color-accent)]">
+                {"★".repeat(5)}
+              </div>
+              <span class="text-[10px] uppercase tracking-widest text-[var(--color-neon)]">Google</span>
             </div>
             <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">"The food was divine. The oxtails were fall-off-the-bone tender. Great service and atmosphere too."</p>
-            <p class="text-xs text-[var(--color-text-muted)]">— Yelp review</p>
+            <p class="text-xs text-[var(--color-text-muted)]">— Google review</p>
           </div>
         </div>
       </div>
@@ -94,21 +127,44 @@ import Section from "../components/Section.astro";
       <div class="max-w-4xl mx-auto text-center">
         <span class="eyebrow" data-reveal>As Seen In</span>
         <h2 class="font-display text-3xl md:text-4xl font-bold mb-8" data-reveal>Press & Media</h2>
-        <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)]">
-          <div class="flex items-center justify-center gap-4 mb-4">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-text-muted)]">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-            </svg>
-            <h3 class="font-display text-xl font-semibold" data-reveal>The Infatuation</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)] text-left">
+            <div class="flex items-center justify-start gap-4 mb-4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-text-muted)] shrink-0">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              <h3 class="font-display text-xl font-semibold" data-reveal>The Infatuation</h3>
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">
+              "This sit-down soul food spot in Vermont Knolls is cooking platters of fried chicken, catfish, oxtail, and ribs, all served with a choice of sides like mac and cheese, collard greens, baked beans, and cornbread. There's live jazz on certain nights, free champagne during Sunday brunch, and a dessert lineup that includes pound cake, banana pudding, and peach cobbler."
+            </p>
+            <p class="text-xs text-[var(--color-text-muted)] mb-3">
+              — Cathy Park, <em>Senior Staff Writer</em> &middot; July 2025
+            </p>
+            <a href="https://www.theinfatuation.com/los-angeles/reviews/lonell-s-soul-food-cuisine" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs text-[var(--color-accent)] hover:underline">
+              Read full review &rarr;
+            </a>
           </div>
-          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic max-w-xl mx-auto">
-            "We haven't been here yet, but want you to know this spot exists."<br />
-            <span class="text-[var(--color-text-muted)] not-italic">— July 2025</span>
-          </p>
-          <p class="text-xs text-[var(--color-text-muted)]">
-            More press features coming soon. If you're a member of the media, <a href="/contact" class="text-[var(--color-accent)] hover:underline">contact us</a>.
-          </p>
+
+          <div class="p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-border-subtle)] text-left">
+            <div class="flex items-center justify-start gap-4 mb-4">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-text-muted)] shrink-0">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              <h3 class="font-display text-xl font-semibold" data-reveal>Eater LA</h3>
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4 italic">
+              "Lonell's Soul Food Cuisine opened in mid-May in Vermont Knolls, bringing a new destination for oxtails and macaroni and cheese to the neighborhood. Other soul food staples like fried chicken and fried catfish can be paired with sides like collard greens, yams, cornbread, and more. Save room for lemon cake, pound cake, peach cobbler, or banana pudding for dessert."
+            </p>
+            <p class="text-xs text-[var(--color-text-muted)] mb-3">
+              — Rebecca Roland, <em>Deputy Editor</em> &middot; June 2025
+            </p>
+            <a href="https://la.eater.com/2025/5/29/285623/best-new-restaurants-hidden-gems-los-angeles-openings-june-2025" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-xs text-[var(--color-accent)] hover:underline">
+              Read full article &rarr;
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -123,8 +179,11 @@ import Section from "../components/Section.astro";
         <a href="https://www.instagram.com/lonellssoulfood/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-accent)] text-black font-semibold text-sm rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
           Follow on Instagram
         </a>
-        <a href="https://yelp.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href="https://yelp.com/biz/lonells-soul-food-cuisine-los-angeles" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
           Read Yelp Reviews
+        </a>
+        <a href="https://search.google.com/local/writereview?placeid=PLACE_ID" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+          Leave a Google Review
         </a>
         <a href="https://facebook.com/lonellssoulfoodcuisine" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
           Follow on Facebook
