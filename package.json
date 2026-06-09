@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "vercel-build": "drizzle-kit migrate && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "db:generate": "drizzle-kit generate",

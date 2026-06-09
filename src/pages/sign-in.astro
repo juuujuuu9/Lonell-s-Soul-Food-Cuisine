@@ -1,0 +1,85 @@
+---
+import { SignIn } from "@clerk/astro/components";
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sign In — Lonell's Soul Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Arbutus+Slab&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        background: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Inter", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .logo { display: block; margin: 0 auto 2rem; width: 180px; height: auto; }
+    </style>
+  </head>
+  <body>
+    <div style="width:100%; max-width:24rem; padding:0 1rem;">
+      <picture>
+        <source srcset="/media/images/lonells-logo.webp 1x, /media/images/lonells-logo@2x.webp 2x" type="image/webp" />
+        <img src="/media/images/lonells-logo.jpg" alt="Lonell's Soul Food Cuisine" class="logo" width="180" height="auto" />
+      </picture>
+      <SignIn
+        appearance={{
+          variables: {
+            colorPrimary: "#f59e0b",
+            colorBackground: "#141414",
+            colorText: "#fafafa",
+            colorTextSecondary: "#a3a3a3",
+            colorInputBackground: "#1a1a1a",
+            colorInputText: "#fafafa",
+            colorDanger: "#f43f5e",
+            colorSuccess: "#34d399",
+            borderRadius: "0.75rem",
+            fontFamily: "Inter, system-ui, sans-serif",
+            fontSize: "0.875rem",
+          },
+          elements: {
+            card: "shadow-none border border-[#262626]",
+            headerTitle: "font-display text-xl",
+            headerSubtitle: "text-sm",
+            formFieldLabel: "text-xs font-medium text-[#a3a3a3]",
+            formFieldInput: "bg-[#1a1a1a] border-[#333] text-sm rounded-lg py-2.5 px-3 focus:border-[#f59e0b] focus:ring-1 focus:ring-[#f59e0b]",
+            formButtonPrimary: "bg-[#f59e0b] hover:bg-[#fbbf24] text-black font-semibold text-sm rounded-full py-2.5 normal-case transition-colors",
+            footerActionLink: "text-[#f59e0b] hover:text-[#fbbf24] text-xs",
+            dividerLine: "bg-[#262626]",
+            dividerText: "text-[#6b6b6b] text-xs",
+            socialButtonsBlockButton: {
+              backgroundColor: "#1e1e1e",
+              border: "1px solid #444",
+              borderRadius: "0.5rem",
+              padding: "0.625rem 1rem",
+              fontSize: "0.875rem",
+              color: "#fafafa",
+              fontWeight: 500,
+              textTransform: "none",
+              transition: "background-color 0.2s",
+              "&:hover, &:focus, &:active": {
+                backgroundColor: "#2a2a2a",
+              },
+            },
+            identityPreviewEditButton: "text-[#f59e0b]",
+            formHeaderTitle: "font-display",
+            formHeaderSubtitle: "text-[#a3a3a3]",
+            formResendCodeLink: "text-[#f59e0b]",
+            otpCodeFieldInput: "bg-[#1a1a1a] border-[#333] text-[#fafafa] rounded-lg",
+            alert: "bg-red-900/20 border border-red-500/30 text-red-400 rounded-lg",
+            alertText: "text-red-400 text-xs",
+          },
+        }}
+      />
+    </div>
+  </body>
+</html>

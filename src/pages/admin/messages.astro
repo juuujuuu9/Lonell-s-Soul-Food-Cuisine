@@ -1,29 +1,35 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { db, schema } from "../../db/index";
+import { db, schema, isDbReady } from "../../db/index";
 import { desc } from "drizzle-orm";
 
 export const prerender = false;
 
 let messages: Array<{ id: number; toNumber: string | null; fromNumber: string | null; body: string | null; direction: string | null; status: string | null; simulated: boolean | null; createdAt: Date | null }> = [];
+let dbError: string | null = null;
 
-try {
-  messages = await db
-    .select({
-      id: schema.messages.id,
-      toNumber: schema.messages.toNumber,
-      fromNumber: schema.messages.fromNumber,
-      body: schema.messages.body,
-      direction: schema.messages.direction,
-      status: schema.messages.status,
-      simulated: schema.messages.simulated,
-      createdAt: schema.messages.createdAt,
-    })
-    .from(schema.messages)
-    .orderBy(desc(schema.messages.createdAt))
-    .limit(100);
-} catch (e) {
-  // DB not yet provisioned
+if (isDbReady()) {
+  try {
+    messages = await db!
+      .select({
+        id: schema.messages.id,
+        toNumber: schema.messages.toNumber,
+        fromNumber: schema.messages.fromNumber,
+        body: schema.messages.body,
+        direction: schema.messages.direction,
+        status: schema.messages.status,
+        simulated: schema.messages.simulated,
+        createdAt: schema.messages.createdAt,
+      })
+      .from(schema.messages)
+      .orderBy(desc(schema.messages.createdAt))
+      .limit(100);
+  } catch (e) {
+    dbError = e instanceof Error ? e.message : "Unknown database error";
+    console.error("[Admin Messages] DB error:", e);
+  }
+} else {
+  dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
 }
 ---
 
@@ -32,6 +38,13 @@ try {
     <div class="max-w-6xl mx-auto px-4">
       <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">SMS Messages</h1>
+
+      {dbError && (
+        <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
+          <p class="text-sm text-red-400 font-medium">Database Error</p>
+          <p class="text-xs text-red-300/80 mt-1">{dbError}</p>
+        </div>
+      )}
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { db, schema } from "../../db/index";
-import { count, sql } from "drizzle-orm";
+import { db, schema, isDbReady } from "../../db/index";
+import { count } from "drizzle-orm";
 
 export const prerender = false;
 
@@ -9,24 +9,37 @@ export const prerender = false;
 let subscriberCount = 0;
 let messageCount = 0;
 let reviewCount = 0;
+let dbError: string | null = null;
 
-try {
-  const [subResult] = await db.select({ value: count() }).from(schema.subscribers);
-  subscriberCount = subResult.value;
+if (isDbReady()) {
+  try {
+    const [subResult] = await db!.select({ value: count() }).from(schema.subscribers);
+    subscriberCount = subResult.value;
 
-  const [msgResult] = await db.select({ value: count() }).from(schema.messages);
-  messageCount = msgResult.value;
+    const [msgResult] = await db!.select({ value: count() }).from(schema.messages);
+    messageCount = msgResult.value;
 
-  const [revResult] = await db.select({ value: count() }).from(schema.reviews);
-  reviewCount = revResult.value;
-} catch (e) {
-  // DB not yet provisioned
+    const [revResult] = await db!.select({ value: count() }).from(schema.reviews);
+    reviewCount = revResult.value;
+  } catch (e) {
+    dbError = e instanceof Error ? e.message : "Unknown database error";
+    console.error("[Admin Dashboard] DB error:", e);
+  }
+} else {
+  dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
 }
 ---
 
 <BaseLayout title="Admin Dashboard">
   <div class="min-h-screen pb-16">
     <div class="max-w-6xl mx-auto px-4">
+      {dbError && (
+        <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
+          <p class="text-sm text-red-400 font-medium">Database Connection Error</p>
+          <p class="text-xs text-red-300/80 mt-1">{dbError}</p>
+        </div>
+      )}
+
       <span class="eyebrow">Dashboard</span>
       <h1 class="font-display text-4xl md:text-5xl font-bold mb-2">Admin Panel</h1>
       <p class="text-[var(--color-text-secondary)] mb-12">Manage subscribers, messages, and reputation.</p>

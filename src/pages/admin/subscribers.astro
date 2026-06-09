@@ -1,28 +1,34 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { db, schema } from "../../db/index";
+import { db, schema, isDbReady } from "../../db/index";
 import { desc } from "drizzle-orm";
 
 export const prerender = false;
 
 let subscribers: Array<{ id: number; phoneNumber: string | null; keyword: string | null; optOut: boolean | null; createdAt: Date | null; promoCode: string | null; promoRedeemed: boolean | null }> = [];
+let dbError: string | null = null;
 
-try {
-  subscribers = await db
-    .select({
-      id: schema.subscribers.id,
-      phoneNumber: schema.subscribers.phoneNumber,
-      keyword: schema.subscribers.keyword,
-      optOut: schema.subscribers.optOut,
-      createdAt: schema.subscribers.createdAt,
-      promoCode: schema.subscribers.promoCode,
-      promoRedeemed: schema.subscribers.promoRedeemed,
-    })
-    .from(schema.subscribers)
-    .orderBy(desc(schema.subscribers.createdAt))
-    .limit(100);
-} catch (e) {
-  // DB not yet provisioned
+if (isDbReady()) {
+  try {
+    subscribers = await db!
+      .select({
+        id: schema.subscribers.id,
+        phoneNumber: schema.subscribers.phoneNumber,
+        keyword: schema.subscribers.keyword,
+        optOut: schema.subscribers.optOut,
+        createdAt: schema.subscribers.createdAt,
+        promoCode: schema.subscribers.promoCode,
+        promoRedeemed: schema.subscribers.promoRedeemed,
+      })
+      .from(schema.subscribers)
+      .orderBy(desc(schema.subscribers.createdAt))
+      .limit(100);
+  } catch (e) {
+    dbError = e instanceof Error ? e.message : "Unknown database error";
+    console.error("[Admin Subscribers] DB error:", e);
+  }
+} else {
+  dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
 }
 ---
 
@@ -31,6 +37,13 @@ try {
     <div class="max-w-6xl mx-auto px-4">
       <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">SMS Subscribers</h1>
+
+      {dbError && (
+        <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
+          <p class="text-sm text-red-400 font-medium">Database Error</p>
+          <p class="text-xs text-red-300/80 mt-1">{dbError}</p>
+        </div>
+      )}
 
       <div class="overflow-x-auto">
         <table class="w-full text-sm">

@@ -1,12 +1,26 @@
 import type { APIRoute } from "astro";
 import { eq } from "drizzle-orm";
-import { db, schema } from "../../../db/index";
+import { db, schema, isDbReady } from "../../../db/index";
 import { sendSms } from "../../../lib/sms";
 
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    if (process.env.SMS_ENABLED !== "true") {
+      return new Response(JSON.stringify({ error: "SMS service is not enabled. Set SMS_ENABLED=true in your environment." }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (!isDbReady()) {
+      return new Response(JSON.stringify({ error: "Database is not configured." }), {
+        status: 503,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const data = await request.json();
     const { message } = data;
 
@@ -17,7 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const subscribers = await db
+    const subscribers = await db!
       .select()
       .from(schema.subscribers)
       .where(eq(schema.subscribers.optOut, false));

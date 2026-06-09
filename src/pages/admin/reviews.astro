@@ -1,29 +1,35 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { db, schema } from "../../db/index";
+import { db, schema, isDbReady } from "../../db/index";
 import { desc } from "drizzle-orm";
 
 export const prerender = false;
 
 let reviews: Array<{ id: number; platform: string | null; reviewerName: string | null; rating: number | null; text: string | null; replied: boolean | null; url: string | null; createdAt: Date | null }> = [];
+let dbError: string | null = null;
 
-try {
-  reviews = await db
-    .select({
-      id: schema.reviews.id,
-      platform: schema.reviews.platform,
-      reviewerName: schema.reviews.reviewerName,
-      rating: schema.reviews.rating,
-      text: schema.reviews.text,
-      replied: schema.reviews.replied,
-      url: schema.reviews.url,
-      createdAt: schema.reviews.createdAt,
-    })
-    .from(schema.reviews)
-    .orderBy(desc(schema.reviews.createdAt))
-    .limit(100);
-} catch (e) {
-  // DB not yet provisioned
+if (isDbReady()) {
+  try {
+    reviews = await db!
+      .select({
+        id: schema.reviews.id,
+        platform: schema.reviews.platform,
+        reviewerName: schema.reviews.reviewerName,
+        rating: schema.reviews.rating,
+        text: schema.reviews.text,
+        replied: schema.reviews.replied,
+        url: schema.reviews.url,
+        createdAt: schema.reviews.createdAt,
+      })
+      .from(schema.reviews)
+      .orderBy(desc(schema.reviews.createdAt))
+      .limit(100);
+  } catch (e) {
+    dbError = e instanceof Error ? e.message : "Unknown database error";
+    console.error("[Admin Reviews] DB error:", e);
+  }
+} else {
+  dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
 }
 ---
 
@@ -32,6 +38,13 @@ try {
     <div class="max-w-6xl mx-auto px-4">
       <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
       <h1 class="font-display text-4xl font-bold mt-4 mb-8">Reputation & Reviews</h1>
+
+      {dbError && (
+        <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
+          <p class="text-sm text-red-400 font-medium">Database Error</p>
+          <p class="text-xs text-red-300/80 mt-1">{dbError}</p>
+        </div>
+      )}
 
       <div class="mb-8 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
         <h2 class="font-display text-lg font-semibold mb-3">Review Reply Templates</h2>
