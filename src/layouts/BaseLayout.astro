@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import NavOverlay from "../components/NavOverlay.astro";
-import PageTopLogo from "../components/PageTopLogo.astro";
+import PageHeader, { type PageHeaderBackground } from "../components/PageHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import StickyHeader from "../components/StickyHeader.astro";
 import TopMenuBar from "../components/TopMenuBar.astro";
@@ -10,6 +10,7 @@ export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  headerBackground?: PageHeaderBackground;
 }
 
 const siteName = "Lonell's Soul Food Cuisine";
@@ -17,7 +18,7 @@ const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday
 const defaultOgImage = "/og-default.jpg";
 const siteUrl = "https://lonells.com";
 
-const { title, description = defaultDescription, ogImage = defaultOgImage } = Astro.props;
+const { title, description = defaultDescription, ogImage = defaultOgImage, headerBackground } = Astro.props;
 const pageTitle = title === "Home" ? `${siteName} | Authentic Soul Food & Live Jazz in South LA` : `${title} | ${siteName}`;
 const isHome = Astro.url.pathname === "/";
 ---
@@ -56,7 +57,12 @@ const isHome = Astro.url.pathname === "/";
     {isHome ? (
       <link rel="preload" href="/media/images/lonells-logo.webp" as="image" type="image/webp" fetchpriority="high" />
     ) : (
-      <link rel="preload" href="/media/images/lonells-gold-logo.webp" as="image" type="image/webp" fetchpriority="high" />
+      <>
+        {headerBackground ? (
+          <link rel="preload" href={headerBackground.webp} as="image" type="image/webp" fetchpriority="high" />
+        ) : null}
+        <link rel="preload" href="/media/images/lonells-gold-logo.webp" as="image" type="image/webp" fetchpriority="high" />
+      </>
     )}
 
     <!-- Schema.org: LocalBusiness + Restaurant -->
@@ -188,7 +194,7 @@ const isHome = Astro.url.pathname === "/";
 
     <main id="main-content" class="relative">
       <TopMenuBar />
-      {!isHome && <PageTopLogo />}
+      {!isHome && <PageHeader background={headerBackground} />}
       <slot />
     </main>
 

@@ -194,7 +194,20 @@ const menuPhotos = [
   ]
 })}></script>
 
-<BaseLayout title="Menu">
+<BaseLayout
+  title="Menu"
+  headerBackground={{
+    webp: "/media/images/menu-header-wide.webp",
+    webp2x: "/media/images/menu-header-wide@2x.webp",
+    jpg: "/media/images/menu-header-wide.jpg",
+    mobile: {
+      webp: "/media/images/menu-header.webp",
+      webp2x: "/media/images/menu-header@2x.webp",
+      jpg: "/media/images/menu-header.jpg",
+    },
+    alt: "Southern soul food — collard greens, red beans, mac and cheese, oxtails, and fried chicken at Lonell's",
+  }}
+>
   <div class="min-h-screen pb-16">
     <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Lunch plates and dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <div class="mt-12 space-y-16">

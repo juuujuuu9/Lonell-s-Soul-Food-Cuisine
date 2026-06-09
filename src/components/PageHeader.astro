@@ -1,0 +1,89 @@
+---
+export interface PageHeaderBackground {
+  webp: string;
+  webp2x?: string;
+  jpg: string;
+  alt?: string;
+  mobile?: {
+    webp: string;
+    webp2x?: string;
+    jpg: string;
+  };
+}
+
+export interface Props {
+  background?: PageHeaderBackground;
+}
+
+const { background } = Astro.props;
+---
+
+<header
+  class:list={[
+    "relative flex flex-col overflow-hidden",
+    background ? "min-h-[44vh] md:min-h-[36vh] lg:min-h-[32vh] bg-[var(--color-surface-base)]" : "min-h-[32vh] md:min-h-[25vh]",
+  ]}
+>
+  {
+    background && (
+      <>
+        <picture class="absolute inset-0 -bottom-px min-h-full" aria-hidden="true">
+          {
+            background.mobile && (
+              <>
+                <source
+                  media="(max-width: 767px)"
+                  srcset={`${background.mobile.webp} 1x${background.mobile.webp2x ? `, ${background.mobile.webp2x} 2x` : ""}`}
+                  type="image/webp"
+                />
+                <source media="(max-width: 767px)" srcset={background.mobile.jpg} type="image/jpeg" />
+              </>
+            )
+          }
+          <source
+            srcset={`${background.webp} 1x${background.webp2x ? `, ${background.webp2x} 2x` : ""}`}
+            type="image/webp"
+          />
+          <img
+            src={background.jpg}
+            alt={background.alt ?? ""}
+            class="absolute inset-0 h-[calc(100%+1px)] w-full object-cover object-center"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </picture>
+        <div
+          class="absolute inset-0 -bottom-px bg-gradient-to-b from-black/45 via-black/60 to-[#0a0a0a] pointer-events-none"
+          aria-hidden="true"
+        />
+        <div class="absolute inset-0 -bottom-px bg-gradient-to-br from-[var(--color-brand-amber)]/5 to-transparent pointer-events-none" aria-hidden="true" />
+        <div class="absolute inset-x-0 bottom-0 h-px bg-[#0a0a0a]" aria-hidden="true" />
+      </>
+    )
+  }
+
+  <div class="h-14 md:h-16 shrink-0 relative z-10" aria-hidden="true"></div>
+  <div
+    class:list={[
+      "relative z-10 flex flex-1 items-center justify-center px-4",
+      background ? "pb-14 md:pb-16 lg:pb-12" : "pb-6 md:pb-8",
+    ]}
+  >
+    <a href="/" class="inline-flex max-md:translate-x-[2.1%]" aria-label="Lonell's Soul Food — Home">
+      <picture>
+        <source
+          srcset="/media/images/lonells-gold-logo.webp 1x, /media/images/lonells-gold-logo@2x.webp 2x"
+          type="image/webp"
+        />
+        <img
+          src="/media/images/lonells-gold-logo.png"
+          alt="Lonell's Soul Food Cuisine — A Place of Love"
+          width="1200"
+          height="894"
+          class="max-md:w-[17.1875rem] md:w-64 lg:w-80 h-auto drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+          loading="eager"
+        />
+      </picture>
+    </a>
+  </div>
+</header>
