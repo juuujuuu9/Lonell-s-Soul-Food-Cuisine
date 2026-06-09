@@ -135,10 +135,27 @@ import Section from "../components/Section.astro";
 
     <!-- Map embed -->
     <section class="section-padding">
-      <div class="max-w-5xl mx-auto text-center">
-        <span class="eyebrow" data-reveal>Directions</span>
-        <h2 class="font-display text-3xl md:text-4xl font-bold mb-6" data-reveal>Find Us</h2>
-        <div class="rounded-xl overflow-hidden border border-[var(--color-border-subtle)] aspect-[4/3] lg:aspect-[2/1] min-h-[280px] mb-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-8">
+          <span class="eyebrow" data-reveal>Directions</span>
+          <h2 class="font-display text-3xl md:text-4xl font-bold" data-reveal>Find Us</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] h-full min-h-[280px]">
+            <source
+              srcset="/media/images/storefront-exterior.webp 1x, /media/images/storefront-exterior@2x.webp 2x"
+              type="image/webp"
+            />
+            <img
+              src="/media/images/storefront-exterior.jpg"
+              alt="Exterior storefront of Lonell's Soul Food Cuisine at 8501, featuring a black brick facade, white pillars, and a glowing golden sign above a glass double-door entrance"
+              width="704"
+              height="986"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </picture>
+          <div class="rounded-xl overflow-hidden border border-[var(--color-border-subtle)] aspect-[4/3] md:aspect-auto min-h-[280px]">
             <iframe
               src="https://maps.google.com/maps?q=8501+S+Vermont+Ave+Los+Angeles+CA+90044&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
@@ -149,6 +166,7 @@ import Section from "../components/Section.astro";
               referrerpolicy="no-referrer-when-downgrade"
               title="Lonell's Soul Food Cuisine location on Google Maps"
             ></iframe>
+          </div>
         </div>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href="https://www.google.com/maps/place/Lonell's+%7C+Soul+Food+Cuisine/@33.9607929,-118.2970333,17z/data=!3m1!4b1!4m6!3m5!1s0x80c2c900421f2af5:0xb940c0708cca65e5!8m2!3d33.9607885!4d-118.2921677!16s%2Fg%2F11yd0v0tnl?entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
