@@ -191,6 +191,40 @@ const menuHeaderBackgrounds: PageHeaderBackground[] = [
 ];
 
 const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHeaderBackgrounds.length)];
+
+// Category navigation helpers
+const categoryId = (name: string) => "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const categoryIcons: Record<string, string> = {
+  "Lunch Specials": "clock",
+  "Lunch Menu": "sun",
+  "Dinner Plates": "moon",
+  "A La Carte Proteins": "drumstick",
+  "Sides & Extras": "bowl",
+  Desserts: "cake",
+  Beverages: "cup",
+};
+
+const categoryDescriptions: Record<string, string> = {
+  "Lunch Specials": "Weekday value meals",
+  "Lunch Menu": "Plates with 2 sides",
+  "Dinner Plates": "Hearty dinner entrees",
+  "A La Carte Proteins": "Proteins, no sides",
+  "Sides & Extras": "Classic Southern sides",
+  Desserts: "Sweet finales",
+  Beverages: "Refreshments",
+};
+
+// SVG icon paths
+const iconPaths: Record<string, string> = {
+  clock: '<path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/><path d="M12 6v6l4 2"/>',
+  sun: '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-width="2" fill="none"/>',
+  moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="none"/>',
+  drumstick: '<path d="M15.5 3.5a5 5 0 0 1 5 5c0 2.5-1.5 4.5-3.5 5.5L12 19l-3-3 5.5-5.5c1-2 .5-4.5-1-6s-3.5-2-5-1l-2 2 3 3-2 2-3-3-2 2 3 3-2 2-3-3L2 12c-1 1.5-.5 3.5 1 5s3.5 2 5 1l1.5-1.5" fill="none"/>',
+  bowl: '<path d="M2 12c0 5.523 4.477 10 10 10s10-4.477 10-10"/><path d="M2 12h20"/><path d="M6 8c0-2 1.5-4 4-4 1.5 0 2.5.5 3 1.5" fill="none"/><path d="M18 8c0-2-1.5-4-4-4-1.5 0-2.5.5-3 1.5" fill="none"/>',
+  cake: '<path d="M4 16h16v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5z"/><path d="M4 12h16v4H4z"/><path d="M4 10V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/><path d="M8 6V4"/><path d="M12 6V3"/><path d="M16 6V4"/>',
+  cup: '<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3" fill="none"/>',
+};
 ---
 
 <!-- Menu schema -->
@@ -217,47 +251,121 @@ const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHe
 <BaseLayout title="Menu" headerBackground={headerBackground}>
   <div class="min-h-screen pb-16">
     <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Lunch plates and dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
+      <!-- Bento Quick-Select Grid -->
+      <div id="bento-grid" class="mt-10 mb-16">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+          {menuCategories.map((category) => {
+            const id = categoryId(category.name);
+            return (
+              <button
+                data-bento-card
+                data-category={id}
+                class="group relative flex flex-col items-start justify-between p-4 md:p-5 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)] hover:border-[var(--color-brand-amber)]/40 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all duration-300 text-left cursor-pointer"
+                aria-label={`Jump to ${category.name}`}
+              >
+                <span class="mb-3 text-[var(--color-brand-amber)] w-7 h-7 md:w-8 md:h-8" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="w-full h-full">
+                    {iconPaths[categoryIcons[category.name]]}
+                  </svg>
+                </span>
+                <div>
+                  <span class="block font-display text-sm md:text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                    {category.name}
+                  </span>
+                  <span class="block text-xs text-[var(--color-text-muted)] mt-0.5">
+                    {categoryDescriptions[category.name]}
+                  </span>
+                  <span class="inline-block mt-2 text-[10px] font-medium tracking-wider uppercase text-[var(--color-brand-amber)]/70">
+                    {category.items.length} {category.items.length === 1 ? "item" : "items"}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Sticky Category Pill Bar (hidden until bento scrolls past) -->
+      <div
+        id="category-pill-bar"
+        class="fixed left-0 right-0 z-[105] opacity-0 pointer-events-none transition-opacity duration-300"
+        style="top: calc(3.5rem + 0px);"
+        role="tablist"
+        aria-label="Menu categories"
+      >
+        <div class="bg-[var(--color-surface-card)]/90 backdrop-blur-md border-b border-[var(--color-border-subtle)]">
+          <div class="max-w-4xl mx-auto px-4 md:px-6">
+            <nav class="flex gap-2 overflow-x-auto py-3 hide-scrollbar" role="tablist">
+              {menuCategories.map((category) => {
+                const id = categoryId(category.name);
+                return (
+                  <button
+                    data-pill
+                    data-category={id}
+                    class="shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap border transition-all duration-300 cursor-pointer
+                      border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)]
+                      active:bg-[var(--color-surface-hover)]"
+                    role="tab"
+                    aria-selected="false"
+                  >
+                    <span class="inline-flex items-center gap-1.5">
+                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="w-4 h-4 shrink-0" aria-hidden="true">
+                        {iconPaths[categoryIcons[category.name]]}
+                      </svg>
+                      {category.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-12 space-y-16">
-        {menuCategories.map((category) => (
-          <div>
-            <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-6">
-              <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{category.name}</h3>
-              {category.subtitle && (
-                typeof category.subtitle === "string" ? (
-                  <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
-                ) : (
-                  <>
-                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] whitespace-pre sm:hidden">{category.subtitle.mobile}</span>
-                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] hidden sm:inline">{category.subtitle.desktop}</span>
-                  </>
-                )
-              )}
-            </div>
-            <div class="space-y-6">
-              {category.items.map((item) => (
-                <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
-                  <div>
-                    <h4 class="font-display text-lg font-medium">
-                      {item.slug ? (
-                        <a href={`/menu/${item.slug}`} class="hover:text-[var(--color-accent)] transition-colors">
-                          {item.name}
-                        </a>
-                      ) : (
-                        item.name
+        {menuCategories.map((category) => {
+          const id = categoryId(category.name);
+          return (
+            <div id={id} data-category-section style="scroll-margin-top: 8rem;">
+              <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-6">
+                <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{category.name}</h3>
+                {category.subtitle && (
+                  typeof category.subtitle === "string" ? (
+                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
+                  ) : (
+                    <>
+                      <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] whitespace-pre sm:hidden">{category.subtitle.mobile}</span>
+                      <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] hidden sm:inline">{category.subtitle.desktop}</span>
+                    </>
+                  )
+                )}
+              </div>
+              <div class="space-y-6">
+                {category.items.map((item) => (
+                  <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
+                    <div>
+                      <h4 class="font-display text-lg font-medium">
+                        {item.slug ? (
+                          <a href={`/menu/${item.slug}`} class="hover:text-[var(--color-accent)] transition-colors">
+                            {item.name}
+                          </a>
+                        ) : (
+                          item.name
+                        )}
+                      </h4>
+                      {item.description && (
+                        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
                       )}
-                    </h4>
-                    {item.description && (
-                      <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
+                    </div>
+                    {item.price && (
+                      <span class="text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
                     )}
                   </div>
-                  {item.price && (
-                    <span class="text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
-                  )}
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <!-- Promotions -->
@@ -275,3 +383,176 @@ const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHe
     </Section>
   </div>
 </BaseLayout>
+
+<style is:global>
+  /* Hide scrollbar for pill bar */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Pill bar active state */
+  [data-pill].active {
+    background: var(--color-brand-amber);
+    border-color: var(--color-brand-amber);
+    color: #000;
+  }
+  [data-pill].active svg {
+    stroke: #000;
+  }
+
+  /* Bento card active/focus state */
+  [data-bento-card]:focus-visible {
+    outline: 2px solid var(--color-brand-amber);
+    outline-offset: 2px;
+  }
+  [data-pill]:focus-visible {
+    outline: 2px solid var(--color-brand-amber);
+    outline-offset: 2px;
+  }
+
+  /* Ensure pill bar adjusts below sticky header on desktop */
+  @media (min-width: 768px) {
+    #category-pill-bar {
+      top: calc(4rem + 0px);
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const bentoGrid = document.getElementById("bento-grid");
+    const pillBar = document.getElementById("category-pill-bar");
+    const pills = document.querySelectorAll<HTMLButtonElement>("[data-pill]");
+    const bentoCards = document.querySelectorAll<HTMLButtonElement>("[data-bento-card]");
+    const sections = document.querySelectorAll<HTMLElement>("[data-category-section]");
+
+    if (!bentoGrid || !pillBar || !pills.length || !sections.length) return;
+
+    // ── Scroll-to-section helper ──
+    const scrollToCategory = (id: string) => {
+      const target = document.getElementById(id);
+      if (!target) return;
+      const headerH = window.innerWidth < 768 ? 56 : 64;
+      const pillH = 56; // approximate pill bar height
+      const top = target.getBoundingClientRect().top + window.scrollY - headerH - pillH - 8;
+      window.scrollTo({ top, behavior: "smooth" });
+    };
+
+    // ── Bento card clicks ──
+    for (const card of bentoCards) {
+      card.addEventListener("click", () => {
+        const id = card.getAttribute("data-category");
+        if (id) scrollToCategory(id);
+      });
+    }
+
+    // ── Pill clicks ──
+    for (const pill of pills) {
+      pill.addEventListener("click", () => {
+        const id = pill.getAttribute("data-category");
+        if (id) scrollToCategory(id);
+      });
+    }
+
+    // ── Bento grid collapse threshold ──
+    // Show the pill bar when the bento grid's bottom edge passes the top of the viewport
+    let bentoThreshold = bentoGrid.offsetTop + bentoGrid.offsetHeight;
+
+    // ── Active section tracking with IntersectionObserver ──
+    let activeId: string | null = null;
+
+    const updateActivePill = (id: string | null) => {
+      if (id === activeId) return;
+      activeId = id;
+      for (const pill of pills) {
+        const match = pill.getAttribute("data-category") === id;
+        pill.classList.toggle("active", match);
+        pill.setAttribute("aria-selected", String(match));
+      }
+    };
+
+    // Determine the root margin so we trigger early enough.
+    // The pill bar is ~56px tall and sticky header is ~56-64px.
+    // We want the pill to activate when the section top crosses below the pill bar.
+    const headerH = () => (window.innerWidth < 768 ? 56 : 64);
+    const pillH = 56;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the first section that is currently intersecting from the top
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          const id = visible[0].target.getAttribute("id");
+          updateActivePill(id);
+        }
+      },
+      {
+        rootMargin: `-${headerH() + pillH}px 0px -50% 0px`,
+        threshold: 0,
+      }
+    );
+
+    for (const section of sections) {
+      observer.observe(section);
+    }
+
+    // ── Show/hide pill bar on scroll ──
+    let ticking2 = false;
+
+    const updatePillBar = () => {
+      const scrolledPast = window.scrollY + headerH() + pillH > bentoThreshold;
+      pillBar.classList.toggle("opacity-0", !scrolledPast);
+      pillBar.classList.toggle("pointer-events-none", !scrolledPast);
+      ticking2 = false;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking2) {
+          requestAnimationFrame(updatePillBar);
+          ticking2 = true;
+        }
+      },
+      { passive: true }
+    );
+
+    // Initial state
+    updatePillBar();
+
+    // ── Handle resize for rootMargin ──
+    let resizeTimer: ReturnType<typeof setTimeout> | undefined;
+    let currentObserver = observer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        currentObserver.disconnect();
+        const newHeaderH = window.innerWidth < 768 ? 56 : 64;
+        currentObserver = new IntersectionObserver(
+          (entries) => {
+            const visible = entries
+              .filter((e) => e.isIntersecting)
+              .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+            if (visible.length > 0) {
+              updateActivePill(visible[0].target.getAttribute("id"));
+            }
+          },
+          { rootMargin: `-${newHeaderH + pillH}px 0px -50% 0px`, threshold: 0 }
+        );
+        for (const section of sections) {
+          currentObserver.observe(section);
+        }
+        // Recalculate bento threshold on resize
+        bentoThreshold = bentoGrid.offsetTop + bentoGrid.offsetHeight;
+        updatePillBar();
+      }, 200);
+    });
+  })();
+</script>
