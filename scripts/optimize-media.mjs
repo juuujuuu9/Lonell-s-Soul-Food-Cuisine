@@ -75,7 +75,7 @@ function getExtension(filePath) {
   let ext = extname(filePath).toLowerCase();
   if (ext) return ext;
 
-  // File has no extension — will be resolved later by detectFormat
+  // File has no extension. Will be resolved later by detectFormat.
   return null;
 }
 

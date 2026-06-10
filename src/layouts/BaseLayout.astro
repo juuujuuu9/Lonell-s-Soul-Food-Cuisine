@@ -107,7 +107,7 @@ const isHome = Astro.url.pathname === "/";
       "areaServed": "South Los Angeles"
     })}></script>
 
-    <!-- FAQ Schema (expanded — 13 Qs for AI search readiness) -->
+    <!-- FAQ Schema (expanded, 13 Qs for AI search readiness) -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -150,7 +150,7 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "What catering services do you offer?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We cater events of all sizes — from small family gatherings to corporate events and celebrations. Contact us at reservations@lonells.com or call (323) 451-3104 for a custom quote." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We cater events of all sizes, from small family gatherings to corporate events and celebrations. Contact us at reservations@lonells.com or call (323) 451-3104 for a custom quote." }
         },
         {
           "@type": "Question",
@@ -160,7 +160,7 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "Is Lonell's family-owned and Black-owned?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, Lonell's Soul Food Cuisine is a proud Black-owned, family-owned business in South Los Angeles. 'A Place of Love' is our promise — every guest is treated like family." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, Lonell's Soul Food Cuisine is a proud Black-owned, family-owned business in South Los Angeles. 'A Place of Love' is our promise. Every guest is treated like family." }
         },
         {
           "@type": "Question",
@@ -202,7 +202,7 @@ const isHome = Astro.url.pathname === "/";
 
     <SiteFooter />
 
-    <!-- Scroll-reveal observer — lightweight, no dependencies -->
+    <!-- Scroll-reveal observer, lightweight, no dependencies -->
     <script>
       if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const observer = new IntersectionObserver(
@@ -236,7 +236,7 @@ const isHome = Astro.url.pathname === "/";
           }
         });
       } else {
-        // No observer or reduced motion — make everything visible immediately
+        // No observer or reduced motion. Make everything visible immediately.
         for (const el of document.querySelectorAll("[data-reveal]")) {
           el.classList.add("visible");
         }

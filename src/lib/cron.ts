@@ -18,7 +18,7 @@ export async function sendWeeklyPromo(): Promise<{ sent: number; simulated: bool
     .limit(500);
 
   let sent = 0;
-  const body = `Lonell's Soul Food weekly special! Use code SOUL10 for 10% off your next order. This week only — come through! Reply STOP to cancel.`;
+  const body = `Lonell's Soul Food weekly special! Use code SOUL10 for 10% off your next order. This week only, come through! Reply STOP to cancel.`;
 
   for (const sub of subscribers) {
     try {

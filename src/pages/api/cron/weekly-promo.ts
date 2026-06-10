@@ -3,7 +3,7 @@ import { sendWeeklyPromo } from "../../../lib/cron";
 
 export const prerender = false;
 
-// Vercel Cron Job endpoint — configure in vercel.json or dashboard
+// Vercel Cron Job endpoint. Configure in vercel.json or dashboard.
 export const GET: APIRoute = async () => {
   try {
     const result = await sendWeeklyPromo();

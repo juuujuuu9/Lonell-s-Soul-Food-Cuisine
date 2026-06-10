@@ -13,7 +13,7 @@ function log(level: "info" | "error", message: string, data?: Record<string, unk
 // ── Send SMS (real or simulated) ──
 export async function sendSms(to: string, body: string): Promise<{ success: boolean; messageId?: number; error?: string }> {
   if (!isDbReady()) {
-    log("error", "DB not configured — cannot log message", { to });
+    log("error", "DB not configured, cannot log message", { to });
     return { success: false, error: "Database not configured" };
   }
 

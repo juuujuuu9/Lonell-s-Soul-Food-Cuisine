@@ -211,7 +211,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     button.addEventListener("click", () => {
       const index = Number(button.getAttribute("data-lightbox-open"));
       dialog.showModal();
-      // Must set position after showModal() — the viewport has zero width
+      // Must set position after showModal() because the viewport has zero width
       // while the dialog is hidden, so indexToOffset would produce 0.
       goToIndex(index, false);
     });
