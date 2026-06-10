@@ -92,6 +92,7 @@ const isHome = Astro.url.pathname === "/";
       "url": siteUrl,
       "priceRange": "$$",
       "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:00", "closes": "21:00" },
@@ -118,7 +119,7 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "What are Lonell's hours of operation?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We are open Wednesday through Sunday. Closed Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We are open Tuesday through Sunday. Closed on Monday. Tuesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
         },
         {
           "@type": "Question",
@@ -128,7 +129,7 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "When is Sunday Brunch and what's special about it?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sunday Brunch is served from 11:00 AM to 5:00 PM with live music from 1:00 PM to 5:00 PM. Free champagne is included with your brunch. Seniors receive a 10% discount on Sundays." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Sunday Brunch is served from 11:00 AM to 5:00 PM with live music from 1:00 PM to 5:00 PM. Free champagne is included with your brunch. Seniors and government workers receive a 10% discount with valid ID." }
         },
         {
           "@type": "Question",
@@ -153,7 +154,7 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "Do you have private event spaces?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer two private event spaces: the Smoking Room and the Small Room, each with a maximum capacity of 50 guests. Perfect for birthday parties, anniversaries, corporate dinners, community events, and celebrations. Email reservations@lonells.com or call (323) 451-3104 to book." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer two private event spaces: the Dining Room and the Small Room, each with a maximum capacity of 50 guests. Perfect for birthday parties, anniversaries, corporate dinners, community events, and celebrations. Email reservations@lonells.com or call (323) 451-3104 to book." }
         },
         {
           "@type": "Question",
@@ -167,8 +168,8 @@ const isHome = Astro.url.pathname === "/";
         },
         {
           "@type": "Question",
-          "name": "Is there a senior discount?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer a 10% senior discount every Sunday. Just let your server know when you order." }
+                  "name": "Is there a senior or government worker discount?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes! We offer a 10% discount for seniors and government workers with valid ID every day. Just let your server know when you order." }
         },
         {
           "@type": "Question",

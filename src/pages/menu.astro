@@ -24,43 +24,15 @@ interface MenuCategory {
 
 const menuCategories: MenuCategory[] = [
   {
-    name: "Lunch Specials",
-    subtitle: { mobile: "Wed–Thu 11am–7pm\nFri–Sat 11am–9pm\nSun 11am–5pm", desktop: "Wed–Thu 11am–7pm · Fri–Sat 11am–9pm · Sun 11am–5pm" },
-    items: [
-      { name: "Catfish Sandwich with Fries and Drink", description: "Crispy catfish fillet, fries, and a drink", price: "$21.60" },
-      { name: "Turkey Chop Sandwich with Fries and Drink", description: "Cooked-to-order turkey chop sandwich with fries and a drink", price: "$24.00" },
-      { name: "Hamburger and Fries with Drink", description: "Classic burger, fries, and a drink", price: "$18.00" },
-      { name: "Cheeseburger, Fries with Drink", description: "Cheeseburger, fries, and a drink", price: "$20.40" },
-      { name: "Meatloaf and Two Sides", description: "Homestyle meatloaf with your choice of two sides", price: "$24.00" },
-      { name: "Fried Chicken Basket & Drink", description: "Crispy fried chicken basket with a drink", price: "$21.60" },
-      { name: "6 Piece Shrimp Basket & Drink", description: "Golden fried shrimp basket with a drink", price: "$24.00" },
-    ],
-  },
-  {
-    name: "Lunch Menu",
-    subtitle: "Served with 2 sides",
-    items: [
-      { name: "Baked Chicken Lunch", description: "Golden-brown, oven-roasted chicken", price: "$30.00" },
-      { name: "Fried Chicken Lunch", description: "Crispy, buttermilk-marinated fried chicken", price: "$30.00" },
-      { name: "Oxtails Lunch", description: "Slow-braised, fall-off-the-bone tender", price: "$40.80" },
-      { name: "Pork Chops Lunch", description: "Thick-cut, cooked to order", price: "$27.60" },
-      { name: "Turkey Chops Lunch", description: "Lean, cooked to order", price: "$30.00" },
-      { name: "Brisket Lunch", description: "Slow-smoked, tender, sliced and sauced", price: "$30.00" },
-      { name: "Catfish Lunch", description: "Crispy, Louisiana-style seasoned catfish", price: "$27.60" },
-      { name: "Meatloaf Lunch", description: "Homestyle meatloaf served with gravy", price: "$24.00" },
-      { name: "Salmon Lunch", description: "Perfectly seasoned salmon fillet", price: "$30.00" },
-    ],
-  },
-  {
     name: "Dinner Plates",
     subtitle: "Served with 2 sides",
     items: [
       { name: "Baked Chicken", description: "Golden-brown, oven-roasted chicken", price: "$31.20", slug: "baked-chicken" },
       { name: "Fried Chicken", description: "Crispy, buttermilk-marinated fried chicken", price: "$31.20", slug: "fried-chicken" },
       { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy", price: "$27.60", slug: "meatloaf" },
-      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Our most popular dish.", price: "$42.00", slug: "oxtails" },
-      { name: "Pork Chops", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20", slug: "pork-chops" },
-      { name: "Turkey Chops", description: "Cooked to order — a lean, flavorful alternative", price: "$36.00", slug: "turkey-chop" },
+      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Thursday–Sunday only.", price: "$42.00", slug: "oxtails" },
+      { name: "Pork Chop", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20", slug: "pork-chops" },
+      { name: "Turkey Chop", description: "Cooked to order — a lean, flavorful alternative", price: "$36.00", slug: "turkey-chop" },
       { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish", price: "$32.40", slug: "catfish" },
       { name: "Short Ribs", description: "Rich, braised short ribs. Friday & Saturday only.", price: "$36.00", slug: "short-ribs" },
       { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced", price: "$31.20", slug: "brisket" },
@@ -206,8 +178,6 @@ const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHe
 const categoryId = (name: string) => "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 const categoryIcons: Record<string, string> = {
-  "Lunch Specials": "clock",
-  "Lunch Menu": "sun",
   "Dinner Plates": "moon",
   "A La Carte Proteins": "drumstick",
   "Sides & Extras": "bowl",
@@ -216,8 +186,6 @@ const categoryIcons: Record<string, string> = {
 };
 
 const categoryDescriptions: Record<string, string> = {
-  "Lunch Specials": "Weekday value meals",
-  "Lunch Menu": "Plates with 2 sides",
   "Dinner Plates": "Hearty dinner entrees",
   "A La Carte Proteins": "Proteins, no sides",
   "Sides & Extras": "Classic Southern sides",
@@ -242,15 +210,15 @@ const iconPaths: Record<string, string> = {
   "@context": "https://schema.org",
   "@type": "Menu",
   "name": "Lonell's Soul Food Cuisine Menu",
-  "description": "Lunch specials, lunch plates, dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
+  "description": "Dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
   "hasMenuItem": [
     { "@type": "MenuItem", "name": "Oxtails Dinner", "offers": { "@type": "Offer", "price": "42.00", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Fried Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Baked Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Catfish Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Short Ribs Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Pork Chops Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Turkey Chops Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Pork Chop Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Turkey Chop Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Brisket Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Meatloaf Dinner", "offers": { "@type": "Offer", "price": "27.60", "priceCurrency": "USD" } },
     { "@type": "MenuItem", "name": "Salmon Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
@@ -260,7 +228,7 @@ const iconPaths: Record<string, string> = {
 
 <BaseLayout title="Menu" headerBackground={headerBackground}>
   <div class="min-h-screen pb-16">
-    <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Lunch plates and dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
+    <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <!-- Bento Quick-Select Grid -->
       <div id="bento-grid" class="mt-10 mb-16">
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
@@ -377,8 +345,8 @@ const iconPaths: Record<string, string> = {
       <!-- Promotions -->
       <div class="mt-16 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center">
         <span class="eyebrow" data-reveal>Special Offer</span>
-        <h3 class="font-display text-xl font-semibold mb-2" data-reveal>Senior Discount</h3>
-        <p class="text-sm text-[var(--color-text-secondary)]">10% off for seniors every Sunday</p>
+        <h3 class="font-display text-xl font-semibold mb-2" data-reveal>Discounts</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">10% off for seniors &amp; government workers with valid ID</p>
       </div>
 
       <div class="mt-16">

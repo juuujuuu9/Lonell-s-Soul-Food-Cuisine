@@ -142,7 +142,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "MENU") {
-    const reply = "Check out our menu at lonellssoulfood.com/menu. Favorites: Smothered Pork Chops, Fried Chicken, Catfish & Grits, and Sweet Potato Pie!";
+    const reply = "Check out our menu at lonellssoulfood.com/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!";
     await sendSms(from, reply);
     return reply;
   }

@@ -12,7 +12,7 @@ const headerBackground: PageHeaderBackground = {
 };
 ---
 
-<BaseLayout title="Contact & Hours" description="Find Lonell's Soul Food at 8501 S Vermont Ave, Los Angeles. Hours, parking, phone (323-451-3104), reservations, and directions. Closed Mon & Tue." headerBackground={headerBackground}>
+<BaseLayout title="Contact & Hours" description="Find Lonell's Soul Food at 8501 S Vermont Ave, Los Angeles. Hours, parking, phone (323-451-3104), reservations, and directions. Closed Mon." headerBackground={headerBackground}>
   <div class="min-h-screen pb-16">
     <Section eyebrow="Get In Touch" title="Contact & Location" description="We'd love to hear from you. Whether you're booking a table, ordering takeout, or planning an event — reach out anytime." />
 
@@ -86,8 +86,8 @@ const headerBackground: PageHeaderBackground = {
                   </tr>
                   <tr class="border-b border-[var(--color-border-subtle)]">
                     <td class="py-4 px-6 font-medium">Tuesday</td>
-                    <td class="py-4 px-6 text-[var(--color-text-muted)]">CLOSED</td>
-                    <td class="py-4 px-6 text-[var(--color-text-muted)]">—</td>
+                    <td class="py-4 px-6">11:00 AM – 7:00 PM</td>
+                    <td class="py-4 px-6"></td>
                   </tr>
                   <tr class="border-b border-[var(--color-border-subtle)]">
                     <td class="py-4 px-6 font-medium">Wednesday</td>
@@ -119,7 +119,7 @@ const headerBackground: PageHeaderBackground = {
             </div>
             <div class="mt-4 p-3 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
               <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">
-                <span class="text-[var(--color-accent)]">Sunday Specials:</span> Free champagne with brunch. 10% Senior Discount.
+                <span class="text-[var(--color-accent)]">Sunday Specials:</span> Free champagne with brunch. 10% Senior &amp; Government Worker Discount (valid ID required).
               </p>
             </div>
             </div>
@@ -127,7 +127,7 @@ const headerBackground: PageHeaderBackground = {
             <div>
               <h3 class="font-display text-xl font-semibold mb-4">Services</h3>
               <div class="grid grid-cols-2 gap-2">
-                {["Takeout", "Delivery", "Catering", "Reservations Accepted", "Good for Groups", "Casual Ambiance", "Pets Welcome", "Accepts Credit Cards", "Contactless Payments", "Live Entertainment", "Private Event Spaces", "Senior Discount"].map((service) => (
+                {["Takeout", "Delivery", "Catering", "Reservations Accepted", "Good for Groups", "Casual Ambiance", "Pets Welcome", "Accepts Credit Cards", "Contactless Payments", "Live Entertainment", "Private Event Spaces", "Senior & Gov Discount"].map((service) => (
                   <div class="flex items-center gap-2 text-sm text-[var(--color-text-secondary)]">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[var(--color-neon)] shrink-0">
                       <polyline points="20 6 9 17 4 12" />
