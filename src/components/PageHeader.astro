@@ -14,48 +14,65 @@ export interface PageHeaderBackground {
 
 export interface Props {
   background?: PageHeaderBackground;
+  backgrounds?: PageHeaderBackground[];
 }
 
-const { background } = Astro.props;
+const { background, backgrounds } = Astro.props;
+const randomBackgrounds = backgrounds && backgrounds.length > 1 ? backgrounds : undefined;
+const resolvedBackground = background ?? backgrounds?.[0];
 ---
 
 <header
   class:list={[
     "relative flex flex-col overflow-hidden",
-    background ? "min-h-[44vh] md:min-h-[36vh] lg:min-h-[32vh] bg-[var(--color-surface-base)]" : "min-h-[32vh] md:min-h-[25vh]",
+    resolvedBackground ? "min-h-[44vh] md:min-h-[36vh] lg:min-h-[32vh] bg-[var(--color-surface-base)]" : "min-h-[32vh] md:min-h-[25vh]",
   ]}
 >
   {
-    background && (
+    resolvedBackground && (
       <>
-        <picture class="absolute inset-0 -bottom-px min-h-full" aria-hidden="true">
+        <picture
+          id={randomBackgrounds ? "page-header-background" : undefined}
+          class="absolute inset-0 -bottom-px min-h-full"
+          aria-hidden="true"
+        >
           {
-            background.mobile && (
+            resolvedBackground.mobile && (
               <>
                 <source
                   media="(max-width: 767px)"
-                  srcset={`${background.mobile.webp} 1x${background.mobile.webp2x ? `, ${background.mobile.webp2x} 2x` : ""}`}
+                  srcset={`${resolvedBackground.mobile.webp} 1x${resolvedBackground.mobile.webp2x ? `, ${resolvedBackground.mobile.webp2x} 2x` : ""}`}
                   type="image/webp"
                 />
-                <source media="(max-width: 767px)" srcset={background.mobile.jpg} type="image/jpeg" />
+                <source media="(max-width: 767px)" srcset={resolvedBackground.mobile.jpg} type="image/jpeg" />
               </>
             )
           }
           <source
-            srcset={`${background.webp} 1x${background.webp2x ? `, ${background.webp2x} 2x` : ""}`}
+            data-header-webp-source
+            srcset={randomBackgrounds ? undefined : `${resolvedBackground.webp} 1x${resolvedBackground.webp2x ? `, ${resolvedBackground.webp2x} 2x` : ""}`}
             type="image/webp"
           />
           <img
-            src={background.jpg}
-            alt={background.alt ?? ""}
+            data-header-img
+            src={randomBackgrounds ? undefined : resolvedBackground.jpg}
+            alt={randomBackgrounds ? "" : (resolvedBackground.alt ?? "")}
             class:list={[
               "absolute inset-0 h-[calc(100%+1px)] w-full object-cover",
-              background.position === "top" ? "object-top" : "object-center",
+              resolvedBackground.position === "top" ? "object-top" : "object-center",
             ]}
             loading="eager"
             fetchpriority="high"
           />
         </picture>
+        {
+          randomBackgrounds && (
+            <script
+              is:inline
+              set:html={`(function(){var backgrounds=${JSON.stringify(randomBackgrounds)};var bg=backgrounds[Math.floor(Math.random()*backgrounds.length)];var picture=document.getElementById("page-header-background");if(!picture)return;var webp=picture.querySelector("[data-header-webp-source]");var img=picture.querySelector("[data-header-img]");if(webp){webp.srcset=bg.webp+" 1x"+(bg.webp2x?", "+bg.webp2x+" 2x":"");}if(img){img.src=bg.jpg;img.alt=bg.alt||"";}})();`}
+            />
+          )
+        }
         <div
           class="absolute inset-0 -bottom-px bg-gradient-to-b from-black/45 via-black/60 to-[#0a0a0a] pointer-events-none"
           aria-hidden="true"
@@ -70,7 +87,7 @@ const { background } = Astro.props;
   <div
     class:list={[
       "relative z-10 flex flex-1 items-center justify-center px-4",
-      background ? "pb-14 md:pb-16 lg:pb-12" : "pb-6 md:pb-8",
+      resolvedBackground ? "pb-14 md:pb-16 lg:pb-12" : "pb-6 md:pb-8",
     ]}
   >
     <a href="/" class="inline-flex max-md:translate-x-[2.1%]" aria-label="Lonell's Soul Food — Home">

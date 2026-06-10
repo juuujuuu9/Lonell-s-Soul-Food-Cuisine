@@ -153,8 +153,6 @@ const menuHeaderBackgrounds: PageHeaderBackground[] = foodPhotos.map((photo) => 
   alt: photo.alt,
 }));
 
-const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHeaderBackgrounds.length)];
-
 // Category navigation helpers
 const categoryId = (name: string) => "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
@@ -207,7 +205,7 @@ const iconPaths: Record<string, string> = {
   ]
 })}></script>
 
-<BaseLayout title="Menu" headerBackground={headerBackground}>
+<BaseLayout title="Menu" headerBackgrounds={menuHeaderBackgrounds}>
   <div class="min-h-screen pb-16">
     <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <!-- Bento Quick-Select Grid -->

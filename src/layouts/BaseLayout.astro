@@ -11,6 +11,7 @@ export interface Props {
   description?: string;
   ogImage?: string;
   headerBackground?: PageHeaderBackground;
+  headerBackgrounds?: PageHeaderBackground[];
 }
 
 const siteName = "Lonell's Soul Food Cuisine";
@@ -18,7 +19,7 @@ const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday
 const defaultOgImage = "/og-default.jpg";
 const siteUrl = "https://lonells.com";
 
-const { title, description = defaultDescription, ogImage = defaultOgImage, headerBackground } = Astro.props;
+const { title, description = defaultDescription, ogImage = defaultOgImage, headerBackground, headerBackgrounds } = Astro.props;
 const pageTitle = title === "Home" ? `${siteName} | Authentic Soul Food & Live Jazz in South LA` : `${title} | ${siteName}`;
 const isHome = Astro.url.pathname === "/";
 ---
@@ -58,7 +59,7 @@ const isHome = Astro.url.pathname === "/";
       <link rel="preload" href="/media/images/lonells-logo.webp" as="image" type="image/webp" fetchpriority="high" />
     ) : (
       <>
-        {headerBackground ? (
+        {headerBackground && !headerBackgrounds?.length ? (
           <link rel="preload" href={headerBackground.webp} as="image" type="image/webp" fetchpriority="high" />
         ) : null}
         <link rel="preload" href="/media/images/lonells-gold-logo.webp" as="image" type="image/webp" fetchpriority="high" />
@@ -195,7 +196,7 @@ const isHome = Astro.url.pathname === "/";
 
     <main id="main-content" class="relative">
       <TopMenuBar />
-      {!isHome && <PageHeader background={headerBackground} />}
+      {!isHome && <PageHeader background={headerBackground} backgrounds={headerBackgrounds} />}
       <slot />
     </main>
 
