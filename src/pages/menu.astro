@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ImageLightboxGallery from "../components/ImageLightboxGallery.astro";
 import Section from "../components/Section.astro";
 import type { PageHeaderBackground } from "../components/PageHeader.astro";
+import { foodPhotos } from "../data/menu";
 
 interface MenuItem {
   name: string;
@@ -145,32 +146,12 @@ const menuPhotos = [
   },
 ];
 
-const menuHeaderBackgrounds: PageHeaderBackground[] = [
-  {
-    webp: "/media/images/menu-header-wide.webp",
-    webp2x: "/media/images/menu-header-wide@2x.webp",
-    jpg: "/media/images/menu-header-wide.jpg",
-    alt: "Southern soul food — collard greens, red beans, mac and cheese, oxtails, and fried chicken at Lonell's",
-  },
-  {
-    webp: "/media/images/menu-header.webp",
-    webp2x: "/media/images/menu-header@2x.webp",
-    jpg: "/media/images/menu-header.jpg",
-    alt: "Southern soul food plate with collard greens, candied yams, mac and cheese, and cornbread at Lonell's",
-  },
-  {
-    webp: "/media/images/menu-header-feast.webp",
-    webp2x: "/media/images/menu-header-feast@2x.webp",
-    jpg: "/media/images/menu-header-feast.jpg",
-    alt: "Full soul food spread — oxtails, fried chicken, collard greens, candied yams, mac and cheese, and cornbread at Lonell's",
-  },
-  {
-    webp: "/media/images/menu-header-plate.webp",
-    webp2x: "/media/images/menu-header-plate@2x.webp",
-    jpg: "/media/images/menu-header-plate.jpg",
-    alt: "Southern vegetable plate with collard greens, seasoned beans, and cornbread at Lonell's",
-  },
-];
+const menuHeaderBackgrounds: PageHeaderBackground[] = foodPhotos.map((photo) => ({
+  webp: photo.webp,
+  webp2x: photo.webp2x,
+  jpg: photo.jpg,
+  alt: photo.alt,
+}));
 
 const headerBackground = menuHeaderBackgrounds[Math.floor(Math.random() * menuHeaderBackgrounds.length)];
 
@@ -314,6 +295,13 @@ const iconPaths: Record<string, string> = {
                   )
                 )}
               </div>
+              {
+                category.name === "Dinner Plates" && (
+                  <div class="mb-8">
+                    <ImageLightboxGallery photos={foodPhotos} mobileCarousel layout="row5" />
+                  </div>
+                )
+              }
               <div class="space-y-6">
                 {category.items.map((item) => (
                   <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">

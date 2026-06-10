@@ -9,7 +9,22 @@ export interface Dish {
   seoTitle: string;
   seoDescription: string;
   image?: string;
+  imageAlt?: string;
 }
+
+export interface FoodPhoto {
+  slug: string;
+  name: string;
+  webp: string;
+  webp2x: string;
+  jpg: string;
+  full: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+const FOOD_PHOTO_SIZE = { width: 1024, height: 808 } as const;
 
 export const dishes: Dish[] = [
   {
@@ -23,6 +38,7 @@ export const dishes: Dish[] = [
     seoTitle: "Oxtails — Best Soul Food Oxtails in South Los Angeles | Lonell's",
     seoDescription: "Try Lonell's award-winning oxtails in South LA. Slow-braised, fall-off-the-bone tender, served with two Southern sides. Available Thursday–Sunday. Dine-in, takeout, or delivery.",
     image: "/media/images/oxtails.webp",
+    imageAlt: "Slow-braised oxtail dinner with collard greens, candied yams, and red beans at Lonell's Soul Food",
   },
   {
     slug: "fried-chicken",
@@ -35,6 +51,7 @@ export const dishes: Dish[] = [
     seoTitle: "Fried Chicken — Best Soul Food Fried Chicken in South LA | Lonell's",
     seoDescription: "Crispy, juicy fried chicken at Lonell's Soul Food in South Los Angeles. Buttermilk-marinated, hand-dredged, and fried to order. Served with two sides. Dine-in or takeout.",
     image: "/media/images/fried-chicken.webp",
+    imageAlt: "Crispy fried chicken dinner with string beans, red beans and rice, and candied yams at Lonell's Soul Food",
   },
   {
     slug: "catfish",
@@ -46,7 +63,6 @@ export const dishes: Dish[] = [
     dietaryTags: ["Gluten-Free option"],
     seoTitle: "Catfish — Louisiana-Style Fried Catfish in South LA | Lonell's",
     seoDescription: "Crispy Louisiana-style fried catfish at Lonell's Soul Food in South Los Angeles. Cornmeal-dusted, perfectly seasoned, served with two sides. Dine-in, takeout, or delivery.",
-    image: "/media/images/catfish.webp",
   },
   {
     slug: "short-ribs",
@@ -58,7 +74,6 @@ export const dishes: Dish[] = [
     dietaryTags: ["Gluten-Free option"],
     seoTitle: "Short Ribs — Weekend Special Braised Short Ribs South LA | Lonell's",
     seoDescription: "Weekend-only slow-braised short ribs at Lonell's Soul Food in South Los Angeles. Butter-tender, rich sauce, served with two sides. Available Friday & Saturday. Dine-in or takeout.",
-    image: "/media/images/short-ribs.webp",
   },
   {
     slug: "pork-chops",
@@ -71,6 +86,7 @@ export const dishes: Dish[] = [
     seoTitle: "Pork Chop — Thick-Cut Soul Food Pork Chop in South LA | Lonell's",
     seoDescription: "Thick-cut, seasoned-to-order pork chop at Lonell's Soul Food in South Los Angeles. Pan-seared and juicy, served with two Southern sides. Dine-in, takeout, or delivery.",
     image: "/media/images/pork-chops.webp",
+    imageAlt: "Golden fried pork chop dinner with collard greens, candied yams, and red beans at Lonell's Soul Food",
   },
   {
     slug: "meatloaf",
@@ -83,6 +99,7 @@ export const dishes: Dish[] = [
     seoTitle: "Meatloaf — Homestyle Soul Food Meatloaf in South LA | Lonell's",
     seoDescription: "Homestyle meatloaf at Lonell's Soul Food in South Los Angeles. Rich, savory, served with gravy and two Southern sides. Dine-in, takeout, or delivery.",
     image: "/media/images/meatloaf.webp",
+    imageAlt: "Homestyle meatloaf with savory gravy, green beans, mac and cheese, and rice at Lonell's Soul Food",
   },
   {
     slug: "turkey-chop",
@@ -94,7 +111,6 @@ export const dishes: Dish[] = [
     dietaryTags: ["Gluten-Free option", "Lean"],
     seoTitle: "Turkey Chop — Lean Soul Food Turkey Chop in South LA | Lonell's",
     seoDescription: "Lean, flavorful turkey chop at Lonell's Soul Food in South Los Angeles. Cooked to order, served with two Southern sides. A lighter soul food option. Dine-in or takeout.",
-    image: "/media/images/turkey-chop.webp",
   },
   {
     slug: "brisket",
@@ -106,7 +122,6 @@ export const dishes: Dish[] = [
     dietaryTags: ["Gluten-Free option"],
     seoTitle: "Brisket — Slow-Smoked Soul Food Brisket in South LA | Lonell's",
     seoDescription: "Slow-smoked brisket at Lonell's Soul Food in South Los Angeles. Tender, sliced and sauced, served with two Southern sides. Dine-in, takeout, or delivery.",
-    image: "/media/images/brisket.webp",
   },
   {
     slug: "baked-chicken",
@@ -118,7 +133,6 @@ export const dishes: Dish[] = [
     dietaryTags: ["Gluten-Free option"],
     seoTitle: "Baked Chicken — Oven-Roasted Soul Food Chicken in South LA | Lonell's",
     seoDescription: "Oven-roasted baked chicken at Lonell's Soul Food in South Los Angeles. Golden-brown, perfectly seasoned, served with two sides. A lighter soul food option. Dine-in or takeout.",
-    image: "/media/images/baked-chicken.webp",
   },
   {
     slug: "salmon",
@@ -131,6 +145,7 @@ export const dishes: Dish[] = [
     seoTitle: "Salmon — Seasoned Salmon Fillet in South LA | Lonell's",
     seoDescription: "Pan-seared salmon fillet at Lonell's Soul Food in South Los Angeles. Perfectly seasoned, flaky, served with two Southern sides. Dine-in, takeout, or delivery.",
     image: "/media/images/salmon.webp",
+    imageAlt: "Seasoned salmon fillet with mashed potatoes and red beans at Lonell's Soul Food",
   },
   {
     slug: "peach-cobbler",
@@ -142,10 +157,33 @@ export const dishes: Dish[] = [
     dietaryTags: ["Vegetarian"],
     seoTitle: "Peach Cobbler — Southern-Style Peach Cobbler in South LA | Lonell's",
     seoDescription: "Warm Southern-style peach cobbler at Lonell's Soul Food in South Los Angeles. Spiced peaches, buttery golden crust, made in-house. The perfect soul food dessert.",
-    image: "/media/images/peach-cobbler.webp",
   },
 ];
 
+export const foodPhotos: FoodPhoto[] = dishes
+  .filter((dish): dish is Dish & { image: string; imageAlt: string } => Boolean(dish.image && dish.imageAlt))
+  .map((dish) => {
+    const base = dish.image.replace(/\.webp$/, "");
+    return {
+      slug: dish.slug,
+      name: dish.name,
+      alt: dish.imageAlt,
+      webp: dish.image,
+      webp2x: `${base}@2x.webp`,
+      jpg: `${base}.jpg`,
+      full: `${base}@2x.webp`,
+      ...FOOD_PHOTO_SIZE,
+    };
+  });
+
+export const featuredDishSlugs = ["oxtails", "fried-chicken", "pork-chops"] as const;
+
 export function getDishBySlug(slug: string): Dish | undefined {
   return dishes.find((d) => d.slug === slug);
+}
+
+export function getFeaturedDishes(): Dish[] {
+  return featuredDishSlugs
+    .map((slug) => getDishBySlug(slug))
+    .filter((dish): dish is Dish => Boolean(dish));
 }

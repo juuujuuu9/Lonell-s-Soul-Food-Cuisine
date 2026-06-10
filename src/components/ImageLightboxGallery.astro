@@ -13,9 +13,11 @@ interface Props {
   photos: GalleryPhoto[];
   class?: string;
   mobileCarousel?: boolean;
+  layout?: "default" | "row5";
 }
 
-const { photos, class: className = "", mobileCarousel = false } = Astro.props;
+const { photos, class: className = "", mobileCarousel = false, layout = "default" } = Astro.props;
+const gridLayoutClass = layout === "row5" ? "gallery-grid-row5" : "";
 const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
@@ -31,14 +33,14 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
               data-lightbox-open={index}
               aria-label={`View larger: ${photo.alt}`}
             >
-              <picture class="block">
+              <picture class="block w-full" style={`aspect-ratio: ${photo.width} / ${photo.height}`}>
                 <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
                 <img
                   src={photo.jpg}
                   alt={photo.alt}
                   width={photo.width}
                   height={photo.height}
-                  class="w-full h-full object-cover aspect-[4/3] transition-transform duration-300 group-active:scale-105"
+                  class="w-full h-full object-cover transition-transform duration-300 group-active:scale-105"
                   loading="lazy"
                 />
               </picture>
@@ -49,7 +51,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     ) : null
   }
 
-  <div class={`gallery-grid ${mobileCarousel ? "gallery-grid-responsive" : "gallery-grid-static"}`}>
+  <div class={`gallery-grid ${mobileCarousel ? "gallery-grid-responsive" : "gallery-grid-static"} ${gridLayoutClass}`}>
     {
       photos.map((photo, index) => (
         <button
@@ -58,7 +60,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
           data-lightbox-open={index}
           aria-label={`View larger: ${photo.alt}`}
         >
-          <div class="gallery-tile-frame">
+          <div class="gallery-tile-frame" style={`aspect-ratio: ${photo.width} / ${photo.height}`}>
             <picture>
               <source srcset={`${photo.webp} 1x, ${photo.webp2x} 2x`} type="image/webp" />
               <img
@@ -364,7 +366,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
 
   @media (min-width: 640px) {
     .gallery-grid-static {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -375,13 +377,18 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
   @media (min-width: 768px) {
     .gallery-grid-responsive {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1024px) {
     .gallery-grid-responsive {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .gallery-grid-row5.gallery-grid-responsive {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0.75rem;
     }
   }
 
@@ -406,9 +413,8 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
     position: relative;
     display: block;
     width: 100%;
-    aspect-ratio: 4 / 3;
     overflow: hidden;
-    background: var(--color-surface-card);
+    background: #000;
   }
 
   .gallery-tile-frame picture {
@@ -434,16 +440,7 @@ const galleryId = `lightbox-${Math.random().toString(36).slice(2, 9)}`;
 
   @media (min-width: 640px) {
     .gallery-grid {
-      align-items: stretch;
-    }
-
-    .gallery-grid .gallery-tile-frame {
-      aspect-ratio: 3 / 4;
-    }
-
-    .gallery-grid .gallery-tile-image {
-      object-fit: contain;
-      object-position: center;
+      align-items: start;
     }
   }
 

@@ -11,6 +11,8 @@ export function getStaticPaths() {
 
 const { dish } = Astro.props;
 const imageSrc = dish.image || "/media/images/wide-bar-lg.webp";
+const imageAlt = dish.imageAlt || `${dish.name} at Lonell's Soul Food`;
+const hasDishPhoto = Boolean(dish.image);
 ---
 
 <BaseLayout title={dish.name} description={dish.seoDescription}>
@@ -20,6 +22,7 @@ const imageSrc = dish.image || "/media/images/wide-bar-lg.webp";
     "@type": "MenuItem",
     "name": `${dish.name} — Lonell's Soul Food Cuisine`,
     "description": dish.longDescription,
+    "image": hasDishPhoto ? new URL(imageSrc, Astro.site ?? "https://lonells.com").href : undefined,
     "offers": {
       "@type": "Offer",
       "price": dish.price ? dish.price.replace("$", "") : "",
@@ -31,6 +34,20 @@ const imageSrc = dish.image || "/media/images/wide-bar-lg.webp";
   <div class="min-h-screen pb-16">
     <!-- Hero section -->
     <div class="relative h-[40vh] md:h-[50vh] overflow-hidden bg-[var(--color-surface-card)]">
+      {
+        hasDishPhoto && (
+          <picture class="absolute inset-0" aria-hidden="true">
+            <source srcset={`${imageSrc} 1x, ${imageSrc.replace(".webp", "@2x.webp")} 2x`} type="image/webp" />
+            <img
+              src={imageSrc.replace(".webp", ".jpg")}
+              alt=""
+              class="absolute inset-0 h-full w-full object-cover object-center"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </picture>
+        )
+      }
       <div class="absolute inset-0 bg-gradient-to-br from-[var(--color-brand-amber)]/10 to-transparent" />
       <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-surface-base)] via-black/40 to-transparent" />
       <div class="absolute bottom-0 left-0 right-0 p-6 md:p-12">
@@ -62,6 +79,28 @@ const imageSrc = dish.image || "/media/images/wide-bar-lg.webp";
         </div>
 
         <p class="text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed mb-8">{dish.longDescription}</p>
+
+        {
+          hasDishPhoto && (
+            <figure class="mb-8 overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+              <picture>
+                <source srcset={`${imageSrc} 1x, ${imageSrc.replace(".webp", "@2x.webp")} 2x`} type="image/webp" />
+                <img
+                  src={imageSrc.replace(".webp", ".jpg")}
+                  alt={imageAlt}
+                  width={1024}
+                  height={808}
+                  class="w-full h-auto object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+              <figcaption class="px-4 py-3 text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border-subtle)]">
+                Served with your choice of two sides
+              </figcaption>
+            </figure>
+          )
+        }
 
         <!-- CTAs -->
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-6 border-t border-[var(--color-border-subtle)]">
