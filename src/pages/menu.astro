@@ -292,26 +292,22 @@ const iconPaths: Record<string, string> = {
         aria-label="Menu categories"
       >
         <div class="bg-[var(--color-surface-card)]/90 backdrop-blur-md border-b border-[var(--color-border-subtle)]">
-          <div class="max-w-4xl mx-auto px-4 md:px-6">
-            <nav class="flex gap-2 overflow-x-auto py-3 hide-scrollbar" role="tablist">
+          <div class="w-full py-2.5 px-4 md:px-6 lg:flex lg:justify-center">
+            <nav class="flex gap-1.5 xl:gap-2 overflow-x-auto hide-scrollbar w-full max-w-full lg:w-auto lg:inline-flex lg:overflow-x-visible" role="tablist">
               {menuCategories.map((category) => {
                 const id = categoryId(category.name);
                 return (
                   <button
                     data-pill
                     data-category={id}
-                    class="shrink-0 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap border transition-all duration-300 cursor-pointer
+                    class="shrink-0 px-3 py-1.5 rounded-full text-[10px] sm:text-[11px] font-display font-semibold tracking-wide uppercase leading-none whitespace-nowrap border transition-all duration-300 cursor-pointer
                       border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)]
-                      active:bg-[var(--color-surface-hover)]"
+                      active:bg-[var(--color-surface-hover)] inline-flex items-center justify-center text-center
+                      xl:px-3 xl:py-2 xl:text-xs xl:tracking-wider"
                     role="tab"
                     aria-selected="false"
                   >
-                    <span class="inline-flex items-center gap-1.5">
-                      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="w-4 h-4 shrink-0" aria-hidden="true">
-                        {iconPaths[categoryIcons[category.name]]}
-                      </svg>
-                      {category.name}
-                    </span>
+                    {category.name}
                   </button>
                 );
               })}
@@ -398,9 +394,6 @@ const iconPaths: Record<string, string> = {
     border-color: var(--color-brand-amber);
     color: #000;
   }
-  [data-pill].active svg {
-    stroke: #000;
-  }
 
   /* Bento card active/focus state */
   [data-bento-card]:focus-visible {
@@ -429,6 +422,8 @@ const iconPaths: Record<string, string> = {
     const sections = document.querySelectorAll<HTMLElement>("[data-category-section]");
 
     if (!bentoGrid || !pillBar || !pills.length || !sections.length) return;
+
+    const pillNav = pillBar.querySelector<HTMLElement>("nav");
 
     // ── Scroll-to-section helper ──
     const scrollToCategory = (id: string) => {
@@ -460,17 +455,35 @@ const iconPaths: Record<string, string> = {
     // Show the pill bar when the bento grid's bottom edge passes the top of the viewport
     let bentoThreshold = bentoGrid.offsetTop + bentoGrid.offsetHeight;
 
+    const scrollPillIntoView = (pill: HTMLButtonElement) => {
+      if (!pillNav || window.innerWidth >= 1024) return;
+      const padding = 16;
+      const navRect = pillNav.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      const overflowLeft = pillRect.left - navRect.left - padding;
+      const overflowRight = pillRect.right - navRect.right + padding;
+
+      if (overflowLeft < 0) {
+        pillNav.scrollBy({ left: overflowLeft, behavior: "smooth" });
+      } else if (overflowRight > 0) {
+        pillNav.scrollBy({ left: overflowRight, behavior: "smooth" });
+      }
+    };
+
     // ── Active section tracking with IntersectionObserver ──
     let activeId: string | null = null;
 
     const updateActivePill = (id: string | null) => {
       if (id === activeId) return;
       activeId = id;
+      let activePill: HTMLButtonElement | null = null;
       for (const pill of pills) {
         const match = pill.getAttribute("data-category") === id;
         pill.classList.toggle("active", match);
         pill.setAttribute("aria-selected", String(match));
+        if (match) activePill = pill;
       }
+      if (activePill) scrollPillIntoView(activePill);
     };
 
     // Determine the root margin so we trigger early enough.
