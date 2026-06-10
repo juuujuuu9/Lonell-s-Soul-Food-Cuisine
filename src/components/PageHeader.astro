@@ -4,6 +4,7 @@ export interface PageHeaderBackground {
   webp2x?: string;
   jpg: string;
   alt?: string;
+  position?: "center" | "top";
   mobile?: {
     webp: string;
     webp2x?: string;
@@ -47,7 +48,10 @@ const { background } = Astro.props;
           <img
             src={background.jpg}
             alt={background.alt ?? ""}
-            class="absolute inset-0 h-[calc(100%+1px)] w-full object-cover object-center"
+            class:list={[
+              "absolute inset-0 h-[calc(100%+1px)] w-full object-cover",
+              background.position === "top" ? "object-top" : "object-center",
+            ]}
             loading="eager"
             fetchpriority="high"
           />

@@ -1,9 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import type { PageHeaderBackground } from "../components/PageHeader.astro";
 import Section from "../components/Section.astro";
+
+const headerBackground: PageHeaderBackground = {
+  webp: "/media/images/contact-header.webp",
+  webp2x: "/media/images/contact-header@2x.webp",
+  jpg: "/media/images/contact-header.jpg",
+  alt: "Lonell's bar with Welcome neon sign and seating",
+  position: "top",
+};
 ---
 
-<BaseLayout title="Contact & Hours" description="Find Lonell's Soul Food at 8501 S Vermont Ave, Los Angeles. Hours, parking, phone (323-451-3104), reservations, and directions. Closed Mon & Tue.">
+<BaseLayout title="Contact & Hours" description="Find Lonell's Soul Food at 8501 S Vermont Ave, Los Angeles. Hours, parking, phone (323-451-3104), reservations, and directions. Closed Mon & Tue." headerBackground={headerBackground}>
   <div class="min-h-screen pb-16">
     <Section eyebrow="Get In Touch" title="Contact & Location" description="We'd love to hear from you. Whether you're booking a table, ordering takeout, or planning an event — reach out anytime." />
 
