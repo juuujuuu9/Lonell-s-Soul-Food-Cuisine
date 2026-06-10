@@ -9,7 +9,6 @@ interface MenuItem {
   name: string;
   description: string;
   price: string;
-  slug?: string;
 }
 
 interface MenuSubtitle {
@@ -28,15 +27,15 @@ const menuCategories: MenuCategory[] = [
     name: "Dinner Plates",
     subtitle: "Served with 2 sides",
     items: [
-      { name: "Baked Chicken", description: "Golden-brown, oven-roasted chicken", price: "$31.20", slug: "baked-chicken" },
-      { name: "Fried Chicken", description: "Crispy, buttermilk-marinated fried chicken", price: "$31.20", slug: "fried-chicken" },
-      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy", price: "$27.60", slug: "meatloaf" },
-      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Thursday–Sunday only.", price: "$42.00", slug: "oxtails" },
-      { name: "Pork Chop", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20", slug: "pork-chops" },
-      { name: "Turkey Chop", description: "Cooked to order — a lean, flavorful alternative", price: "$36.00", slug: "turkey-chop" },
-      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish", price: "$32.40", slug: "catfish" },
-      { name: "Short Ribs", description: "Rich, braised short ribs. Friday & Saturday only.", price: "$36.00", slug: "short-ribs" },
-      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced", price: "$31.20", slug: "brisket" },
+      { name: "Baked Chicken", description: "Golden-brown, oven-roasted chicken", price: "$31.20" },
+      { name: "Fried Chicken", description: "Crispy, buttermilk-marinated fried chicken", price: "$31.20" },
+      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy", price: "$27.60" },
+      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Thursday–Sunday only.", price: "$42.00" },
+      { name: "Pork Chop", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20" },
+      { name: "Turkey Chop", description: "Cooked to order — a lean, flavorful alternative", price: "$36.00" },
+      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish", price: "$32.40" },
+      { name: "Short Ribs", description: "Rich, braised short ribs. Friday & Saturday only.", price: "$36.00" },
+      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced", price: "$31.20" },
       { name: "Salmon", description: "Perfectly seasoned salmon fillet", price: "$32.40" },
     ],
   },
@@ -75,7 +74,7 @@ const menuCategories: MenuCategory[] = [
     items: [
       { name: "Pound Cake", description: "Classic buttery pound cake", price: "$6.00" },
       { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, and homemade custard", price: "$7.20" },
-      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "$8.40", slug: "peach-cobbler" },
+      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "$8.40" },
     ],
   },
   {
@@ -304,15 +303,7 @@ const iconPaths: Record<string, string> = {
                 {category.items.map((item) => (
                   <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
                     <div>
-                      <h4 class="font-display text-lg font-medium">
-                        {item.slug ? (
-                          <a href={`/menu/${item.slug}`} class="hover:text-[var(--color-accent)] transition-colors">
-                            {item.name}
-                          </a>
-                        ) : (
-                          item.name
-                        )}
-                      </h4>
+                      <h4 class="font-display text-lg font-medium">{item.name}</h4>
                       {item.description && (
                         <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
                       )}
