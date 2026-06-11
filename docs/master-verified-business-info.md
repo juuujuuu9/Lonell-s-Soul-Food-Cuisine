@@ -17,7 +17,7 @@
 | **Cuisine** | Soul Food / Southern |
 | **Address** | 8501 S. Vermont Ave., Los Angeles, CA 90044 |
 | **Phone** | (323) 451-3104 |
-| **Email** | reservations@lonells.com |
+| **Email** | reservations@lonellssoulfood.com |
 | **Website** | www.lonells.com |
 
 ---
@@ -49,7 +49,7 @@ From official print menu (page 1 — "Event Spaces"):
 | Small Room | 50 |
 
 - Booking: **Now Booking**
-- Contact: reservations@lonells.com · (323) 451-3104
+- Contact: reservations@lonellssoulfood.com · (323) 451-3104
 
 ### ⚠️ Discrepancy — confirm with client
 
