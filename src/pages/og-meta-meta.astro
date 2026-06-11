@@ -1,0 +1,492 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+
+// ── Source-of-truth data extracted from BaseLayout.astro, astro.config.mjs, robots.txt, etc. ──
+
+const siteName = "Lonell's Soul Food Cuisine";
+const siteUrl = "https://lonellssoulfood.com";
+const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday brunch in South Los Angeles. Oxtails, fried chicken, private events. 'A Place of Love.' (323) 451-3104";
+
+// ── Open Graph / Twitter ──
+const ogTagSpecs = [
+  {
+    category: "Open Graph",
+    items: [
+      { name: "og:title", content: `Home | ${siteName} | Authentic Soul Food & Live Jazz in South LA`, source: "BaseLayout.astro:43" },
+      { name: "og:description", content: defaultDescription, source: "BaseLayout.astro:44" },
+      { name: "og:image", content: "/og-default.jpg", resolved: `${siteUrl}/og-default.jpg`, source: "BaseLayout.astro:20,42" },
+      { name: "og:type", content: "website", source: "BaseLayout.astro:45" },
+      { name: "og:site_name", content: siteName, source: "BaseLayout.astro:46" },
+      { name: "og:url", content: `${siteUrl}/<current-path>`, source: "BaseLayout.astro:47" },
+    ],
+  },
+  {
+    category: "Twitter Card",
+    items: [
+      { name: "twitter:card", content: "summary_large_image", source: "BaseLayout.astro:50" },
+      { name: "twitter:title", content: `Home | ${siteName} | ...`, source: "BaseLayout.astro:51" },
+      { name: "twitter:description", content: defaultDescription, source: "BaseLayout.astro:52" },
+      { name: "twitter:image", content: `${siteUrl}/og-default.jpg`, source: "BaseLayout.astro:51" },
+    ],
+  },
+];
+
+// ── Standard meta ──
+const standardMeta = [
+  { tag: "meta charset", value: "UTF-8", source: "BaseLayout.astro:33" },
+  { tag: "meta viewport", value: "width=device-width, initial-scale=1.0", source: "BaseLayout.astro:34" },
+  { tag: "title", value: `Home | ${siteName} | Authentic Soul Food & Live Jazz in South LA`, source: "BaseLayout.astro:35" },
+  { tag: "meta description", value: defaultDescription, source: "BaseLayout.astro:36" },
+  { tag: "link rel=canonical", value: `${siteUrl}/<current-path>`, source: "BaseLayout.astro:39" },
+  { tag: "meta robots (when noindex)", value: "noindex, nofollow", source: "BaseLayout.astro:54" },
+];
+
+// ── Font preconnects ──
+const fontAssets = [
+  { url: "https://fonts.googleapis.com", type: "preconnect", source: "BaseLayout.astro:59" },
+  { url: "https://fonts.gstatic.com", type: "preconnect (crossorigin)", source: "BaseLayout.astro:60" },
+  { family: "Arbutus Slab", weights: "400", type: "font", source: "BaseLayout.astro:61" },
+  { family: "Inter", weights: "300, 400, 500, 600, 700", type: "font", source: "BaseLayout.astro:61" },
+];
+
+// ── Preloaded images ──
+const preloads = [
+  { href: "/media/images/wide-bar-lg.webp", type: "image/webp", fetchpriority: "high", condition: "always", source: "BaseLayout.astro:64" },
+  { href: "/media/images/lonells-logo.webp", type: "image/webp", fetchpriority: "high", condition: "homepage only", source: "BaseLayout.astro:66" },
+  { href: "/media/images/lonells-gold-logo.webp", type: "image/webp", fetchpriority: "high", condition: "subpages only", source: "BaseLayout.astro:72" },
+  { href: "/media/images/<header-bg>.webp", type: "image/webp", fetchpriority: "high", condition: "subpages with headerBackground", source: "BaseLayout.astro:70" },
+];
+
+// ── Schema.org (structured data) ──
+const schemaSections = [
+  {
+    label: "Restaurant / FoodEstablishment",
+    type: "application/ld+json",
+    source: "BaseLayout.astro:77-113",
+    fields: [
+      '@type', 'name', 'alternateName', 'description', 'servesCuisine', 'image',
+      'telephone', 'email', 'address', 'geo', 'url', 'priceRange',
+      'openingHoursSpecification', 'hasMenu', 'acceptsReservations', 'paymentAccepted',
+      'currenciesAccepted', 'areaServed',
+    ],
+  },
+  {
+    label: "FAQPage (13 questions)",
+    type: "application/ld+json",
+    source: "BaseLayout.astro:116-186",
+    fields: [
+      '@type', 'mainEntity[13]',
+    ],
+  },
+];
+
+// ── Favicon / Icons ──
+const faviconSpecs = [
+  { label: "favicon.ico", path: "/favicon.ico", size: "32×32 (16+32 multi)", source: "BaseLayout.astro + scripts/generate-icons.mjs" },
+  { label: "favicon-32.png", path: "/favicon-32.png", size: "32×32", source: "BaseLayout.astro" },
+  { label: "favicon-16.png", path: "/favicon-16.png", size: "16×16", source: "BaseLayout.astro" },
+  { label: "apple-touch-icon.png", path: "/apple-touch-icon.png", size: "180×180", source: "BaseLayout.astro" },
+  { label: "icon-192.png", path: "/icon-192.png", size: "192×192", source: "site.webmanifest" },
+  { label: "icon-512.png", path: "/icon-512.png", size: "512×512", source: "site.webmanifest" },
+  { label: "site.webmanifest", path: "/site.webmanifest", size: "—", source: "BaseLayout.astro + scripts/generate-icons.mjs" },
+  { label: "OG Image", path: "/og-default.jpg", size: "1200×630", source: "BaseLayout.astro:20" },
+];
+
+// Check which media images exist for the image inventory
+const imageInventory = [
+  { file: "/media/images/lonells-logo.webp", role: "Hero logo (homepage)" },
+  { file: "/media/images/lonells-gold-logo.webp", role: "Gold logo (subpages)" },
+  { file: "/media/images/wide-bar-lg.webp", role: "Wide bar hero bg" },
+  { file: "/media/images/storefront-exterior.webp", role: "Storefront exterior" },
+  { file: "/media/images/dining-bar.webp", role: "Dining / bar interior" },
+  { file: "/media/images/oxtails.webp", role: "Signature dish (oxtails)" },
+  { file: "/media/images/fried-chicken.webp", role: "Signature dish (fried chicken)" },
+  { file: "/media/images/salmon.webp", role: "Menu item (salmon)" },
+  { file: "/media/images/pork-chops.webp", role: "Menu item (pork chops)" },
+  { file: "/media/images/meatloaf.webp", role: "Menu item (meatloaf)" },
+  { file: "/media/images/event-room-1.webp", role: "Private event room" },
+  { file: "/media/images/street-corner.webp", role: "Street corner view" },
+  { file: "/media/images/contact-header.webp", role: "Contact header" },
+  { file: "/media/images/bar-daytime.webp", role: "Bar daytime" },
+  { file: "/media/images/bar-far-end.webp", role: "Bar far end" },
+  { file: "/media/images/bar-pitchers.webp", role: "Bar pitchers" },
+  { file: "/media/images/interior-dining.webp", role: "Interior dining" },
+  { file: "/media/images/side-tables-dining.webp", role: "Side tables dining" },
+  { file: "/media/images/dining-from-rear.webp", role: "Dining from rear" },
+  { file: "/media/images/front-street-corner.webp", role: "Front street corner" },
+  { file: "/media/images/street-window.webp", role: "Street window" },
+  { file: "/media/images/street-window-lg.webp", role: "Street window (large)" },
+  { file: "/media/images/event-room-2.webp", role: "Event room 2" },
+  { file: "/media/images/event-room-3.webp", role: "Event room 3" },
+  { file: "/media/images/event-room-4.webp", role: "Event room 4" },
+  { file: "/media/images/menu-header.webp", role: "Menu header" },
+  { file: "/media/images/menu-header-wide.webp", role: "Menu header (wide)" },
+  { file: "/media/images/menu-header-plate.webp", role: "Menu header (plate)" },
+  { file: "/media/images/menu-header-feast.webp", role: "Menu header (feast)" },
+];
+
+// ── Sitemap ──
+const sitemapInfo = {
+  path: "/sitemap-index.xml",
+  source: "astro.config.mjs:20-23",
+  allowedPaths: ["/", "/menu/", "/contact/"],
+  filterDescription: "Only /, /menu/, and /contact/ are in the sitemap. All other pages (our-story, events, faq, reviews, privacy, etc.) are excluded from indexing."
+};
+
+// ── Robots.txt ──
+const robotsInfo = {
+  path: "/robots.txt",
+  source: "public/robots.txt:1-16",
+  disallowed: ["/admin/", "/api/", "/sign-in", "/sign-up", "/our-story", "/events", "/private-events", "/reviews", "/faq", "/privacy", "/accessibility", "/sms-terms"],
+};
+---
+
+<BaseLayout title="OG Meta · Meta" noindex description="SEO meta tag, OG, favicon, and structured data inventory for Lonell's Soul Food Cuisine.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="SEO &amp; Meta-Audit" title="OG Meta · Meta" description="A comprehensive inventory of every social, search, and meta asset on this site. Sources, values, and missing pieces at a glance.">
+      <div class="mt-12 space-y-16">
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 1. Open Graph -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Open Graph</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            Controls how links appear on Facebook, LinkedIn, Discord, Slack, and most chat apps.
+            Defined in <code class="text-[var(--color-accent)]">BaseLayout.astro:43-47</code>.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--color-border-subtle)]">
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Property</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Value</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ogTagSpecs[0].items.map((item) => (
+                  <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
+                    <td class="py-3 px-4 font-mono text-xs text-[var(--color-accent)]">{item.name}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)] max-w-md break-all">
+                      {item.content}
+                      {item.resolved && (
+                        <span class="block text-xs text-[var(--color-text-muted)] mt-0.5">resolved: {item.resolved}</span>
+                      )}
+                    </td>
+                    <td class="py-3 px-4 text-xs text-[var(--color-text-muted)] font-mono">{item.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <!-- OG preview card -->
+          <div class="mt-6 p-5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)] max-w-md">
+            <p class="text-xs uppercase tracking-widest text-[var(--color-text-muted)] mb-3">Link Preview</p>
+            <div class="rounded overflow-hidden border border-[var(--color-border)]">
+              <img src="/og-default.jpg" alt="OG default preview" class="aspect-[1.91/1] w-full object-cover" width="1200" height="630" />
+              <div class="p-3 space-y-1 bg-white text-black">
+                <p class="font-semibold text-sm truncate">{siteName} | Authentic Soul Food & Live Jazz in South LA</p>
+                <p class="text-xs text-gray-500 line-clamp-2">{defaultDescription}</p>
+                <p class="text-xs text-gray-400">{siteUrl}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 2. Twitter Card -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Twitter Card</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            Controls how links appear in X/Twitter posts.
+            Defined in <code class="text-[var(--color-accent)]">BaseLayout.astro:50-53</code>.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--color-border-subtle)]">
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Name</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Value</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ogTagSpecs[1].items.map((item) => (
+                  <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
+                    <td class="py-3 px-4 font-mono text-xs text-[var(--color-accent)]">{item.name}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)] max-w-md break-all">{item.content}</td>
+                    <td class="py-3 px-4 text-xs text-[var(--color-text-muted)] font-mono">{item.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 3. Standard Meta -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Standard Meta Tags</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            HTML <code class="text-[var(--color-accent)]">&lt;head&gt;</code> essentials.
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--color-border-subtle)]">
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Tag</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Value</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {standardMeta.map((item) => (
+                  <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
+                    <td class="py-3 px-4 font-mono text-xs text-[var(--color-accent)]">{item.tag}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)] max-w-md break-all">{item.value}</td>
+                    <td class="py-3 px-4 text-xs text-[var(--color-text-muted)] font-mono">{item.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 4. Favicon / Icons / Manifest -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Favicon &amp; App Icons</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            Generated from <code class="text-[var(--color-accent)]">public/media/images/_source/favicon-source.png</code> via <code class="text-[var(--color-accent)]">npm run icons:generate</code>.
+          </p>
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {faviconSpecs.map((icon) => (
+              <div class:list={[
+                "p-4 rounded-lg border bg-[var(--color-surface-card)]",
+                icon.missing ? "border-[var(--color-brand-rose)]" : "border-[var(--color-border-subtle)]",
+              ]}>
+                <div class="flex items-start gap-4">
+                  <div class:list={[
+                    "flex-shrink-0 rounded overflow-hidden bg-[var(--color-surface-elevated)] flex items-center justify-center",
+                    icon.missing ? "w-12 h-12 border-2 border-dashed border-[var(--color-brand-rose)] text-[var(--color-brand-rose)] text-xs" : "w-16 h-16 border border-[var(--color-border)]",
+                  ]}>
+                    {icon.missing ? (
+                      <span>&#x2715;</span>
+                    ) : icon.path?.endsWith(".webmanifest") ? (
+                      <span class="text-[10px] text-[var(--color-text-muted)] font-mono px-1 text-center">JSON</span>
+                    ) : icon.path?.endsWith(".ico") ? (
+                      <img src={icon.path} alt="" class="w-full h-full object-contain" />
+                    ) : (
+                      <img src={icon.path} alt="" class="w-full h-full object-cover" />
+                    )}
+                  </div>
+                  <div class="min-w-0">
+                    <p class="font-semibold text-[var(--color-text-primary)]">{icon.label}</p>
+                    <p class="text-xs font-mono text-[var(--color-accent)] mt-0.5 break-all">{icon.path}</p>
+                    <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{icon.size} · {icon.source}</p>
+                    {icon.missing && (
+                      <p class="text-xs text-[var(--color-brand-rose)] mt-1">Still missing — add to public/</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 5. Structured Data / Schema.org -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Structured Data (JSON-LD)</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            Schema.org markup for Google rich results, AI search, and knowledge panels.
+            Both blocks are in <code class="text-[var(--color-accent)]">BaseLayout.astro</code>.
+          </p>
+
+          {schemaSections.map((schema) => (
+            <div class="mb-8 p-5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)]">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="font-semibold text-[var(--color-text-primary)]">{schema.label}</h4>
+                <span class="text-xs text-[var(--color-text-muted)] font-mono">{schema.source}</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                {schema.fields.map((field) => (
+                  <span class="px-2.5 py-1 rounded-full bg-[var(--color-surface-elevated)] text-xs text-[var(--color-text-secondary)] font-mono">{field}</span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 6. Preloads & Fonts -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Preloaded Assets &amp; Fonts</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            <code class="text-[var(--color-accent)]">&lt;link rel="preload"&gt;</code> and font preconnects from <code class="text-[var(--color-accent)]">BaseLayout.astro</code>.
+          </p>
+
+          <h4 class="font-semibold text-[var(--color-text-primary)] text-sm mb-3 uppercase tracking-wider text-[var(--color-text-muted)]">Fonts</h4>
+          <div class="overflow-x-auto mb-8">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--color-border-subtle)]">
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Resource</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Type</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fontAssets.map((item) => (
+                  <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
+                    <td class="py-3 px-4 font-mono text-xs text-[var(--color-accent)]">{item.url || item.family}{item.weights ? ` (${item.weights})` : ""}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)]">{item.type}</td>
+                    <td class="py-3 px-4 text-xs text-[var(--color-text-muted)] font-mono">{item.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <h4 class="font-semibold text-[var(--color-text-primary)] text-sm mb-3 uppercase tracking-wider text-[var(--color-text-muted)]">Preloads</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-[var(--color-border-subtle)]">
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Href</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Type</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Condition</th>
+                  <th class="text-left py-3 px-4 font-semibold text-[var(--color-text-secondary)]">Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                {preloads.map((item) => (
+                  <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
+                    <td class="py-3 px-4 font-mono text-xs text-[var(--color-accent)] break-all">{item.href}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)]">{item.type}</td>
+                    <td class="py-3 px-4 text-[var(--color-text-secondary)] text-xs">{item.condition}</td>
+                    <td class="py-3 px-4 text-xs text-[var(--color-text-muted)] font-mono">{item.source}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 7. Robots.txt & Sitemap -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">robots.txt &amp; Sitemap</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            Crawler directives and index coverage.
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="p-5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)]">
+              <h4 class="font-semibold text-[var(--color-text-primary)] mb-3">
+                <code class="text-[var(--color-accent)]">/robots.txt</code>
+                <span class="text-xs text-[var(--color-text-muted)] ml-2 font-mono">public/robots.txt</span>
+              </h4>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="border-b border-[var(--color-border-subtle)]">
+                      <th class="text-left py-2 pr-4 font-semibold text-[var(--color-text-secondary)]">Path</th>
+                      <th class="text-left py-2 font-semibold text-[var(--color-text-secondary)]">Directive</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {robotsInfo.disallowed.map((path) => (
+                      <tr class="border-b border-[var(--color-border-subtle)]">
+                        <td class="py-2 pr-4 font-mono text-xs text-[var(--color-accent)]">{path}</td>
+                        <td class="py-2 text-[var(--color-brand-rose)] text-xs">Disallow</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="p-5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)]">
+              <h4 class="font-semibold text-[var(--color-text-primary)] mb-3">
+                <code class="text-[var(--color-accent)]">/sitemap-index.xml</code>
+                <span class="text-xs text-[var(--color-text-muted)] ml-2 font-mono">astro.config.mjs:20-23</span>
+              </h4>
+              <p class="text-sm text-[var(--color-text-muted)] mb-3">{sitemapInfo.filterDescription}</p>
+              <div class="flex flex-wrap gap-2">
+                {sitemapInfo.allowedPaths.map((path) => (
+                  <span class="px-2.5 py-1 rounded-full bg-[var(--color-neon-subtle)] border border-[var(--color-neon)]/30 text-xs text-[var(--color-neon)] font-mono">{path}</span>
+                ))}
+              </div>
+              <p class="text-xs text-[var(--color-text-muted)] mt-3">No other pages are submitted for indexing.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- 8. Image Inventory -->
+        <!-- ════════════════════════════════════════ -->
+        <section>
+          <h3 class="font-display text-2xl font-bold text-[var(--color-text-primary)] mb-2">Media Image Inventory</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mb-6">
+            All images in <code class="text-[var(--color-accent)]">public/media/images/</code> with their intended role.
+            {imageInventory.length} WebP assets + JPEG/PNG originals.
+          </p>
+          <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {imageInventory.map((img) => (
+              <div class="flex items-center gap-3 p-3 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)] hover:border-[var(--color-border)] transition-colors">
+                <div class="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-[var(--color-surface-elevated)]">
+                  <img
+                    src={img.file}
+                    alt=""
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                    onerror="this.parentElement.classList.add('missing'); this.style.display='none'"
+                  />
+                </div>
+                <div class="min-w-0">
+                  <p class="text-xs font-mono text-[var(--color-accent)] truncate">{img.file.replace("/media/images/", "")}</p>
+                  <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{img.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════════ -->
+        <!-- Summary banner -->
+        <!-- ════════════════════════════════════════ -->
+        <section class="p-6 rounded-lg border border-[var(--color-brand-rose)] bg-[var(--color-surface-card)]">
+          <h3 class="font-display text-xl font-bold text-[var(--color-text-primary)] mb-3">Things Missing</h3>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-center gap-2">
+              <span class="text-[var(--color-brand-rose)]">&#x2715;</span>
+              <span><strong>noindex on content pages</strong> — /our-story, /events, /faq, etc. are disallowed in robots.txt but still carry canonical + OG tags</span>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .missing {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(244, 63, 94, 0.1),
+      rgba(244, 63, 94, 0.1) 10px,
+      rgba(244, 63, 94, 0.05) 10px,
+      rgba(244, 63, 94, 0.05) 20px
+    );
+  }
+  td, th { vertical-align: top; }
+</style>｜｜DSML｜｜parameter name="path" string="true">/Users/user/Development/Lonells-Soul-Food-Web/src/pages/og-meta-meta.astro

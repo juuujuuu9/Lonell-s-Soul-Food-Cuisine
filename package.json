@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "icons:generate": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -28,6 +29,7 @@
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^22.0.0",
     "drizzle-kit": "^0.30.0",
+    "png-to-ico": "^3.0.1",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.8.0"
   }
