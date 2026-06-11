@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /sign-in
+Disallow: /sign-up
+Disallow: /our-story
+Disallow: /events
+Disallow: /private-events
+Disallow: /reviews
+Disallow: /faq
+Disallow: /privacy
+Disallow: /accessibility
+Disallow: /sms-terms
+
+Sitemap: https://lonellssoulfood.com/sitemap-index.xml

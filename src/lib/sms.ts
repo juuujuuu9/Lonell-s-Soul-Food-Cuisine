@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 
 const SMS_ENABLED = process.env.SMS_ENABLED === "true";
 const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "(323) XXX-XXXX";
+const SITE_URL = process.env.PUBLIC_SITE_URL || "https://lonellssoulfood.com";
 
 function log(level: "info" | "error", message: string, data?: Record<string, unknown>) {
   const prefix = SMS_ENABLED ? "SMS" : "SMS:SIMULATED";
@@ -99,7 +100,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "HELP") {
-    const reply = "Lonell's Soul Food SMS Club. Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit lonellssoulfood.com for more.";
+    const reply = `Lonell's Soul Food SMS Club. Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit ${SITE_URL} for more.`;
     await sendSms(from, reply);
     return reply;
   }
@@ -142,18 +143,18 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "MENU") {
-    const reply = "Check out our menu at lonellssoulfood.com/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!";
+    const reply = `Check out our menu at ${SITE_URL}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!`;
     await sendSms(from, reply);
     return reply;
   }
 
   if (normalized === "EVENTS") {
-    const reply = "Upcoming: Sunday Brunch (weekly), Live Jazz (Fridays), Soul Food Festival (Aug 15). Details at lonellssoulfood.com/events.";
+    const reply = `Upcoming: Sunday Brunch (weekly), Live Jazz (Fridays), Soul Food Festival (Aug 15). Details at ${SITE_URL}/events.`;
     await sendSms(from, reply);
     return reply;
   }
 
-  const reply = "Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit lonellssoulfood.com.";
+  const reply = `Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit ${SITE_URL}.`;
   await sendSms(from, reply);
   return reply;
 }

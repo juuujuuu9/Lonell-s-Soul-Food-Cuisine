@@ -10,6 +10,7 @@ export interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  noindex?: boolean;
   headerBackground?: PageHeaderBackground;
   headerBackgrounds?: PageHeaderBackground[];
 }
@@ -17,9 +18,9 @@ export interface Props {
 const siteName = "Lonell's Soul Food Cuisine";
 const defaultDescription = "Authentic soul food with live jazz, karaoke & Sunday brunch in South Los Angeles. Oxtails, fried chicken, private events. 'A Place of Love.' (323) 451-3104";
 const defaultOgImage = "/og-default.jpg";
-const siteUrl = "https://lonells.com";
+const siteUrl = "https://lonellssoulfood.com";
 
-const { title, description = defaultDescription, ogImage = defaultOgImage, headerBackground, headerBackgrounds } = Astro.props;
+const { title, description = defaultDescription, ogImage = defaultOgImage, noindex = false, headerBackground, headerBackgrounds } = Astro.props;
 const pageTitle = title === "Home" ? `${siteName} | Authentic Soul Food & Live Jazz in South LA` : `${title} | ${siteName}`;
 const isHome = Astro.url.pathname === "/";
 ---
@@ -47,6 +48,10 @@ const isHome = Astro.url.pathname === "/";
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Robots -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -74,7 +79,7 @@ const isHome = Astro.url.pathname === "/";
       "alternateName": "Lonell's Soul Food Cuisine",
       "description": "Authentic soul food restaurant with live jazz, karaoke, Sunday brunch, and private event space in South Los Angeles.",
       "servesCuisine": "Soul Food",
-      "image": "/media/images/lonells-logo.jpg",
+      "image": `${siteUrl}/media/images/lonells-logo.jpg`,
       "telephone": "(323) 451-3104",
       "email": "reservations@lonells.com",
       "address": {

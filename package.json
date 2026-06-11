@@ -15,6 +15,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^8.1.0",
     "@clerk/astro": "^2.8.0",
     "@neondatabase/serverless": "^1.0.0",

@@ -183,28 +183,49 @@ const iconPaths: Record<string, string> = {
 };
 ---
 
-<!-- Menu schema -->
+<!-- Menu schema — all items for rich Google results / generative AI -->
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Menu",
   "name": "Lonell's Soul Food Cuisine Menu",
   "description": "Dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
   "hasMenuItem": [
-    { "@type": "MenuItem", "name": "Oxtails Dinner", "offers": { "@type": "Offer", "price": "42.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Baked Chicken Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Catfish Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Short Ribs Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Pork Chop Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Turkey Chop Dinner", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Brisket Dinner", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Meatloaf Dinner", "offers": { "@type": "Offer", "price": "27.60", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Salmon Dinner", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Peach Cobbler", "offers": { "@type": "Offer", "price": "8.40", "priceCurrency": "USD" } }
+    // Dinner Plates
+    { "@type": "MenuItem", "name": "Baked Chicken Dinner", "description": "Golden-brown, oven-roasted chicken served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "description": "Crispy, buttermilk-marinated fried chicken served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Meatloaf Dinner", "description": "Homestyle meatloaf, rich and savory, served with gravy and 2 sides", "offers": { "@type": "Offer", "price": "27.60", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Oxtails Dinner", "description": "Slow-braised, fall-off-the-bone tender oxtails. Thursday-Sunday only.", "offers": { "@type": "Offer", "price": "42.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Pork Chop Dinner", "description": "Cooked to order, thick-cut and well-seasoned pork chop served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Turkey Chop Dinner", "description": "Cooked to order. A lean, flavorful alternative served with 2 sides", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Catfish Dinner", "description": "Crispy, Louisiana-style seasoned catfish served with 2 sides", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Short Ribs Dinner", "description": "Rich, braised short ribs. Friday & Saturday only.", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Brisket Dinner", "description": "Tender, slow-smoked brisket, sliced and sauced, served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Salmon Dinner", "description": "Perfectly seasoned salmon fillet served with 2 sides", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
+    // A La Carte Proteins
+    { "@type": "MenuItem", "name": "Baked Chicken (A La Carte)", "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Fried Chicken (A La Carte)", "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Meatloaf (A La Carte)", "offers": { "@type": "Offer", "price": "14.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Pork Chop (A La Carte)", "offers": { "@type": "Offer", "price": "16.80", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Turkey Chop (A La Carte)", "offers": { "@type": "Offer", "price": "19.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Catfish (A La Carte)", "offers": { "@type": "Offer", "price": "20.40", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Short Ribs (A La Carte)", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Brisket (A La Carte)", "offers": { "@type": "Offer", "price": "21.60", "priceCurrency": "USD" } },
+    // Sides
+    { "@type": "MenuItem", "name": "String Beans", "description": "Fresh green beans, Southern-style", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Mashed Potatoes", "description": "Creamy, buttery mashed potatoes", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Collard Greens", "description": "Slow-cooked with smoked turkey", "offers": { "@type": "Offer", "price": "9.60", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Cabbage", "description": "Seasoned Southern-style cabbage", "offers": { "@type": "Offer", "price": "9.60", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Red Beans & Rice", "description": "Cajun-style with Andouille sausage", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Mac and Cheese", "description": "Five-cheese blend, baked golden", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Yams", "description": "Candied yams, sweet and tender", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
+    // Desserts
+    { "@type": "MenuItem", "name": "Pound Cake", "offers": { "@type": "Offer", "price": "6.00", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Banana Pudding", "description": "Layers of vanilla wafers, fresh bananas, and homemade custard", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
+    { "@type": "MenuItem", "name": "Peach Cobbler", "description": "Southern-style, warm and spiced", "offers": { "@type": "Offer", "price": "8.40", "priceCurrency": "USD" } }
   ]
 })}></script>
 
-<BaseLayout title="Menu" headerBackgrounds={menuHeaderBackgrounds}>
+<BaseLayout title="Menu" ogImage="/og-menu.jpg" headerBackgrounds={menuHeaderBackgrounds}>
   <div class="min-h-screen pb-16">
     <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
       <!-- Bento Quick-Select Grid -->
