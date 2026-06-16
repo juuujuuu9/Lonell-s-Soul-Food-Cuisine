@@ -31,7 +31,7 @@ import { SignIn } from "@clerk/astro/components";
         <source srcset="/media/images/lonells-logo.webp 1x, /media/images/lonells-logo@2x.webp 2x" type="image/webp" />
         <img src="/media/images/lonells-logo.jpg" alt="Lonell's Soul Food Cuisine" class="logo" width="180" height="auto" />
       </picture>
-      <SignIn
+      <SignIn afterSignInUrl="/admin"
         appearance={{
           variables: {
             colorPrimary: "#f59e0b",
