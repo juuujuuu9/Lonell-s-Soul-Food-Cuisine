@@ -8,6 +8,7 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 
 - **Guardrails Guide:** `docs/restaurant-website-guardrails-guide.md` — the source reference doc
 - **Implementation Plan:** `docs/conversion-optimization-plan.md` — full audit + 4-phase roadmap
+- **SMS Loyalty Program:** `docs/sms-loyalty-program.md` — message specs, automated triggers, voice rules, contact card strategy, owner checklist
 
 ## Current State (all buildable — `npm run build` passes)
 
@@ -21,7 +22,7 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 | 2.2 | Legal pages: Privacy, SMS Terms, Accessibility | `src/pages/{privacy,sms-terms,accessibility}.astro` (NEW) |
 | 2.2 | Footer: Google Maps link, Review link, today highlight, legal links | `src/components/SiteFooter.astro` |
 | 2.2 | Contact page: Google Maps embed replacing placeholder | `src/pages/contact.astro` |
-| 2.3 | FAQ Schema expanded from 4 → 13 QA pairs | `src/layouts/BaseLayout.astro` |
+| 2.3 | FAQ Schema expanded from 4 to 13 QA pairs | `src/layouts/BaseLayout.astro` |
 | 2.5 | Dish landing pages (10 dishes at `/menu/[slug]`) | `src/data/menu.ts` (NEW), `src/pages/menu/[slug].astro` (NEW) |
 | 2.5 | Menu page dish names link to individual pages | `src/pages/menu.astro` |
 | 4.4 | Nav overlay reordered (MENU first, ORDER NOW, CALL TO ORDER, HOME removed) | `src/components/NavOverlay.astro` |
@@ -39,11 +40,11 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 
 | Item | Blocks On |
 |------|-----------|
-| 1.3 — SMS number placeholders (`(323) XXX-XXXX`) | Owner to provide real SMS number |
+| 1.3 — SMS number placeholders (`(323) XXX-XXXX`) | Resolved — number is +1 (424) 295-8020 |
 | 2.1 — Online ordering integration | Owner's platform preference |
 | 2.4 — Exit-intent popup | Ready to build (no deps) |
-| 3.1 — SMS automation flows | Owner to provide SMS number + platform |
-| 3.2 — Review request automation | Ready to build |
+| 3.1 — SMS automation flows (Day 1, Day 7, 30-day, birthday, weekly broadcasts) | Message specs in sms-loyalty-program.md, needs implementation in src/lib/sms.ts |
+| 3.2 — Review request automation | Ready to build (see Day 1 spec in sms-loyalty-program.md) |
 | 3.3 — Live rating (Google/Yelp) in header | Ready to build |
 | 3.4 — Chat widget | Ready to build |
 | 4.1 — GA4 analytics | Ready to setup |
@@ -54,7 +55,7 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 - **Framework:** Astro 5, Tailwind v4 via `@tailwindcss/vite`
 - **Design tokens:** Defined in `src/styles/global.css` as CSS custom properties under `@theme`
 - **Images:** All optimized via sharp pipeline (WebP + JPEG fallback, retina 2x)
-- **SMS infra:** Fully built (Twilio, DB schema, admin dashboard, TCPA compliance)
+- **SMS infra:** Fully built (Twilio, DB schema, admin dashboard, TCPA compliance) — see [SMS Loyalty Program Design](./sms-loyalty-program.md) for the full message specs and owner checklist
 - **Auth:** Clerk middleware guarding `/admin(.*)` routes
 - **Deploy:** Vercel via `@astrojs/vercel`
 - **DB:** Neon Postgres + Drizzle ORM

@@ -34,7 +34,7 @@ This plan maps every recommendation from the guardrails guide against the curren
 |------|----------|-------|
 | Header / Nav Structure | **High** | No sticky header with Order/Call CTAs; hamburger-only nav |
 | Hero Section CTAs | **High** | 3 equal-weight CTAs — violates "single primary CTA" rule |
-| SMS Phone Number | **High** | Placeholder "(323) XXX-XXXX" still shown |
+| SMS Phone Number | **Done** | (424) 295-8020 |
 | Footer Compliance Links | **Medium** | Missing Privacy Policy, SMS Terms, Accessibility Statement |
 | Google Maps | **Medium** | Placeholder "coming soon" for embedded map |
 | FAQ Schema Coverage | **Medium** | Schema only includes 4 of 13 FAQ questions |
@@ -126,7 +126,7 @@ View Our Menu · Live Music Schedule  ← tertiary, text links
 **Guide Reference:** §9.1 SMS Sign-Up Touchpoints
 
 **What to change:**
-- Replace all "(323) XXX-XXXX" placeholders with the confirmed SMS number
+- ~~Replace all "(323) XXX-XXXX" placeholders — done. Number is (424) 295-8020~~
 - Verify with owner what the actual SMS short code / long code is
 
 **Files to modify:**
@@ -254,7 +254,7 @@ This is the largest piece. Options to discuss with owner:
 - **Post-Order Series:** Confirmation, feedback request (30min), review request (24hr), re-order (7 days)
 - **Re-engagement:** Day 30/60/90 for inactive subscribers
 
-**Note:** The SMS infrastructure (Twilio, DB schema, admin) is already in place. This phase adds the automated sequences.
+**Note:** The SMS infrastructure (Twilio, DB schema, admin) is already in place. See [sms-loyalty-program.md](./sms-loyalty-program.md) for the complete message specs (Day 0 welcome, Day 1 review, Day 7 nudge, 30-day win-back, birthday, weekly broadcasts, contact card strategy). This phase adds the automated sequences.
 
 **Files to consider:**
 - `src/lib/sms.ts` — add flow logic
@@ -410,7 +410,7 @@ HOME, MENU, OUR STORY, ENTERTAINMENT, PRIVATE EVENTS, CONTACT, REVIEWS, FAQ
 ## Appendix C: Open Questions for Owner
 
 1. **Online ordering:** What platform do you want to use (Toast, ChowNow, Square Online, GloriaFood) or custom build?
-2. **SMS number:** What is the actual short code / long code for SMS? Currently shows "(323) XXX-XXXX".
+2. **SMS number:** Resolved — +1 (424) 295-8020.
 3. **Google Business Profile:** Is it claimed and optimized? What's the current state?
 4. **Google Review link:** What's the direct deep link for leaving a review?
 5. **Call tracking:** Do you have a CallRail or similar account?

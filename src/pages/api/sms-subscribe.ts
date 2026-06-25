@@ -61,7 +61,7 @@ export const POST: APIRoute = async ({ request }) => {
       .returning();
 
     // Send welcome message (simulated if SMS_ENABLED is off)
-    const welcomeMsg = `Welcome to the Lonell's Soul Food fam! Use code SOUL10 for 10% off + free champagne brunch upgrade at our LA spot. Reply HELP for info, STOP to cancel.`;
+    const welcomeMsg = `Lonell's Soul Food Cuisine: You are now opted in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.`;
     await sendSms(phoneNumber, welcomeMsg);
 
     return new Response(JSON.stringify({ success: true }), {

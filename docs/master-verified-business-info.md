@@ -174,6 +174,8 @@ Use when reconciling `src/pages/menu.astro`, `src/data/menu.ts`, and schema mark
 | Promo code | SOUL10 |
 | Manager phone | (323) 451-3104 |
 
+**Full program spec:** See [sms-loyalty-program.md](./sms-loyalty-program.md) for automated trigger messages, contact card strategy, voice & style rules, and owner input checklist.
+
 ---
 
 ## Source File

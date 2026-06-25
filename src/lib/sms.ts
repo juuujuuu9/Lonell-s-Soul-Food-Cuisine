@@ -2,7 +2,7 @@ import { db, schema, isDbReady } from "../db/index";
 import { eq } from "drizzle-orm";
 
 const SMS_ENABLED = process.env.SMS_ENABLED === "true";
-const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "(323) XXX-XXXX";
+const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "+14242958020";
 const SITE_URL = process.env.PUBLIC_SITE_URL || "https://lonellssoulfood.com";
 
 function log(level: "info" | "error", message: string, data?: Record<string, unknown>) {
@@ -47,10 +47,12 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
       throw new Error("TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set");
     }
     const client = twilio(accountSid, authToken);
+    const statusCallback = `${SITE_URL}/api/sms-status-callback`;
     const result = await client.messages.create({
       to,
       from: TWILIO_FROM_NUMBER,
       body,
+      statusCallback,
     });
 
     const [msg] = await db!
@@ -94,13 +96,13 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
       }
     }
 
-    const reply = "You've been unsubscribed from Lonell's Soul Food messages. Reply SOUL to rejoin anytime.";
+    const reply = "Lonell's Soul Food Cuisine: You've been unsubscribed. Reply SOUL to rejoin anytime.";
     await sendSms(from, reply);
     return reply;
   }
 
   if (normalized === "HELP") {
-    const reply = `Lonell's Soul Food SMS Club. Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit ${SITE_URL} for more.`;
+    const reply = `Lonell's Soul Food Cuisine: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit ${SITE_URL} for more.`;
     await sendSms(from, reply);
     return reply;
   }
@@ -120,11 +122,11 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
             .set({ optOut: false, optOutAt: null, consentAt: new Date() })
             .where(eq(schema.subscribers.phoneNumber, from));
 
-          const reply = "Welcome back! Use code SOUL10 for 10% off + free champagne brunch upgrade at Lonell's. Reply HELP for info, STOP to cancel.";
+          const reply = "Lonell's Soul Food Cuisine: You are opted back in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
           await sendSms(from, reply);
           return reply;
         }
-        const reply = "You're already a member! Use code SOUL10 for 10% off + free champagne brunch upgrade. Reply HELP for info, STOP to cancel.";
+        const reply = "Lonell's Soul Food Cuisine: You are already a member. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
         await sendSms(from, reply);
         return reply;
       }
@@ -137,24 +139,24 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
       });
     }
 
-    const reply = "Welcome to the Lonell's Soul Food fam! Use code SOUL10 for 10% off + free champagne brunch upgrade at our LA spot. Reply HELP for info, STOP to cancel.";
+    const reply = "Lonell's Soul Food Cuisine: You are now opted in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
     await sendSms(from, reply);
     return reply;
   }
 
   if (normalized === "MENU") {
-    const reply = `Check out our menu at ${SITE_URL}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!`;
+    const reply = `Lonell's Soul Food Cuisine: menu at ${SITE_URL}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler! Reply HELP for help, STOP to cancel.`;
     await sendSms(from, reply);
     return reply;
   }
 
   if (normalized === "EVENTS") {
-    const reply = `Upcoming: Sunday Brunch (weekly), Live Jazz (Fridays), Soul Food Festival (Aug 15). Details at ${SITE_URL}/events.`;
+    const reply = `Lonell's Soul Food Cuisine: Upcoming — Sunday Brunch (weekly), Live Jazz (Fridays), Soul Food Festival (Aug 15). Details at ${SITE_URL}/events. Reply HELP for help, STOP to cancel.`;
     await sendSms(from, reply);
     return reply;
   }
 
-  const reply = `Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit ${SITE_URL}.`;
+  const reply = `Lonell's Soul Food Cuisine: Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit ${SITE_URL}.`;
   await sendSms(from, reply);
   return reply;
 }

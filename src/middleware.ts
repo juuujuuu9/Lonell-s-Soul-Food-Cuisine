@@ -12,7 +12,7 @@ const isPublicRoute = createRouteMatcher([
 ]);
 // API routes that must stay public (webhooks, cron, subscribe)
 const isPublicApiRoute = createRouteMatcher([
-  "/api/sms-subscribe", "/api/sms-webhook",
+  "/api/sms-subscribe", "/api/sms-webhook", "/api/sms-status-callback",
   "/api/cron(.*)",
 ]);
 
