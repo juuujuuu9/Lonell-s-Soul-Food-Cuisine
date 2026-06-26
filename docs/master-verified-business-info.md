@@ -2,8 +2,11 @@
 
 > **Source of truth for client-provided facts.** Use this document when updating the website, schema.org markup, GBP, SMS copy, and menu data.
 >
-> **Last verified:** June 10, 2026  
-> **Primary source:** Client-provided official print menu PDF — `11x8.5_DINNER_print.pdf` (2 pages: back cover + dinner menu)  
+> **Last verified:** June 26, 2026  
+> **Primary sources:**
+> - Client-provided official print menu PDF — `11x8.5_DINNER_print.pdf` (2 pages: back cover + dinner menu)
+> - Client-provided Company Analysis document (photographed June 26, 2026) — confirms founding year, ownership, management, and business mission
+>
 > **Client note:** Pricing in the PDF reflects **old prices** and will be updated. Treat menu item names, categories, availability rules, and business details as verified; treat all dollar amounts as **reference only** until the client confirms new pricing.
 
 ---
@@ -12,13 +15,24 @@
 
 | Field | Verified Value |
 |-------|----------------|
-| **Legal / Brand Name** | Lonell's Soul Food Cuisine |
+| **Legal Entity** | Lonell's, LLC |
+| **Brand Name** | Lonell's Soul Food Cuisine |
 | **Tagline** | A Place of Love |
+| **Founded** | 2024 |
 | **Cuisine** | Soul Food / Southern |
 | **Address** | 8501 S. Vermont Ave., Los Angeles, CA 90044 |
 | **Phone** | (323) 451-3104 |
 | **Email** | reservations@lonellssoulfood.com |
 | **Website** | www.lonells.com |
+
+## Leadership
+
+| Name | Role |
+|------|------|
+| **Lonell Anderson** | Founder & Owner |
+| **Rev. Quanetha Hunt** | Co-Manager |
+
+**Background:** Lonell Anderson has been in the catering industry since 1995, serving high-profile clients including Shaquille O'Neal and Magic Johnson, and catering events ranging from weddings to corporate gatherings. After nearly three decades in catering, he opened Lonell's Soul Food Cuisine in 2024.
 
 ---
 
@@ -194,3 +208,4 @@ Use when reconciling `src/pages/menu.astro`, `src/data/menu.ts`, and schema mark
 | 2026-06-10 | Initial master doc created from client official dinner print PDF. Prices flagged as outdated per client. |
 | 2026-06-10 | Aligned website to official data: Tuesday hours changed to OPEN 11am–7pm across footer, contact, events, FAQ, and schema; "Smoking Room" → "Dining Room" on private events, FAQ, events page, and schema; Oxtails now listed with "Thursday–Sunday only" on dinner plates; "Pork Chops" → "Pork Chop" and "Turkey Chops" → "Turkey Chop" (singular) in dinner section; senior discount expanded to include government workers with ID; Lunch Specials subtitle updated from Wed-Thu to Tue-Thu. Prices remain unmodified (awaiting client update). |
 | 2026-06-10 | **Removed** "Lunch Specials" and "Lunch Menu" sections from the site entirely — not present in the official dinner PDF. Will reinstate when client provides a lunch menu file. |
+| 2026-06-26 | Added verified ownership/management info from client Company Analysis document (photo): legal entity confirmed as Lonell's LLC, founded 2024, founder Lonell Anderson (catering since 1995, high-profile clients Shaquille O'Neal & Magic Johnson), co-manager Rev. Quanetha Hunt. Updated `our-story.astro` to reflect official narrative; updated Schema.org `foundingDate`, `founder`, and `employee` fields in `BaseLayout.astro`; updated this master doc with Leadership section. |

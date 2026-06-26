@@ -3,10 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
 ---
 
-<BaseLayout title="Our Story" noindex description="Discover the story behind Lonell's Soul Food Cuisine. Family recipes, community roots, and 'A Place of Love' in every dish. Black-owned in South Los Angeles.">
+<BaseLayout title="Our Story" noindex description="Discover the story behind Lonell's Soul Food Cuisine — nearly 30 years of catering experience brought to a permanent home in South Los Angeles. Black-owned, family-operated, 'A Place of Love.'">
   <div class="min-h-screen pb-16">
-    <Section eyebrow="Our Roots" title="'A Place of Love'" description="Lonell's Soul Food Cuisine is more than a restaurant. It's a gathering place built on family recipes, community pride, and the belief that food made with love tastes better." />
+    <Section eyebrow="Our Roots" title="'A Place of Love'" description="Lonell's Soul Food Cuisine is more than a restaurant. It's a gathering place built on nearly three decades of culinary craft, community pride, and the belief that food made with love tastes better." />
 
+    <!-- Origin story -->
     <section class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-4xl mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -28,19 +29,19 @@ import Section from "../components/Section.astro";
           </div>
           <div class="space-y-4">
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
-              Lonell's Soul Food Cuisine was born from a dream: to share the taste of home with everyone who walked through the door.
-              Located in the Vermont Knolls neighborhood of South Los Angeles, Lonell's has become a beloved destination for authentic 
-              soul food, live entertainment, and genuine hospitality.
+              Since 1995, Lonell Anderson has thrived in the catering industry — serving high-profile clients including 
+              Shaquille O'Neal and Magic Johnson, and catering a diverse range of events from weddings to corporate gatherings. 
+              That experience built the foundation that Lonell's Soul Food Cuisine stands on today.
             </p>
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
-              Every dish tells a story. From the oxtails, slow-cooked until fall-off-the-bone tender, to the fried chicken golden and crisp, 
-              to the collard greens simmered with smoked turkey, each recipe carries forward traditions passed down through generations. 
-              This is food that nourishes both body and soul.
+              After nearly three decades of bringing soul food to people, Lonell evolved his vision into something permanent: 
+              a restaurant where the comfort and heritage of home-cooked soul food can be enjoyed in a welcoming, dynamic setting. 
+              Lonell's opened in 2024 at 8501 S Vermont Ave in South Los Angeles — and it was built to last.
             </p>
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
-              What sets Lonell's apart is the marriage of authentic soul food with vibrant live entertainment. 
-              Jazz Wednesdays and Fridays, karaoke Saturdays, and Sunday brunch with live music make every visit an experience. 
-              Add two private event spaces and a welcoming, casual atmosphere, and you have a true community hub.
+              Every dish tells a story. From oxtails slow-cooked until fall-off-the-bone tender, to fried chicken golden and crisp, 
+              to collard greens simmered with smoked turkey — each recipe blends the comforting flavors of traditional home cooking 
+              with subtle, modern touches. This is food that nourishes both body and soul.
             </p>
             <p class="text-base text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
               <strong class="text-[var(--color-accent)]">"A Place of Love"</strong> isn't just a tagline. It's our promise. 
@@ -52,26 +53,49 @@ import Section from "../components/Section.astro";
       </div>
     </section>
 
-    <Section eyebrow="What We Stand For" title="Our Values">
+    <!-- Leadership -->
+    <Section eyebrow="The People Behind It" title="Meet the Team">
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Proudly Black-Owned</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">Lonell's is a Black-owned business rooted in South Los Angeles. We honor the culinary traditions of the African American community and contribute to the cultural fabric of our neighborhood.</p>
+          <h3 class="font-display text-lg font-semibold mb-1">Lonell Anderson</h3>
+          <p class="text-xs text-[var(--color-accent)] uppercase tracking-widest mb-3">Founder & Owner</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">With nearly 30 years in the catering industry, Lonell brings deep culinary expertise, operational excellence, and a heart for community to every plate. His vision: make Los Angeles a true destination for authentic, home-cooked soul food.</p>
         </div>
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Family Recipes</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">Our menu is built on generations of passed-down family recipes. No shortcuts, no compromises. Just honest, made-from-scratch soul food.</p>
-        </div>
-        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">We partner with local organizations, schools, and artists to keep South LA thriving. Our table is your table.</p>
-        </div>
-        <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-          <h3 class="font-display text-lg font-semibold mb-2">Live Entertainment</h3>
-          <p class="text-sm text-[var(--color-text-secondary)]">We're one of the few soul food restaurants in LA with consistent live entertainment, including jazz, karaoke, and Sunday brunch performances. Dinner and a show, every week.</p>
+          <h3 class="font-display text-lg font-semibold mb-1">Rev. Quanetha Hunt</h3>
+          <p class="text-xs text-[var(--color-accent)] uppercase tracking-widest mb-3">Co-Manager</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Rev. Quanetha Hunt brings a spirit of service and community to the management of Lonell's. Together with Lonell, she ensures every guest feels at home and every event reflects the warmth the restaurant was built on.</p>
         </div>
       </div>
     </Section>
+
+    <!-- Values -->
+    <section class="section-padding">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-8">
+          <span class="eyebrow" data-reveal>What We Stand For</span>
+          <h2 class="font-display text-3xl md:text-4xl font-bold mt-2" data-reveal>Our Values</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h3 class="font-display text-lg font-semibold mb-2">Proudly Black-Owned</h3>
+            <p class="text-sm text-[var(--color-text-secondary)]">Lonell's is a Black-owned business rooted in South Los Angeles. We honor the culinary traditions of the African American community and contribute to the cultural fabric of our neighborhood.</p>
+          </div>
+          <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h3 class="font-display text-lg font-semibold mb-2">Family Recipes</h3>
+            <p class="text-sm text-[var(--color-text-secondary)]">Our menu is built on scratch-made dishes rooted in the soul food tradition. No shortcuts, no compromises — just honest cooking that celebrates the richness of African American culinary heritage.</p>
+          </div>
+          <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h3 class="font-display text-lg font-semibold mb-2">Community First</h3>
+            <p class="text-sm text-[var(--color-text-secondary)]">Soul food represents more than a meal — it embodies tradition, community, and comfort. We partner with local organizations and artists to keep South LA thriving. Our table is your table.</p>
+          </div>
+          <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+            <h3 class="font-display text-lg font-semibold mb-2">Live Entertainment</h3>
+            <p class="text-sm text-[var(--color-text-secondary)]">Jazz nights, gospel brunches, karaoke Saturdays — we're one of the few soul food restaurants in LA with consistent live entertainment every week. Dinner and a show, every visit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Location context -->
     <section class="section-padding bg-[var(--color-surface-card)]">
@@ -81,7 +105,7 @@ import Section from "../components/Section.astro";
             <span class="eyebrow" data-reveal>Where We Are</span>
             <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Vermont Knolls, South LA</h2>
             <p class="text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
-              Located at 8501 S Vermont Ave in the Vermont Knolls neighborhood of South Los Angeles, an area with 
+              Located at 8501 S Vermont Ave in the Vermont Knolls neighborhood of South Los Angeles — an area with 
               deep African American cultural heritage and a thriving community. We're proud to serve this neighborhood 
               and everyone who visits.
             </p>
