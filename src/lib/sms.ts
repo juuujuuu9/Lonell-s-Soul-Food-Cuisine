@@ -151,7 +151,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "EVENTS") {
-    const reply = `Lonell's Soul Food Cuisine: Upcoming — Sunday Brunch (weekly), Live Jazz (Fridays), Soul Food Festival (Aug 15). Details at ${SITE_URL}/events. Reply HELP for help, STOP to cancel.`;
+    const reply = `Lonell's Soul Food Cuisine: See our latest events and schedule at ${SITE_URL}/events. Reply HELP for help, STOP to cancel.`;
     await sendSms(from, reply);
     return reply;
   }
