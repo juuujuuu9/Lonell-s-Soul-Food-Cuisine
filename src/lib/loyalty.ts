@@ -19,7 +19,11 @@ export type DripSubscriber = {
 };
 
 export function getGoogleReviewUrl(): string {
-  return process.env.GOOGLE_REVIEW_URL || GOOGLE_REVIEW_DEFAULT;
+  const placeId = process.env["GOOGLE_PLACE_ID"];
+  if (placeId) {
+    return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeId)}`;
+  }
+  return process.env["GOOGLE_REVIEW_URL"] || GOOGLE_REVIEW_DEFAULT;
 }
 
 export function promoExpiresAt(from: Date = new Date()): Date {

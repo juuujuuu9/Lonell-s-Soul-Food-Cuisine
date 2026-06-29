@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, boolean, varchar, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, boolean, varchar, integer, uniqueIndex } from "drizzle-orm/pg-core";
 
 // ── SMS Subscribers ──
 export const subscribers = pgTable("subscribers", {
@@ -47,17 +47,32 @@ export const staff = pgTable("staff", {
 });
 
 // ── Reputation / Review Tracking ──
-export const reviews = pgTable("reviews", {
-  id: serial("id").primaryKey(),
-  platform: varchar("platform", { length: 50 }).notNull(), // google | yelp | facebook
-  reviewerName: varchar("reviewer_name", { length: 100 }),
-  rating: integer("rating").notNull(), // 1-5
-  text: text("text"),
-  replied: boolean("replied").notNull().default(false),
-  replyText: text("reply_text"),
-  replyTemplate: text("reply_template"),
-  url: varchar("url", { length: 500 }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
+export const reviews = pgTable(
+  "reviews",
+  {
+    id: serial("id").primaryKey(),
+    platform: varchar("platform", { length: 50 }).notNull(), // google | yelp | facebook
+    externalId: varchar("external_id", { length: 200 }),
+    reviewerName: varchar("reviewer_name", { length: 100 }),
+    rating: integer("rating").notNull(), // 1-5
+    text: text("text"),
+    replied: boolean("replied").notNull().default(false),
+    replyText: text("reply_text"),
+    replyTemplate: text("reply_template"),
+    url: varchar("url", { length: 500 }),
+    reviewedAt: timestamp("reviewed_at"),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date()),
+  },
+  (table) => [uniqueIndex("reviews_platform_external_id_idx").on(table.platform, table.externalId)]
+);
+
+export const reviewSyncState = pgTable("review_sync_state", {
+  platform: varchar("platform", { length: 50 }).primaryKey(),
+  rating: varchar("rating", { length: 10 }),
+  reviewCount: integer("review_count"),
+  lastSyncedAt: timestamp("last_synced_at").notNull(),
+  lastError: text("last_error"),
 });
 
 // ── Events ──

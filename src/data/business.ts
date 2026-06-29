@@ -11,9 +11,9 @@ export const MANAGER_PHONE_TEL = "+13234513104";
 export const YELP_REVIEW_URL =
   "https://www.yelp.com/biz/lonells-soul-food-cuisine-los-angeles";
 
-/** Google Reviews link used on the reviews page */
+/** Direct link to leave a Google review */
 export const GOOGLE_REVIEW_URL =
-  "https://www.google.com/search?sca_esv=53821e7f56e2e48d&q=Lonell%27s+%7C+Soul+Food+Cuisine+Reviews";
+  "https://search.google.com/local/writereview?placeid=ChIJ9SofQgDJwoAR5WXKjHDAQLk";
 
 export function loyaltySmsHref(body = LOYALTY_KEYWORD): string {
   return `sms:${LOYALTY_SMS_NUMBER}?body=${encodeURIComponent(body)}`;

@@ -31,6 +31,10 @@ const smsEnabled = isSmsEnabled();
               { key: "TWILIO_ACCOUNT_SID", label: "Twilio Account", sensitive: true },
               { key: "TWILIO_FROM_NUMBER", label: "Twilio From Number" },
               { key: "CLERK_PUBLISHABLE_KEY", label: "Clerk Publishable Key", sensitive: true },
+              { key: "GOOGLE_PLACES_API_KEY", label: "Google Places API Key", sensitive: true },
+              { key: "GOOGLE_PLACE_ID", label: "Google Place ID" },
+              { key: "YELP_API_KEY", label: "Yelp API Key", sensitive: true },
+              { key: "YELP_BUSINESS_ID", label: "Yelp Business ID" },
             ].map(({ key, label, sensitive }) => (
               <div class="flex items-center justify-between py-2 border-b border-[var(--color-border-subtle)] last:border-0">
                 <span class="text-sm text-[var(--color-text-secondary)]">{label}</span>
