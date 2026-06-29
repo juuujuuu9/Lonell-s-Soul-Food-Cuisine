@@ -2,18 +2,20 @@ import { db, schema, isDbReady } from "../db/index";
 import { and, eq, isNull, lt, lte, or } from "drizzle-orm";
 import {
   day7NudgeMessage,
+  offerExpiresAt,
   reviewPromptMessage,
   weeklyBrunchMessage,
   weeklyJazzMessage,
   winBackExpiresAt,
   winBackMessage,
 } from "./loyalty";
+import { isJazzBroadcastWeek, isBrunchBroadcastWeek } from "./biweekly-broadcast";
 import { isSmsEnabled } from "./env";
 import { sendSms } from "./sms";
 
 const BATCH_LIMIT = 500;
 
-type CronResult = { sent: number; simulated: boolean; error?: string };
+type CronResult = { sent: number; simulated: boolean; error?: string; skipped?: string };
 
 function isSimulated(): boolean {
   return !isSmsEnabled();
@@ -102,7 +104,8 @@ export async function sendDay7Nudges(): Promise<CronResult> {
     )
     .limit(BATCH_LIMIT);
 
-  const body = day7NudgeMessage();
+  const expires = offerExpiresAt();
+  const body = day7NudgeMessage(expires);
   const sent = await sendBatch(candidates, body, async (id) => {
     await db!
       .update(schema.subscribers)
@@ -163,9 +166,13 @@ export async function sendWinBackMessages(): Promise<CronResult> {
   return { sent, simulated };
 }
 
-// ── Wednesday jazz broadcast ──
+// ── Biweekly jazz broadcast (alternates with brunch) ──
 export async function sendWeeklyJazz(): Promise<CronResult> {
   const simulated = isSimulated();
+  if (!isJazzBroadcastWeek()) {
+    console.log("[Cron] Weekly jazz: skipped (biweekly brunch week)");
+    return { sent: 0, simulated, skipped: "biweekly_brunch_week" };
+  }
   if (!isDbReady()) {
     console.error("[Cron] Weekly jazz: DB not configured");
     return { sent: 0, simulated, error: "Database not configured" };
@@ -183,9 +190,13 @@ export async function sendWeeklyJazz(): Promise<CronResult> {
   return { sent, simulated };
 }
 
-// ── Sunday brunch broadcast ──
+// ── Biweekly brunch broadcast (alternates with jazz) ──
 export async function sendWeeklyBrunch(): Promise<CronResult> {
   const simulated = isSimulated();
+  if (!isBrunchBroadcastWeek()) {
+    console.log("[Cron] Weekly brunch: skipped (biweekly jazz week)");
+    return { sent: 0, simulated, skipped: "biweekly_jazz_week" };
+  }
   if (!isDbReady()) {
     console.error("[Cron] Weekly brunch: DB not configured");
     return { sent: 0, simulated, error: "Database not configured" };
@@ -197,7 +208,8 @@ export async function sendWeeklyBrunch(): Promise<CronResult> {
     .where(eq(schema.subscribers.optOut, false))
     .limit(BATCH_LIMIT);
 
-  const sent = await sendBatch(subscribers, weeklyBrunchMessage(), async () => {});
+  const expires = offerExpiresAt();
+  const sent = await sendBatch(subscribers, weeklyBrunchMessage(expires), async () => {});
 
   console.log(`[Cron] Weekly brunch: sent ${sent}/${subscribers.length} (simulated: ${simulated})`);
   return { sent, simulated };

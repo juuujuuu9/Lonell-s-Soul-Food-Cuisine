@@ -32,10 +32,14 @@ export function promoExpiresAt(from: Date = new Date()): Date {
   return expires;
 }
 
-export function winBackExpiresAt(from: Date = new Date()): Date {
+export function offerExpiresAt(from: Date = new Date()): Date {
   const expires = new Date(from);
   expires.setDate(expires.getDate() + WIN_BACK_VALID_DAYS);
   return expires;
+}
+
+export function winBackExpiresAt(from: Date = new Date()): Date {
+  return offerExpiresAt(from);
 }
 
 export function formatPromoExpiry(date: Date): string {
@@ -88,8 +92,9 @@ export function reviewPromptMessage(): string {
   return `${BRAND}: We hope you enjoyed your time with us! If we made your day a little better, we'd love your words on Google or Yelp. Share your experience and show us your posted review for a complimentary side on your next visit.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
 }
 
-export function day7NudgeMessage(): string {
-  return `${BRAND}: We'd love to see you again! This Wed: live jazz 6-9pm. This Sun: brunch and live music 1-5pm. Mention this message for a complimentary champagne upgrade. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+export function day7NudgeMessage(expiresAt: Date): string {
+  const expiry = formatPromoExpiry(expiresAt);
+  return `${BRAND}: We'd love to see you again! This Wed: live jazz 6-9pm. This Sun: brunch and live music 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
 export function winBackMessage(expiresAt: Date): string {
@@ -101,8 +106,9 @@ export function weeklyJazzMessage(): string {
   return `${BRAND}: Tonight at Lonell's: Live jazz, 6 to 9! Good food, good music, good company. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
-export function weeklyBrunchMessage(): string {
-  return `${BRAND}: Sunday Brunch is live at Lonell's! Music starts at 1, the kitchen is open until 5. Mention this message for a complimentary champagne upgrade. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
+export function weeklyBrunchMessage(expiresAt: Date): string {
+  const expiry = formatPromoExpiry(expiresAt);
+  return `${BRAND}: Sunday Brunch is live at Lonell's! Music starts at 1, the kitchen is open until 5. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
 }
 
 export function menuMessage(siteUrl: string): string {
