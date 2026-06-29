@@ -109,7 +109,13 @@ if (isDbReady()) {
           body: JSON.stringify({ message }),
         });
 
-        const data = await res.json();
+        const text = await res.text();
+        let data: Record<string, unknown> = {};
+        try {
+          data = text ? JSON.parse(text) : {};
+        } catch {
+          throw new Error(`${res.status} ${res.statusText}: ${text.slice(0, 120)}`);
+        }
 
         statusEl.classList.remove("hidden");
         if (res.ok) {
@@ -119,12 +125,12 @@ if (isDbReady()) {
           charCount.textContent = "0 / 1600";
         } else {
           statusEl.className = "p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-          statusEl.textContent = data.error ?? `Request failed (${res.status})`;
+          statusEl.textContent = String(data.error ?? `Request failed (${res.status})`);
         }
-      } catch {
+      } catch (err) {
         statusEl.classList.remove("hidden");
         statusEl.className = "p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-        statusEl.textContent = "Network error — are you signed in to admin?";
+        statusEl.textContent = err instanceof Error ? err.message : "Request failed";
       } finally {
         sendBtn.disabled = false;
         sendBtn.textContent = `Send to ${count} subscriber${count === 1 ? "" : "s"}`;

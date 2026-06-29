@@ -67,6 +67,10 @@ export const onRequest = clerkMiddleware(async (auth, request) => {
       return;
     }
 
-    return adminApiError(403);
+    const urlStr = typeof request.url === "string" ? request.url : request.url.toString();
+    if (urlStr.includes("/api/")) {
+      return adminApiError(403);
+    }
+    return Response.redirect(new URL("/sign-in?error=admin_required", urlStr).toString());
   }
 });

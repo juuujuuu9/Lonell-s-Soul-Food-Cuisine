@@ -103,6 +103,16 @@ async function syncYelp(): Promise<PlatformSyncResult> {
   return base;
 }
 
+export function formatSyncResultMessage(result: SyncReviewsResult): string {
+  const g = result.google;
+  const y = result.yelp;
+  let msg = `Google: ${g.upserted ?? 0} review(s) synced`;
+  if (g.rating != null) msg += `, ${g.rating}★ (${g.reviewCount} total)`;
+  if (y.skipped) msg += `. Yelp skipped (${y.skipped}).`;
+  else if (y.upserted) msg += `. Yelp: ${y.upserted} synced.`;
+  return msg;
+}
+
 export async function syncReviews(): Promise<SyncReviewsResult> {
   if (!isDbReady()) {
     const err = "Database not configured";

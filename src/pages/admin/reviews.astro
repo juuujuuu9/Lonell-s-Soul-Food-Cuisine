@@ -2,9 +2,14 @@
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { db, schema, isDbReady } from "../../db/index";
 import { serverEnv } from "../../lib/env";
+import { syncReviews, formatSyncResultMessage } from "../../lib/reviews/sync";
 import { desc, sql } from "drizzle-orm";
 
 export const prerender = false;
+
+export const config = {
+  maxDuration: 30,
+};
 
 let reviews: Array<{
   id: number;
@@ -25,11 +30,17 @@ let syncState: Array<{
   lastError: string | null;
 }> = [];
 let dbError: string | null = null;
+let syncFlash: { ok: boolean; message: string } | null = null;
 
 const googleConfigured = !!(serverEnv("GOOGLE_PLACES_API_KEY") && serverEnv("GOOGLE_PLACE_ID"));
 const yelpConfigured = !!(serverEnv("YELP_API_KEY")?.trim() && serverEnv("YELP_BUSINESS_ID")?.trim());
 
-if (isDbReady()) {
+async function loadReviewsData() {
+  if (!isDbReady()) {
+    dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
+    return;
+  }
+
   try {
     reviews = await db!
       .select({
@@ -52,9 +63,24 @@ if (isDbReady()) {
     dbError = e instanceof Error ? e.message : "Unknown database error";
     console.error("[Admin Reviews] DB error:", e);
   }
-} else {
-  dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
 }
+
+if (Astro.request.method === "POST") {
+  try {
+    const result = await syncReviews();
+    const googleFailed = !!result.google.error && result.google.upserted === 0;
+    syncFlash = googleFailed
+      ? { ok: false, message: result.google.error ?? "Google sync failed" }
+      : { ok: true, message: formatSyncResultMessage(result) };
+  } catch (err) {
+    syncFlash = {
+      ok: false,
+      message: err instanceof Error ? err.message : "Sync failed",
+    };
+  }
+}
+
+await loadReviewsData();
 
 function syncRow(platform: string) {
   return syncState.find((s) => s.platform === platform);
@@ -69,14 +95,16 @@ function syncRow(platform: string) {
         Google Legacy API returns up to 5 reviews (API limit). Yelp returns up to 3 excerpts on Enhanced/Premium plans.
       </p>
     </div>
-    <button
-      type="button"
-      id="sync-reviews-btn"
-      disabled={!!dbError || !googleConfigured}
-      class="shrink-0 px-5 py-2.5 bg-[var(--color-accent)] text-black text-sm font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-    >
-      Sync now
-    </button>
+    <form method="POST" id="sync-reviews-form" class="shrink-0">
+      <button
+        type="submit"
+        id="sync-reviews-btn"
+        disabled={!!dbError || !googleConfigured}
+        class="px-5 py-2.5 bg-[var(--color-accent)] text-black text-sm font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        Sync now
+      </button>
+    </form>
   </div>
 
   {dbError && (
@@ -92,7 +120,11 @@ function syncRow(platform: string) {
     </div>
   )}
 
-  <div id="sync-status" class="hidden mb-8 p-4 rounded-xl text-sm"></div>
+  {syncFlash && (
+    <div class={`mb-8 p-4 rounded-xl text-sm ${syncFlash.ok ? "bg-green-900/30 border border-green-500/40 text-green-300" : "bg-red-900/30 border border-red-500/40 text-red-300"}`}>
+      {syncFlash.message}
+    </div>
+  )}
 
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
     {(["google", "yelp"] as const).map((platform) => {
@@ -190,50 +222,12 @@ function syncRow(platform: string) {
   </div>
 
   <script>
+    const form = document.getElementById("sync-reviews-form");
     const btn = document.getElementById("sync-reviews-btn") as HTMLButtonElement | null;
-    const statusEl = document.getElementById("sync-status");
-
-    btn?.addEventListener("click", async () => {
-      if (!btn || !statusEl) return;
-      btn.disabled = true;
-      btn.textContent = "Syncing…";
-      statusEl.className = "hidden";
-
-      try {
-        const res = await fetch("/api/admin/sync-reviews", {
-          method: "POST",
-          credentials: "same-origin",
-          headers: { "Content-Type": "application/json" },
-          body: "{}",
-        });
-
-        const text = await res.text();
-        let data = {};
-        try {
-          data = text ? JSON.parse(text) : {};
-        } catch {
-          throw new Error(`${res.status} ${res.statusText}: ${text.slice(0, 120)}`);
-        }
-
-        statusEl.classList.remove("hidden");
-        if (res.ok) {
-          const g = data.google;
-          const y = data.yelp;
-          statusEl.className = "mb-8 p-4 rounded-xl text-sm bg-green-900/30 border border-green-500/40 text-green-300";
-          statusEl.textContent = `Google: ${g?.upserted ?? 0} review(s) synced${g?.rating != null ? `, ${g.rating}★ (${g.reviewCount} total)` : ""}.${y?.skipped ? ` Yelp skipped (${y.skipped}).` : y?.upserted ? ` Yelp: ${y.upserted} synced.` : ""}`;
-          setTimeout(() => location.reload(), 1200);
-        } else {
-          const g = data.google;
-          statusEl.className = "mb-8 p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-          statusEl.textContent = String(g?.error ?? data.error ?? `Sync failed (${res.status})`);
-        }
-      } catch (err) {
-        statusEl.classList.remove("hidden");
-        statusEl.className = "mb-8 p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-        statusEl.textContent = err instanceof Error ? err.message : "Request failed";
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Sync now";
+    form?.addEventListener("submit", () => {
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Syncing…";
       }
     });
   </script>
