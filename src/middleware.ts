@@ -1,6 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/astro/server";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
+import { adminApiError } from "./lib/admin-api";
 import { staff } from "./db/schema";
 import { eq } from "drizzle-orm";
 
@@ -55,7 +56,7 @@ export const onRequest = clerkMiddleware(async (auth, request) => {
     if (!userId) {
       const urlStr = typeof request.url === "string" ? request.url : request.url.toString();
       if (urlStr.includes("/api/")) {
-        return new Response("Unauthorized", { status: 401 });
+        return adminApiError(401);
       }
       const signInUrl = new URL("/sign-in", urlStr);
       signInUrl.searchParams.set("redirect_url", urlStr);
@@ -66,6 +67,6 @@ export const onRequest = clerkMiddleware(async (auth, request) => {
       return;
     }
 
-    return new Response("Unauthorized", { status: 403 });
+    return adminApiError(403);
   }
 });

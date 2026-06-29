@@ -64,10 +64,11 @@ export async function fetchYelpBusinessReviews(): Promise<{
 
   const encoded = encodeURIComponent(businessId);
   const headers = yelpHeaders(apiKey);
+  const fetchOpts = { headers, signal: AbortSignal.timeout(12_000) };
 
   const [businessRes, reviewsRes] = await Promise.all([
-    fetch(`https://api.yelp.com/v3/businesses/${encoded}`, { headers }),
-    fetch(`https://api.yelp.com/v3/businesses/${encoded}/reviews`, { headers }),
+    fetch(`https://api.yelp.com/v3/businesses/${encoded}`, fetchOpts),
+    fetch(`https://api.yelp.com/v3/businesses/${encoded}/reviews`, fetchOpts),
   ]);
 
   let rating: number | null = null;

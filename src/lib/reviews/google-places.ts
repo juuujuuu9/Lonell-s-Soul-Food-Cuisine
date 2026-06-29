@@ -43,7 +43,9 @@ export async function fetchGooglePlaceReviews(): Promise<{
     key: apiKey,
   });
 
-  const res = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?${params}`);
+  const res = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?${params}`, {
+    signal: AbortSignal.timeout(12_000),
+  });
   if (!res.ok) {
     throw new Error(`Google Places HTTP ${res.status}`);
   }
