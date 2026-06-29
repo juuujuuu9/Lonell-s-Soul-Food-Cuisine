@@ -1,0 +1,58 @@
+---
+import { isSmsEnabled } from "../lib/env";
+
+const current = Astro.url.pathname.replace(/\/$/, "") || "/admin";
+
+const links = [
+  { href: "/admin", label: "Dashboard" },
+  { href: "/admin/subscribers", label: "Subscribers" },
+  { href: "/admin/messages", label: "Messages" },
+  { href: "/admin/broadcast", label: "Broadcast" },
+  { href: "/admin/reviews", label: "Reviews" },
+  { href: "/admin/settings", label: "Settings" },
+];
+
+function isActive(href: string): boolean {
+  const normalized = href.replace(/\/$/, "");
+  if (normalized === "/admin") return current === "/admin";
+  return current.startsWith(normalized);
+}
+
+const smsEnabled = isSmsEnabled();
+---
+
+<nav
+  aria-label="Admin"
+  class="sticky top-0 z-40 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-base)]/95 backdrop-blur-md"
+>
+  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex items-center gap-2 shrink-0">
+      <a href="/admin" class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors">
+        Admin
+      </a>
+      <span
+        class={`inline-block w-2 h-2 rounded-full ${smsEnabled ? "bg-[var(--color-neon)]" : "bg-[var(--color-accent)]"}`}
+        title={smsEnabled ? "SMS enabled" : "SMS simulated"}
+        aria-hidden="true"
+      />
+    </div>
+    <ul class="flex gap-1 overflow-x-auto pb-0.5 -mx-1 px-1 scrollbar-thin">
+      {links.map(({ href, label }) => (
+        <li class="shrink-0">
+          <a
+            href={href}
+            aria-current={isActive(href) ? "page" : undefined}
+            class:list={[
+              "block px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap",
+              isActive(href)
+                ? "bg-[var(--color-accent)] text-black font-medium"
+                : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-card)]",
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>

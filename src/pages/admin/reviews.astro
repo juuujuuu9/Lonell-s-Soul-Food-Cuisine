@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import { db, schema, isDbReady } from "../../db/index";
 import { desc } from "drizzle-orm";
 
@@ -33,11 +33,8 @@ if (isDbReady()) {
 }
 ---
 
-<BaseLayout title="Reviews">
-  <div class="min-h-screen pb-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
-      <h1 class="font-display text-4xl font-bold mt-4 mb-8">Reputation & Reviews</h1>
+<AdminLayout title="Reviews">
+  <h1 class="font-display text-4xl font-bold mb-8">Reputation & Reviews</h1>
 
       {dbError && (
         <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
@@ -52,15 +49,15 @@ if (isDbReady()) {
         <div class="space-y-4">
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
             <p class="text-xs text-[var(--color-neon)] mb-2">5-Star Response</p>
-            <p class="text-sm text-[var(--color-text-secondary)]">"Thank you so much for the kind words, {name}! We're thrilled you enjoyed your experience at Lonell's. Hope to see you again soon. Bring a friend next time!"</p>
+            <p class="text-sm text-[var(--color-text-secondary)]">"Thank you so much for the kind words, {'{name}'}! We're thrilled you enjoyed your experience at Lonell's. Hope to see you again soon. Bring a friend next time!"</p>
           </div>
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
             <p class="text-xs text-[var(--color-accent)] mb-2">4-Star / Positive Feedback</p>
-            <p class="text-sm text-[var(--color-text-secondary)]">"Thanks for the feedback, {name}! We appreciate your support and will share your comments with our team. Can't wait to have you back!"</p>
+            <p class="text-sm text-[var(--color-text-secondary)]">"Thanks for the feedback, {'{name}'}! We appreciate your support and will share your comments with our team. Can't wait to have you back!"</p>
           </div>
           <div class="p-4 bg-[var(--color-surface-base)] rounded-lg">
             <p class="text-xs text-[var(--color-rose)] mb-2">3-Star / Constructive</p>
-            <p class="text-sm text-[var(--color-text-secondary)]">"Hi {name}, thank you for your honest feedback. We're sorry your visit didn't fully meet expectations. We'd love the chance to make it right. Please reach out to us at (323) 451-3104."</p>
+            <p class="text-sm text-[var(--color-text-secondary)]">"Hi {'{name}'}, thank you for your honest feedback. We're sorry your visit didn't fully meet expectations. We'd love the chance to make it right. Please reach out to us at (323) 451-3104."</p>
           </div>
         </div>
       </div>
@@ -100,6 +97,4 @@ if (isDbReady()) {
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-</BaseLayout>
+</AdminLayout>

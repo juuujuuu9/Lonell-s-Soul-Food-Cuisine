@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import { isSmsEnabled, serverEnv } from "../../lib/env";
 
 export const prerender = false;
@@ -7,11 +7,8 @@ export const prerender = false;
 const smsEnabled = isSmsEnabled();
 ---
 
-<BaseLayout title="Settings">
-  <div class="min-h-screen pb-16">
-    <div class="max-w-4xl mx-auto px-4">
-      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
-      <h1 class="font-display text-4xl font-bold mt-4 mb-8">Settings</h1>
+<AdminLayout title="Settings" maxWidth="4xl">
+  <h1 class="font-display text-4xl font-bold mb-8">Settings</h1>
 
       <!-- Environment Status -->
       <div class="space-y-6">
@@ -77,6 +74,4 @@ const smsEnabled = isSmsEnabled();
           </ul>
         </div>
       </div>
-    </div>
-  </div>
-</BaseLayout>
+</AdminLayout>

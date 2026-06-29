@@ -1,0 +1,26 @@
+---
+import AdminNav from "../components/AdminNav.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  maxWidth?: "2xl" | "4xl" | "6xl";
+}
+
+const { title, maxWidth = "6xl" } = Astro.props;
+
+const widthClass = {
+  "2xl": "max-w-2xl",
+  "4xl": "max-w-4xl",
+  "6xl": "max-w-6xl",
+}[maxWidth];
+---
+
+<BaseLayout title={title} noindex>
+  <div class="min-h-screen pb-16">
+    <AdminNav />
+    <div class={`${widthClass} mx-auto px-4 pt-8`}>
+      <slot />
+    </div>
+  </div>
+</BaseLayout>

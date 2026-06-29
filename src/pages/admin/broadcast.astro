@@ -1,5 +1,5 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import AdminLayout from "../../layouts/AdminLayout.astro";
 import { db, schema, isDbReady } from "../../db/index";
 import { isSmsEnabled } from "../../lib/env";
 import { and, count, eq } from "drizzle-orm";
@@ -25,11 +25,8 @@ if (isDbReady()) {
 }
 ---
 
-<BaseLayout title="Send Broadcast">
-  <div class="min-h-screen pb-16">
-    <div class="max-w-2xl mx-auto px-4">
-      <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
-      <h1 class="font-display text-4xl font-bold mt-4 mb-2">Send Broadcast</h1>
+<AdminLayout title="Send Broadcast" maxWidth="2xl">
+  <h1 class="font-display text-4xl font-bold mb-2">Send Broadcast</h1>
       <p class="text-sm text-[var(--color-text-secondary)] mb-8">
         Send a one-time SMS to all {activeSubscribers} active subscriber{activeSubscribers === 1 ? "" : "s"}.
         {!smsEnabled && (
@@ -77,8 +74,6 @@ if (isDbReady()) {
           Send to {activeSubscribers} subscriber{activeSubscribers === 1 ? "" : "s"}
         </button>
       </form>
-    </div>
-  </div>
 
   <script define:vars={{ smsEnabled }}>
     const form = document.getElementById("broadcast-form") as HTMLFormElement;
@@ -136,4 +131,4 @@ if (isDbReady()) {
       }
     });
   </script>
-</BaseLayout>
+</AdminLayout>
