@@ -8,6 +8,7 @@ import {
   winBackExpiresAt,
   winBackMessage,
 } from "./loyalty";
+import { isSmsEnabled } from "./env";
 import { sendSms } from "./sms";
 
 const BATCH_LIMIT = 500;
@@ -15,7 +16,7 @@ const BATCH_LIMIT = 500;
 type CronResult = { sent: number; simulated: boolean; error?: string };
 
 function isSimulated(): boolean {
-  return process.env.SMS_ENABLED !== "true";
+  return !isSmsEnabled();
 }
 
 async function sendBatch(

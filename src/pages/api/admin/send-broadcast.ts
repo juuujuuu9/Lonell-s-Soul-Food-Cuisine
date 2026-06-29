@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { eq } from "drizzle-orm";
 import { db, schema, isDbReady } from "../../../db/index";
+import { isSmsEnabled } from "../../../lib/env";
 import { sendSms } from "../../../lib/sms";
 
 export const prerender = false;
@@ -48,7 +49,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({
       sent,
       total: subscribers.length,
-      simulated: process.env.SMS_ENABLED !== "true",
+      simulated: !isSmsEnabled(),
       results,
     }), {
       status: 200,

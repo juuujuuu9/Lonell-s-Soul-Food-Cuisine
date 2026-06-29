@@ -12,13 +12,18 @@ import {
   unknownKeywordMessage,
   welcomeMessage,
 } from "./loyalty";
+import { isSmsEnabled, serverEnv } from "./env";
 
-const SMS_ENABLED = process.env.SMS_ENABLED === "true";
-const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "+14242958020";
-const SITE_URL = process.env.PUBLIC_SITE_URL || "https://lonellssoulfood.com";
+function twilioFromNumber(): string {
+  return serverEnv("TWILIO_FROM_NUMBER") || "+14242958020";
+}
+
+function siteUrl(): string {
+  return serverEnv("PUBLIC_SITE_URL") || "https://lonellssoulfood.com";
+}
 
 function log(level: "info" | "error", message: string, data?: Record<string, unknown>) {
-  const prefix = SMS_ENABLED ? "SMS" : "SMS:SIMULATED";
+  const prefix = isSmsEnabled() ? "SMS" : "SMS:SIMULATED";
   const fn = level === "error" ? console.error : console.log;
   fn(`[${prefix}] ${message}`, data ?? "");
 }
@@ -30,10 +35,10 @@ export async function logOutboundMessage(
 ): Promise<void> {
   if (!isDbReady()) return;
 
-  const simulated = opts?.simulated ?? !SMS_ENABLED;
+  const simulated = opts?.simulated ?? !isSmsEnabled();
   await db!.insert(schema.messages).values({
     toNumber: to,
-    fromNumber: TWILIO_FROM_NUMBER,
+    fromNumber: twilioFromNumber(),
     body,
     direction: "outbound",
     status: simulated ? "simulated" : "sent",
@@ -49,14 +54,14 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
     return { success: false, error: "Database not configured" };
   }
 
-  if (!SMS_ENABLED) {
+  if (!isSmsEnabled()) {
     log("info", `SIMULATED send to ${to}: "${body}"`);
     try {
       const [msg] = await db!
         .insert(schema.messages)
         .values({
           toNumber: to,
-          fromNumber: TWILIO_FROM_NUMBER,
+          fromNumber: twilioFromNumber(),
           body,
           direction: "outbound",
           status: "simulated",
@@ -72,16 +77,16 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
 
   try {
     const { default: twilio } = await import("twilio");
-    const accountSid = process.env.TWILIO_ACCOUNT_SID;
-    const authToken = process.env.TWILIO_AUTH_TOKEN;
+    const accountSid = serverEnv("TWILIO_ACCOUNT_SID");
+    const authToken = serverEnv("TWILIO_AUTH_TOKEN");
     if (!accountSid || !authToken) {
       throw new Error("TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set");
     }
     const client = twilio(accountSid, authToken);
-    const statusCallback = `${SITE_URL}/api/sms-status-callback`;
+    const statusCallback = `${siteUrl()}/api/sms-status-callback`;
     const result = await client.messages.create({
       to,
-      from: TWILIO_FROM_NUMBER,
+      from: twilioFromNumber(),
       body,
       statusCallback,
     });
@@ -90,7 +95,7 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
       .insert(schema.messages)
       .values({
         toNumber: to,
-        fromNumber: TWILIO_FROM_NUMBER,
+        fromNumber: twilioFromNumber(),
         body,
         direction: "outbound",
         status: "sent",
@@ -130,7 +135,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "HELP") {
-    return helpMessage(SITE_URL);
+    return helpMessage(siteUrl());
   }
 
   if (normalized === "SOUL") {
@@ -177,12 +182,12 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
   }
 
   if (normalized === "MENU") {
-    return menuMessage(SITE_URL);
+    return menuMessage(siteUrl());
   }
 
   if (normalized === "EVENTS") {
-    return eventsMessage(SITE_URL);
+    return eventsMessage(siteUrl());
   }
 
-  return unknownKeywordMessage(SITE_URL);
+  return unknownKeywordMessage(siteUrl());
 }

@@ -5,8 +5,9 @@ import clerk from "@clerk/astro";
 import sitemap from "@astrojs/sitemap";
 import { loadEnv } from "vite";
 
-// Load env files onto process.env so server-side code (db, api, etc.) can use them
-const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+// .env.local overrides .env (Vite loadEnv order). Secrets stay on process.env, not import.meta.env.
+const mode = process.env.MODE ?? process.env.NODE_ENV ?? "development";
+const env = loadEnv(mode, process.cwd(), "");
 Object.assign(process.env, env);
 
 export default defineConfig({

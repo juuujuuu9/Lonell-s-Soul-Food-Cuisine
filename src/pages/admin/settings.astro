@@ -1,7 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { isSmsEnabled, serverEnv } from "../../lib/env";
 
 export const prerender = false;
+
+const smsEnabled = isSmsEnabled();
 ---
 
 <BaseLayout title="Settings">
@@ -14,6 +17,15 @@ export const prerender = false;
       <div class="space-y-6">
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <h2 class="font-display text-lg font-semibold mb-4">Environment Variables</h2>
+          <p class="text-sm text-[var(--color-text-secondary)] mb-4">
+            SMS runtime status:{" "}
+            <strong class={smsEnabled ? "text-[var(--color-neon)]" : "text-[var(--color-brand-amber)]"}>
+              {smsEnabled ? "ENABLED" : "SIMULATED"}
+            </strong>
+            {serverEnv("SMS_ENABLED") && (
+              <span class="text-[var(--color-text-muted)]"> (SMS_ENABLED={serverEnv("SMS_ENABLED")})</span>
+            )}
+          </p>
           <div class="space-y-3">
             {[
               { key: "DATABASE_URL", label: "Database", sensitive: true },
@@ -26,10 +38,10 @@ export const prerender = false;
               <div class="flex items-center justify-between py-2 border-b border-[var(--color-border-subtle)] last:border-0">
                 <span class="text-sm text-[var(--color-text-secondary)]">{label}</span>
                 <span class="text-xs">
-                  {import.meta.env[key]
+                  {serverEnv(key)
                     ? sensitive
-                      ? `${import.meta.env[key].slice(0, 8)}...`
-                      : import.meta.env[key]
+                      ? `${serverEnv(key)!.slice(0, 8)}...`
+                      : serverEnv(key)
                     : <span class="text-[var(--color-rose)]">Not Set</span>
                   }
                 </span>

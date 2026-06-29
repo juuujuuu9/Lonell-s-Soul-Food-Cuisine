@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { db, schema, isDbReady } from "../../db/index";
+import { isSmsEnabled } from "../../lib/env";
 import { and, count, eq } from "drizzle-orm";
 
 export const prerender = false;
 
-const smsEnabled = import.meta.env.SMS_ENABLED === "true";
+const smsEnabled = isSmsEnabled();
 let activeSubscribers = 0;
 let dbError: string | null = null;
 
