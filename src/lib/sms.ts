@@ -1,5 +1,17 @@
 import { db, schema, isDbReady } from "../db/index";
 import { eq } from "drizzle-orm";
+import { PROMO_CODE } from "../data/business";
+import {
+  existingMemberMessage,
+  eventsMessage,
+  helpMessage,
+  menuMessage,
+  promoExpiresAt,
+  rejoinMessage,
+  stopConfirmationMessage,
+  unknownKeywordMessage,
+  welcomeMessage,
+} from "./loyalty";
 
 const SMS_ENABLED = process.env.SMS_ENABLED === "true";
 const TWILIO_FROM_NUMBER = process.env.TWILIO_FROM_NUMBER || "+14242958020";
@@ -9,6 +21,25 @@ function log(level: "info" | "error", message: string, data?: Record<string, unk
   const prefix = SMS_ENABLED ? "SMS" : "SMS:SIMULATED";
   const fn = level === "error" ? console.error : console.log;
   fn(`[${prefix}] ${message}`, data ?? "");
+}
+
+export async function logOutboundMessage(
+  to: string,
+  body: string,
+  opts?: { simulated?: boolean; twilioSid?: string }
+): Promise<void> {
+  if (!isDbReady()) return;
+
+  const simulated = opts?.simulated ?? !SMS_ENABLED;
+  await db!.insert(schema.messages).values({
+    toNumber: to,
+    fromNumber: TWILIO_FROM_NUMBER,
+    body,
+    direction: "outbound",
+    status: simulated ? "simulated" : "sent",
+    twilioSid: opts?.twilioSid,
+    simulated,
+  });
 }
 
 // ── Send SMS (real or simulated) ──
@@ -76,7 +107,7 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
   }
 }
 
-// ── Handle inbound keywords (TCPA/CTIA compliant) ──
+// ── Handle inbound keywords (TCPA/CTIA compliant). Returns reply text only — webhook sends via TwiML. ──
 export async function handleInbound(from: string, keyword: string): Promise<string> {
   const normalized = keyword.trim().toUpperCase();
 
@@ -95,16 +126,11 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
           .where(eq(schema.subscribers.phoneNumber, from));
       }
     }
-
-    const reply = "Lonell's Soul Food Cuisine: You've been unsubscribed. Reply SOUL to rejoin anytime.";
-    await sendSms(from, reply);
-    return reply;
+    return stopConfirmationMessage();
   }
 
   if (normalized === "HELP") {
-    const reply = `Lonell's Soul Food Cuisine: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit ${SITE_URL} for more.`;
-    await sendSms(from, reply);
-    return reply;
+    return helpMessage(SITE_URL);
   }
 
   if (normalized === "SOUL") {
@@ -117,46 +143,46 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
 
       if (existing.length > 0) {
         if (existing[0].optOut) {
+          const expires = promoExpiresAt();
           await db!
             .update(schema.subscribers)
-            .set({ optOut: false, optOutAt: null, consentAt: new Date() })
+            .set({
+              optOut: false,
+              optOutAt: null,
+              consentAt: new Date(),
+              promoExpiresAt: expires,
+              reviewPromptSentAt: null,
+              day7NudgeSentAt: null,
+              winBackSentAt: null,
+              lastVisitAt: null,
+            })
             .where(eq(schema.subscribers.phoneNumber, from));
-
-          const reply = "Lonell's Soul Food Cuisine: You are opted back in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
-          await sendSms(from, reply);
-          return reply;
+          return rejoinMessage(expires);
         }
-        const reply = "Lonell's Soul Food Cuisine: You are already a member. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
-        await sendSms(from, reply);
-        return reply;
+        return existingMemberMessage(existing[0].promoExpiresAt);
       }
 
+      const expires = promoExpiresAt();
       await db!.insert(schema.subscribers).values({
         phoneNumber: from,
         keyword: "SOUL",
         consentSource: "sms_keyword",
-        promoCode: "SOUL10",
+        promoCode: PROMO_CODE,
+        promoExpiresAt: expires,
       });
+      return welcomeMessage(expires);
     }
 
-    const reply = "Lonell's Soul Food Cuisine: You are now opted in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.";
-    await sendSms(from, reply);
-    return reply;
+    return welcomeMessage(promoExpiresAt());
   }
 
   if (normalized === "MENU") {
-    const reply = `Lonell's Soul Food Cuisine: menu at ${SITE_URL}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler! Reply HELP for help, STOP to cancel.`;
-    await sendSms(from, reply);
-    return reply;
+    return menuMessage(SITE_URL);
   }
 
   if (normalized === "EVENTS") {
-    const reply = `Lonell's Soul Food Cuisine: See our latest events and schedule at ${SITE_URL}/events. Reply HELP for help, STOP to cancel.`;
-    await sendSms(from, reply);
-    return reply;
+    return eventsMessage(SITE_URL);
   }
 
-  const reply = `Lonell's Soul Food Cuisine: Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit ${SITE_URL}.`;
-  await sendSms(from, reply);
-  return reply;
+  return unknownKeywordMessage(SITE_URL);
 }

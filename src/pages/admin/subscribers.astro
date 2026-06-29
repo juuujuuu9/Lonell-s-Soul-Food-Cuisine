@@ -5,7 +5,19 @@ import { desc } from "drizzle-orm";
 
 export const prerender = false;
 
-let subscribers: Array<{ id: number; phoneNumber: string | null; keyword: string | null; optOut: boolean | null; createdAt: Date | null; promoCode: string | null; promoRedeemed: boolean | null }> = [];
+let subscribers: Array<{
+  id: number;
+  phoneNumber: string | null;
+  keyword: string | null;
+  optOut: boolean | null;
+  createdAt: Date | null;
+  promoCode: string | null;
+  promoRedeemed: boolean | null;
+  lastVisitAt: Date | null;
+  reviewPromptSentAt: Date | null;
+  day7NudgeSentAt: Date | null;
+  winBackSentAt: Date | null;
+}> = [];
 let dbError: string | null = null;
 
 if (isDbReady()) {
@@ -19,6 +31,10 @@ if (isDbReady()) {
         createdAt: schema.subscribers.createdAt,
         promoCode: schema.subscribers.promoCode,
         promoRedeemed: schema.subscribers.promoRedeemed,
+        lastVisitAt: schema.subscribers.lastVisitAt,
+        reviewPromptSentAt: schema.subscribers.reviewPromptSentAt,
+        day7NudgeSentAt: schema.subscribers.day7NudgeSentAt,
+        winBackSentAt: schema.subscribers.winBackSentAt,
       })
       .from(schema.subscribers)
       .orderBy(desc(schema.subscribers.createdAt))
@@ -36,7 +52,10 @@ if (isDbReady()) {
   <div class="min-h-screen pb-16">
     <div class="max-w-6xl mx-auto px-4">
       <a href="/admin" class="text-xs text-[var(--color-accent)] hover:underline">&larr; Back to Dashboard</a>
-      <h1 class="font-display text-4xl font-bold mt-4 mb-8">SMS Subscribers</h1>
+      <h1 class="font-display text-4xl font-bold mt-4 mb-2">SMS Subscribers</h1>
+      <p class="text-sm text-[var(--color-text-secondary)] mb-8">
+        Log visits when a member dines in so Day 7 and win-back messages skip them. Win-back resets after each logged visit.
+      </p>
 
       {dbError && (
         <div class="mb-8 p-4 bg-red-900/30 border border-red-500/40 rounded-xl">
@@ -49,23 +68,22 @@ if (isDbReady()) {
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b border-[var(--color-border-subtle)] text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
-              <th class="text-left py-3 pr-4">ID</th>
               <th class="text-left py-3 pr-4">Phone</th>
-              <th class="text-left py-3 pr-4">Keyword</th>
               <th class="text-left py-3 pr-4">Status</th>
               <th class="text-left py-3 pr-4">Promo</th>
+              <th class="text-left py-3 pr-4">Last Visit</th>
+              <th class="text-left py-3 pr-4">Drip Sent</th>
               <th class="text-left py-3 pr-4">Signed Up</th>
+              <th class="text-left py-3 pr-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {subscribers.length === 0 && (
-              <tr><td colspan="6" class="py-8 text-center text-[var(--color-text-muted)]">No subscribers yet. Database may not be provisioned.</td></tr>
+              <tr><td colspan="7" class="py-8 text-center text-[var(--color-text-muted)]">No subscribers yet.</td></tr>
             )}
             {subscribers.map((sub) => (
-              <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]">
-                <td class="py-3 pr-4 text-xs">{sub.id}</td>
+              <tr class="border-b border-[var(--color-border-subtle)] hover:bg-[var(--color-surface-hover)]" data-subscriber-id={sub.id}>
                 <td class="py-3 pr-4">{sub.phoneNumber}</td>
-                <td class="py-3 pr-4 text-xs text-[var(--color-accent)]">{sub.keyword}</td>
                 <td class="py-3 pr-4">
                   <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${sub.optOut ? 'bg-red-900/30 text-red-400' : 'bg-green-900/30 text-green-400'}`}>
                     {sub.optOut ? 'Opted Out' : 'Active'}
@@ -75,7 +93,39 @@ if (isDbReady()) {
                   <span class="text-xs">{sub.promoCode || '-'}</span>
                   {sub.promoRedeemed && <span class="ml-2 text-xs text-[var(--color-neon)]">Redeemed</span>}
                 </td>
+                <td class="py-3 pr-4 text-xs text-[var(--color-text-muted)]">
+                  {sub.lastVisitAt?.toLocaleDateString() ?? '—'}
+                </td>
+                <td class="py-3 pr-4 text-xs text-[var(--color-text-muted)]">
+                  {[
+                    sub.reviewPromptSentAt && 'Review',
+                    sub.day7NudgeSentAt && 'Day 7',
+                    sub.winBackSentAt && 'Win-back',
+                  ].filter(Boolean).join(', ') || '—'}
+                </td>
                 <td class="py-3 pr-4 text-[var(--color-text-muted)] text-xs">{sub.createdAt?.toLocaleDateString()}</td>
+                <td class="py-3 pr-4">
+                  {!sub.optOut && (
+                    <div class="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        class="subscriber-action px-2 py-1 text-xs rounded border border-[var(--color-border-subtle)] hover:border-[var(--color-accent)] transition-colors"
+                        data-action="visit"
+                      >
+                        Log visit
+                      </button>
+                      {!sub.promoRedeemed && (
+                        <button
+                          type="button"
+                          class="subscriber-action px-2 py-1 text-xs rounded border border-[var(--color-border-subtle)] hover:border-[var(--color-neon)] transition-colors"
+                          data-action="redeem"
+                        >
+                          Redeem promo
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -83,4 +133,38 @@ if (isDbReady()) {
       </div>
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll(".subscriber-action").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const row = btn.closest("tr");
+        const id = Number(row?.getAttribute("data-subscriber-id"));
+        const action = btn.getAttribute("data-action");
+        if (!id || !action) return;
+
+        const label = action === "redeem" ? "Mark welcome promo as redeemed and log visit?" : "Log a visit for this subscriber?";
+        if (!confirm(label)) return;
+
+        btn.setAttribute("disabled", "true");
+        try {
+          const res = await fetch("/api/admin/subscriber-action", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id, action }),
+          });
+          if (res.ok) {
+            location.reload();
+          } else {
+            const data = await res.json();
+            alert(data.error ?? "Request failed");
+          }
+        } catch {
+          alert("Network error");
+        } finally {
+          btn.removeAttribute("disabled");
+        }
+      });
+    });
+  </script>
 </BaseLayout>

@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { db, schema, isDbReady } from "../../db/index";
 import { eq } from "drizzle-orm";
+import { promoExpiresAt, welcomeMessage } from "../../lib/loyalty";
+import { PROMO_CODE } from "../../data/business";
 import { sendSms } from "../../lib/sms";
 
 export const prerender = false;
@@ -44,25 +46,33 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const [subscriber] = await db!
+    const expires = promoExpiresAt();
+    await db!
       .insert(schema.subscribers)
       .values({
         phoneNumber,
         keyword: "SOUL",
         consentSource: "web_form",
-        promoCode: "SOUL10",
+        promoCode: PROMO_CODE,
         consentAt: new Date(),
+        promoExpiresAt: expires,
         optOut: false,
       })
       .onConflictDoUpdate({
         target: schema.subscribers.phoneNumber,
-        set: { optOut: false, optOutAt: null, consentAt: new Date() },
-      })
-      .returning();
+        set: {
+          optOut: false,
+          optOutAt: null,
+          consentAt: new Date(),
+          promoExpiresAt: expires,
+          reviewPromptSentAt: null,
+          day7NudgeSentAt: null,
+          winBackSentAt: null,
+          lastVisitAt: null,
+        },
+      });
 
-    // Send welcome message (simulated if SMS_ENABLED is off)
-    const welcomeMsg = `Lonell's Soul Food Cuisine: You are now opted in. Promo code SOUL10 — 10% off + free champagne brunch upgrade. For help, reply HELP. To opt-out, reply STOP.`;
-    await sendSms(phoneNumber, welcomeMsg);
+    await sendSms(phoneNumber, welcomeMessage(expires));
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

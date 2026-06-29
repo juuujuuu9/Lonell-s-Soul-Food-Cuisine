@@ -2,5 +2,31 @@
   "framework": "astro",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install"
+  "installCommand": "npm install",
+  "crons": [
+    {
+      "path": "/api/cron/review-prompt",
+      "schedule": "0 15 * * *"
+    },
+    {
+      "path": "/api/cron/day7-nudge",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/cron/win-back",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/cron/weekly-jazz",
+      "schedule": "0 19 * * 3"
+    },
+    {
+      "path": "/api/cron/weekly-brunch",
+      "schedule": "0 17 * * 0"
+    },
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 6 1 * *"
+    }
+  ]
 }

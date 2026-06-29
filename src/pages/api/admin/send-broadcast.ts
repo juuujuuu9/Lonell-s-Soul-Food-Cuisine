@@ -7,13 +7,6 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    if (process.env.SMS_ENABLED !== "true") {
-      return new Response(JSON.stringify({ error: "SMS service is not enabled. Set SMS_ENABLED=true in your environment." }), {
-        status: 503,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
     if (!isDbReady()) {
       return new Response(JSON.stringify({ error: "Database is not configured." }), {
         status: 503,
@@ -31,18 +24,33 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    const trimmed = message.trim();
+    if (trimmed.length > 1600) {
+      return new Response(JSON.stringify({ error: "Message must be 1600 characters or fewer" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const subscribers = await db!
       .select()
       .from(schema.subscribers)
       .where(eq(schema.subscribers.optOut, false));
 
+    let sent = 0;
     const results = [];
     for (const sub of subscribers) {
-      const result = await sendSms(sub.phoneNumber!, message);
+      const result = await sendSms(sub.phoneNumber!, trimmed);
+      if (result.success) sent++;
       results.push({ phone: sub.phoneNumber, success: result.success });
     }
 
-    return new Response(JSON.stringify({ sent: results.length, total: subscribers.length, results }), {
+    return new Response(JSON.stringify({
+      sent,
+      total: subscribers.length,
+      simulated: process.env.SMS_ENABLED !== "true",
+      results,
+    }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

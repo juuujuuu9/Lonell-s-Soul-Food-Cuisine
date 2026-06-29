@@ -8,6 +8,20 @@
       "when": 1780943629849,
       "tag": "0000_glorious_trish_tilby",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781029000000,
+      "tag": "0001_loyalty_promo_expiry",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781115400000,
+      "tag": "0002_loyalty_drip_sequences",
+      "breakpoints": true
     }
   ]
 }

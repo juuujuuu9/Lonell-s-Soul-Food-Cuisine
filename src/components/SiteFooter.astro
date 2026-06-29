@@ -1,4 +1,6 @@
 ---
+import { GOOGLE_REVIEW_URL } from "../data/business";
+
 const hours = [
   { day: "Monday", time: "CLOSED" },
   { day: "Tuesday", time: "11:00 AM – 7:00 PM" },
@@ -70,7 +72,7 @@ const todayName = dayNames[todayIndex];
         </p>
         <p class="mt-4">
           <a
-            href="https://search.google.com/local/writereview?placeid="
+            href={GOOGLE_REVIEW_URL}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-1 text-xs text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors"
@@ -117,7 +119,7 @@ const todayName = dayNames[todayIndex];
       </p>
       <div class="flex items-center gap-4">
         <a href="/privacy" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">Privacy</a>
-        <a href="/sms-terms" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">SMS Terms</a>
+        <a href="/terms" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">Terms</a>
         <a href="/accessibility" class="footer-link text-xs tracking-wider uppercase hover:text-[var(--color-accent)]">Accessibility</a>
       </div>
       <div class="flex items-center gap-3">

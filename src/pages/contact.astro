@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import type { PageHeaderBackground } from "../components/PageHeader.astro";
 import Section from "../components/Section.astro";
+import LoyaltySignupButton from "../components/LoyaltySignupButton.astro";
+import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SIGNUP_ID } from "../data/business";
 
 const headerBackground: PageHeaderBackground = {
   webp: "/media/images/contact-header.webp",
@@ -189,25 +191,15 @@ const headerBackground: PageHeaderBackground = {
     </section>
 
     <!-- SMS Signup -->
-    <section id="sms-signup" class="section-padding bg-[var(--color-surface-card)]">
+    <section id={LOYALTY_SIGNUP_ID} class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-lg mx-auto text-center">
         <span class="eyebrow" data-reveal>Join the Fam</span>
         <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>SoulFood SMS Club</h2>
         <p class="text-[var(--color-text-secondary)] mb-6 leading-relaxed" data-reveal>
-          Text <strong class="text-[var(--color-accent)]">SOUL</strong> to <strong class="text-[var(--color-accent)]">(424) 295-8020</strong> to join our VIP list.
-          Get exclusive offers, menu previews, event invites and your <strong class="text-white">SOUL10</strong> promo code
-          for 10% off + a free champagne brunch upgrade.
+          Text <strong class="text-[var(--color-accent)]">{LOYALTY_KEYWORD}</strong> to <strong class="text-[var(--color-accent)]">{LOYALTY_SMS_DISPLAY}</strong> to join our VIP list.
+          Get 10% off your dinner when you show your welcome text. Offer expires 30 days after you join.
         </p>
-        <div class="p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)]">
-          <div class="flex flex-col items-center gap-3">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[var(--color-neon)]">
-              <path d="M22 2L11 13" />
-              <path d="M22 2L15 22L11 13L2 9L22 2Z" />
-            </svg>
-            <p class="text-sm text-[var(--color-neon)]">Text SOUL to (424) 295-8020</p>
-            <p class="text-xs text-[var(--color-text-muted)]">Message & data rates may apply. Reply STOP to cancel.</p>
-          </div>
-        </div>
+        <LoyaltySignupButton variant="card" />
       </div>
     </section>
   </div>

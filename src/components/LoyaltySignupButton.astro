@@ -1,0 +1,222 @@
+---
+import {
+  LOYALTY_KEYWORD,
+  LOYALTY_SMS_DISPLAY,
+  loyaltySmsHref,
+} from "../data/business";
+import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty-consent";
+
+interface Props {
+  variant?: "button" | "card";
+}
+
+const { variant = "button" } = Astro.props;
+const dialogId = `loyalty-opt-in-${Math.random().toString(36).slice(2, 9)}`;
+const smsHref = loyaltySmsHref();
+---
+
+{
+  variant === "card" ? (
+    <button
+      type="button"
+      class="block w-full p-6 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)] hover:border-[var(--color-neon)] transition-colors text-left"
+      data-loyalty-open={dialogId}
+    >
+      <div class="flex flex-col items-center gap-3">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          class="text-[var(--color-neon)]"
+          aria-hidden="true"
+        >
+          <path d="M22 2L11 13" />
+          <path d="M22 2L15 22L11 13L2 9L22 2Z" />
+        </svg>
+        <p class="text-sm text-[var(--color-neon)] text-center">
+          Tap to text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}
+        </p>
+        <p class="text-xs text-[var(--color-text-muted)] text-center">
+          Message & data rates may apply. Reply STOP to cancel.
+        </p>
+      </div>
+    </button>
+  ) : (
+    <button
+      type="button"
+      class="inline-flex items-center px-6 py-2.5 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity"
+      data-loyalty-open={dialogId}
+    >
+      Text Us to Join
+    </button>
+  )
+}
+
+<dialog
+  id={dialogId}
+  class="loyalty-dialog"
+  aria-labelledby={`${dialogId}-title`}
+>
+  <div class="loyalty-dialog-panel">
+    <header class="loyalty-dialog-header">
+      <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-2">
+        {LOYALTY_PROGRAM_NAME}
+      </p>
+      <h2
+        id={`${dialogId}-title`}
+        class="font-display text-xl font-bold leading-tight"
+      >
+        Join via text message
+      </h2>
+    </header>
+
+    <div class="loyalty-dialog-body text-sm text-[var(--color-text-secondary)] leading-relaxed space-y-3">
+      <p>
+        By texting <strong class="text-[var(--color-text-primary)]">{LOYALTY_KEYWORD}</strong> to{" "}
+        <strong class="text-[var(--color-text-primary)]">{LOYALTY_SMS_DISPLAY}</strong>, you agree to
+        receive recurring automated SMS messages from Lonell&apos;s Soul Food Cuisine, including
+        exclusive offers, menu previews, and event invitations ({LOYALTY_MESSAGE_FREQUENCY}).
+      </p>
+      <p>
+        Consent is not required as a condition of purchase. Message and data rates may apply.
+        Reply <strong class="text-[var(--color-text-primary)]">STOP</strong> to unsubscribe or{" "}
+        <strong class="text-[var(--color-text-primary)]">HELP</strong> for help.
+      </p>
+      <p>
+        See our{" "}
+        <a href="/terms#sms-program" class="text-[var(--color-accent)] hover:underline">
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a href="/privacy" class="text-[var(--color-accent)] hover:underline">
+          Privacy Policy
+        </a>.
+      </p>
+      <p class="text-xs text-[var(--color-text-muted)]">
+        If your messaging app doesn&apos;t open, text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}{" "}
+        manually.
+      </p>
+    </div>
+
+    <footer class="loyalty-dialog-footer">
+      <button
+        type="button"
+        class="loyalty-dialog-join"
+        data-loyalty-join
+      >
+        Text {LOYALTY_KEYWORD} to join
+      </button>
+      <button
+        type="button"
+        class="loyalty-dialog-cancel"
+        data-loyalty-close
+      >
+        Not now
+      </button>
+    </footer>
+  </div>
+</dialog>
+
+<script define:vars={{ dialogId, smsHref }}>
+  const dialog = document.getElementById(dialogId);
+  if (!dialog) throw new Error();
+
+  document.querySelectorAll(`[data-loyalty-open="${dialogId}"]`).forEach((button) => {
+    button.addEventListener("click", () => dialog.showModal());
+  });
+
+  const closeBtn = dialog.querySelector("[data-loyalty-close]");
+  closeBtn?.addEventListener("click", () => dialog.close());
+
+  const joinBtn = dialog.querySelector("[data-loyalty-join]");
+  joinBtn?.addEventListener("click", () => {
+    window.location.href = smsHref;
+  });
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  dialog.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") dialog.close();
+  });
+</script>
+
+<style>
+  .loyalty-dialog {
+    width: min(100% - 2rem, 28rem);
+    max-width: calc(100vw - 2rem);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface-elevated);
+    color: var(--color-text-primary);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  }
+
+  .loyalty-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  .loyalty-dialog-panel {
+    padding: 1.5rem;
+  }
+
+  .loyalty-dialog-header {
+    margin-bottom: 1rem;
+  }
+
+  .loyalty-dialog-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .loyalty-dialog-join {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-neon);
+    color: #000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .loyalty-dialog-join:hover {
+    opacity: 0.9;
+  }
+
+  .loyalty-dialog-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .loyalty-dialog-cancel:hover {
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+</style>

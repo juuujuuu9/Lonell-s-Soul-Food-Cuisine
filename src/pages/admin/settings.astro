@@ -18,6 +18,7 @@ export const prerender = false;
             {[
               { key: "DATABASE_URL", label: "Database", sensitive: true },
               { key: "SMS_ENABLED", label: "SMS Service" },
+              { key: "CRON_SECRET", label: "Cron Secret", sensitive: true },
               { key: "TWILIO_ACCOUNT_SID", label: "Twilio Account", sensitive: true },
               { key: "TWILIO_FROM_NUMBER", label: "Twilio From Number" },
               { key: "CLERK_PUBLISHABLE_KEY", label: "Clerk Publishable Key", sensitive: true },

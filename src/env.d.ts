@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly TWILIO_AUTH_TOKEN: string;
   readonly TWILIO_FROM_NUMBER: string;
   readonly SMS_ENABLED: string;
+  readonly CRON_SECRET: string;
   readonly GOOGLE_REVIEW_URL: string;
   readonly PUBLIC_SITE_URL: string;
 }

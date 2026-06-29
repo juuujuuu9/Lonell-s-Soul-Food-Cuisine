@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
+import { LOYALTY_KEYWORD, LOYALTY_SMS_DISPLAY } from "../data/business";
+import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty-consent";
 ---
 
 <BaseLayout title="Privacy Policy" noindex description="Privacy policy for Lonell's Soul Food Cuisine, how we collect, use, and protect your personal information.">
@@ -33,6 +35,41 @@ import Section from "../components/Section.astro";
           <li>Comply with legal obligations</li>
         </ul>
 
+        <h3
+          id="sms-privacy"
+          class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3 scroll-mt-24"
+        >
+          SMS Messaging Program ({LOYALTY_PROGRAM_NAME})
+        </h3>
+        <p>
+          If you opt into our {LOYALTY_PROGRAM_NAME}, we collect and store your mobile phone number,
+          the date and time you opted in, how you opted in (for example, by texting {LOYALTY_KEYWORD} or
+          through our website or in-restaurant QR code), and your opt-out status. We use this information
+          solely to send you the SMS messages you consented to receive, manage your subscription, and
+          comply with applicable law.
+        </p>
+        <p>Messages may include exclusive offers, menu previews, event invitations, and promotional
+          content. Message frequency varies but is {LOYALTY_MESSAGE_FREQUENCY}. Message and data rates
+          may apply.</p>
+        <p>
+          We do not sell, rent, or share your phone number with third parties for their marketing purposes.
+          We use Twilio, a third-party SMS service provider, to deliver messages on our behalf. Twilio
+          processes your phone number only as needed to transmit messages and is bound by confidentiality
+          obligations.
+        </p>
+        <p>
+          <strong class="text-[var(--color-text-primary)]">Opt-out:</strong> You may stop receiving SMS
+          messages at any time by replying <strong>STOP</strong> to {LOYALTY_SMS_DISPLAY}. You will
+          receive a confirmation that you have been unsubscribed. After opting out, we will not send you
+          further marketing SMS messages unless you opt in again by texting {LOYALTY_KEYWORD}. Reply{" "}
+          <strong>HELP</strong> for assistance.
+        </p>
+        <p>
+          Consent to receive SMS messages is not required as a condition of purchase. For full program
+          terms, see our{" "}
+          <a href="/terms#sms-program" class="text-[var(--color-accent)] hover:underline">Terms of Service</a>.
+        </p>
+
         <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Information Sharing</h3>
         <p>
           We do not sell, trade, or rent your personal information to third parties. We may share information
@@ -49,7 +86,7 @@ import Section from "../components/Section.astro";
         <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Your Rights</h3>
         <p>
           You have the right to request access to, correction of, or deletion of your personal data. To
-          exercise these rights, contact us at <a href="mailto:reservations@lonellssoulfood.com" class="text-[var(--color-accent)] hover:underline">reservations@lonellssoulfood.com</a>
+          exercise these rights, contact us at <a href="mailto:contact@lonellssoulfood.com" class="text-[var(--color-accent)] hover:underline">contact@lonellssoulfood.com</a>
           or call <a href="tel:+13234513104" class="text-[var(--color-accent)] hover:underline">(323) 451-3104</a>.
         </p>
 
@@ -59,7 +96,7 @@ import Section from "../components/Section.astro";
           8501 S Vermont Ave<br />
           Los Angeles, CA 90044<br />
           <a href="tel:+13234513104" class="text-[var(--color-accent)] hover:underline">(323) 451-3104</a><br />
-          <a href="mailto:reservations@lonellssoulfood.com" class="text-[var(--color-accent)] hover:underline">reservations@lonellssoulfood.com</a>
+          <a href="mailto:contact@lonellssoulfood.com" class="text-[var(--color-accent)] hover:underline">contact@lonellssoulfood.com</a>
         </p>
       </div>
     </Section>

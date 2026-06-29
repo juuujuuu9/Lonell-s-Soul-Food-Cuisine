@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { handleInbound } from "../../lib/sms";
+import { handleInbound, logOutboundMessage } from "../../lib/sms";
 
 export const prerender = false;
 
@@ -14,8 +14,8 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const reply = await handleInbound(from, body);
+    await logOutboundMessage(from, reply);
 
-    // Twilio expects a TwiML response
     const twiml = `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(reply)}</Message></Response>`;
 
     return new Response(twiml, {

@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
 const isPublicRoute = createRouteMatcher([
   "/", "/menu(.*)", "/our-story", "/events(.*)", "/private-events",
-  "/reviews", "/faq", "/contact", "/privacy", "/sms-terms", "/accessibility",
+  "/reviews", "/faq", "/contact", "/join", "/privacy", "/terms", "/sms-terms", "/accessibility",
   "/sign-in(.*)", "/sign-up(.*)",
 ]);
 // API routes that must stay public (webhooks, cron, subscribe)

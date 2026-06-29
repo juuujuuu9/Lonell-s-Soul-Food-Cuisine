@@ -4,6 +4,8 @@ import EventScheduleIcon from "../components/EventScheduleIcon.astro";
 import Hero from "../components/Hero.astro";
 import Section from "../components/Section.astro";
 import { getFeaturedDishes } from "../data/menu";
+import LoyaltySignupButton from "../components/LoyaltySignupButton.astro";
+import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SIGNUP_ID } from "../data/business";
 
 const featuredDishes = getFeaturedDishes();
 ---
@@ -203,14 +205,18 @@ const featuredDishes = getFeaturedDishes();
   </Section>
 
   <!-- SMS Signup Teaser -->
-  <Section eyebrow="Stay Connected" title="Join the SoulFood Fam" description="Be the first to know about new menu items, events, and exclusive offers.">
-    <div class="mt-8 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg">
+  <Section
+    id={LOYALTY_SIGNUP_ID}
+    eyebrow="Stay Connected"
+    title="Join the SoulFood Fam"
+    description="Be the first to know about new menu items, events, and exclusive offers."
+    className="text-center [&>div>p]:mx-auto"
+  >
+    <div class="mt-8 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg mx-auto text-center">
       <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-3">Text Us</p>
-      <p class="text-base md:text-lg font-semibold mb-2">Text <span class="text-[var(--color-accent)]">SOUL</span> to <span class="text-[var(--color-accent)]">(424) 295-8020</span></p>
-      <p class="text-sm text-[var(--color-text-secondary)] mb-4">Get 10% off your next order + free champagne brunch upgrade. New subscribers only.</p>
-      <a href="/contact#sms-signup" class="inline-flex items-center px-6 py-2.5 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity">
-        Text Us to Join
-      </a>
+      <p class="text-base md:text-lg font-semibold mb-2">Text <span class="text-[var(--color-accent)]">{LOYALTY_KEYWORD}</span> to <span class="text-[var(--color-accent)]">{LOYALTY_SMS_DISPLAY}</span></p>
+      <p class="text-sm text-[var(--color-text-secondary)] mb-4">Get 10% off your dinner when you show your welcome text. Offer expires 30 days after you join.</p>
+      <LoyaltySignupButton />
     </div>
   </Section>
 </BaseLayout>

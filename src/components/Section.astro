@@ -5,12 +5,13 @@ export interface Props {
   description?: string;
   className?: string;
   wide?: boolean;
+  id?: string;
 }
 
-const { eyebrow, title, description, className = "", wide = false } = Astro.props;
+const { eyebrow, title, description, className = "", wide = false, id } = Astro.props;
 ---
 
-<section class={`section-padding ${className}`}>
+<section id={id} class={`section-padding ${className}`}>
   <div class={wide ? "max-w-6xl mx-auto" : "max-w-4xl mx-auto"}>
     {eyebrow && <span class="eyebrow" data-reveal>{eyebrow}</span>}
     <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight" data-reveal>{title}</h2>

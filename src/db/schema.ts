@@ -11,7 +11,12 @@ export const subscribers = pgTable("subscribers", {
   optOut: boolean("opt_out").notNull().default(false),
   optOutAt: timestamp("opt_out_at"),
   promoCode: varchar("promo_code", { length: 20 }).default("SOUL10"),
+  promoExpiresAt: timestamp("promo_expires_at"),
   promoRedeemed: boolean("promo_redeemed").notNull().default(false),
+  reviewPromptSentAt: timestamp("review_prompt_sent_at"),
+  lastVisitAt: timestamp("last_visit_at"),
+  day7NudgeSentAt: timestamp("day7_nudge_sent_at"),
+  winBackSentAt: timestamp("win_back_sent_at"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow().$onUpdate(() => new Date()),
 });

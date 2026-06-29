@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Section from "../components/Section.astro";
+import { GOOGLE_REVIEW_URL, YELP_REVIEW_URL } from "../data/business";
 ---
 
 <!-- Review + AggregateRating schema -->
@@ -22,7 +23,7 @@ import Section from "../components/Section.astro";
 
       <div class="mt-8 mb-8 grid grid-cols-2 gap-4 max-w-[600px] mx-auto">
         <!-- Yelp -->
-        <a href="https://www.yelp.com/biz/lonells-soul-food-cuisine-los-angeles" target="_blank" rel="noopener noreferrer" class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col items-center gap-3 hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={YELP_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col items-center gap-3 hover:bg-[var(--color-surface-hover)] transition-colors">
           <svg viewBox="-6 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-10 h-10" fill="#D32200">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g transform="translate(-306.000000, -760.000000)" fill="#D32200">
@@ -38,7 +39,7 @@ import Section from "../components/Section.astro";
         </a>
 
         <!-- Google -->
-        <a href="https://www.google.com/search?sca_esv=53821e7f56e2e48d&rlz=1C5OZZY_enUS1161US1161&sxsrf=ANbL-n7utMfsTstt-odNoLclFLa0DXOipw:1781028431538&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOfArl6PK_L9tsvHRQwagnYOqN3MTB0y450gIwH2n0fgkW-TxORs8fdAtuHy82qvVnSpNQ-yg6coA9ySBLOqDEbMc_GA0CcSVXU3PVNjqOg_xHb3_Rg%3D%3D&q=Lonell%27s+%7C+Soul+Food+Cuisine+Reviews&sa=X&ved=2ahUKEwj8rvz33_qUAxWXJEQIHb7pMlQQ0bkNegQIIxAF&cshid=1781028472941673&biw=1711&bih=805&dpr=1.1" target="_blank" rel="noopener noreferrer" class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col items-center gap-3 hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col items-center gap-3 hover:bg-[var(--color-surface-hover)] transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-10 h-10">
             <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
               <circle cx="45" cy="45" r="45" style="fill: rgb(255,255,255);" />
@@ -196,7 +197,7 @@ import Section from "../components/Section.astro";
           </svg>
           Follow on Instagram
         </a>
-        <a href="https://yelp.com/biz/lonells-soul-food-cuisine-los-angeles" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={YELP_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
           <svg viewBox="-6 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-4 h-4 shrink-0" fill="#D32200">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g transform="translate(-306.000000, -760.000000)" fill="#D32200">
@@ -206,7 +207,7 @@ import Section from "../components/Section.astro";
           </svg>
           Read Yelp Reviews
         </a>
-        <a href="https://search.google.com/local/writereview?placeid=PLACE_ID" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-4 h-4 shrink-0">
             <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
               <circle cx="45" cy="45" r="45" style="fill: rgb(255,255,255);" />

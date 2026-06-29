@@ -1,12 +1,16 @@
 import type { APIRoute } from "astro";
-import { sendWeeklyPromo } from "../../../lib/cron";
+import { authorizeCron } from "../../../lib/cron-auth";
+import { sendWeeklyJazz } from "../../../lib/cron";
 
 export const prerender = false;
 
-// Vercel Cron Job endpoint. Configure in vercel.json or dashboard.
-export const GET: APIRoute = async () => {
+/** Legacy path — delegates to weekly jazz broadcast. */
+export const GET: APIRoute = async ({ request }) => {
+  const denied = authorizeCron(request);
+  if (denied) return denied;
+
   try {
-    const result = await sendWeeklyPromo();
+    const result = await sendWeeklyJazz();
     return new Response(JSON.stringify(result), {
       status: 200,
       headers: { "Content-Type": "application/json" },

@@ -1,0 +1,75 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  LOYALTY_KEYWORD,
+  LOYALTY_SMS_DISPLAY,
+  PROMO_VALID_DAYS,
+  loyaltySmsHref,
+} from "../data/business";
+import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty-consent";
+
+const smsHref = loyaltySmsHref();
+---
+
+<BaseLayout
+  title="Join SoulFood SMS Club"
+  noindex
+  description="Join Lonell's Soul Food SMS Club. Text SOUL to (424) 295-8020 for exclusive offers, menu previews, and event invitations."
+>
+  <div class="min-h-screen flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-md">
+      <div class="p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow text-center">
+        <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-2">
+          {LOYALTY_PROGRAM_NAME}
+        </p>
+        <h1 class="font-display text-2xl font-bold mb-2 leading-tight">
+          Join via text message
+        </h1>
+        <p class="text-sm text-[var(--color-text-secondary)] mb-6">
+          Get 10% off your dinner when you show your welcome text. Offer expires {PROMO_VALID_DAYS} days after you join.
+        </p>
+
+        <div class="text-left text-sm text-[var(--color-text-secondary)] leading-relaxed space-y-3 mb-6">
+          <p>
+            By texting <strong class="text-[var(--color-text-primary)]">{LOYALTY_KEYWORD}</strong> to{" "}
+            <strong class="text-[var(--color-text-primary)]">{LOYALTY_SMS_DISPLAY}</strong>, you agree to
+            receive recurring automated SMS messages from Lonell&apos;s Soul Food Cuisine, including
+            exclusive offers, menu previews, and event invitations ({LOYALTY_MESSAGE_FREQUENCY}).
+          </p>
+          <p>
+            Consent is not required as a condition of purchase. Message and data rates may apply.
+            Reply <strong class="text-[var(--color-text-primary)]">STOP</strong> to unsubscribe or{" "}
+            <strong class="text-[var(--color-text-primary)]">HELP</strong> for help.
+          </p>
+          <p>
+            See our{" "}
+            <a href="/terms#sms-program" class="text-[var(--color-accent)] hover:underline">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" class="text-[var(--color-accent)] hover:underline">
+              Privacy Policy
+            </a>.
+          </p>
+          <p class="text-xs text-[var(--color-text-muted)]">
+            If your messaging app doesn&apos;t open, text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY} manually.
+          </p>
+        </div>
+
+        <a
+          href={smsHref}
+          class="inline-flex items-center justify-center w-full px-6 py-3 bg-[var(--color-neon)] text-black font-semibold text-sm rounded-full hover:opacity-90 transition-opacity"
+        >
+          Text {LOYALTY_KEYWORD} to join
+        </a>
+
+        <a
+          href="/"
+          class="inline-block mt-4 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent)] transition-colors"
+        >
+          Back to lonellssoulfood.com
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
