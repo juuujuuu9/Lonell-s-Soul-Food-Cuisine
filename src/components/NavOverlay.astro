@@ -1,9 +1,10 @@
 ---
+const menuLink = { href: "/menu", label: "MENU" };
+
 const links = [
-  { href: "/our-story", label: "OUR STORY" },
-  { href: "/menu", label: "MENU" },
   { href: "/entertainment", label: "ENTERTAINMENT" },
   { href: "/private-events", label: "PRIVATE EVENTS" },
+  { href: "/our-story", label: "OUR STORY" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "CONTACT" },
 ];
@@ -11,6 +12,9 @@ const links = [
 
 <nav id="main-nav-overlay" class="nav-overlay" aria-label="Main navigation">
   <div class="text-center">
+    <a href={menuLink.href} class="nav-overlay-cta nav-overlay-cta-outline" data-nav-link>
+      {menuLink.label}
+    </a>
     {
       links.map((link) => (
         <a
