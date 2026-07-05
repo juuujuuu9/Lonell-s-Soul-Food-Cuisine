@@ -18,7 +18,15 @@ export default defineConfig({
     clerk(),
     sitemap({
       filter: (page) => {
-        const allowed = new Set(["/", "/menu/", "/contact/"]);
+        const allowed = new Set([
+          "/",
+          "/menu/",
+          "/contact/",
+          "/our-story/",
+          "/entertainment/",
+          "/private-events/",
+          "/faq/",
+        ]);
         return allowed.has(new URL(page).pathname);
       },
     }),

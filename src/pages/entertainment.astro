@@ -1,0 +1,253 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import EventCard from "../components/EventCard.astro";
+
+const weeklyEvents = [
+  {
+    title: "Live Jazz Wednesdays",
+    date: "Every Wednesday",
+    type: "jazz" as const,
+    description: "Kick off the middle of your week with live jazz from local LA artists. Dinner service runs 11am-7pm. Music starts at 6pm.",
+    href: "#reserve",
+    cta: "Make a Reservation",
+  },
+  {
+    title: "Live Jazz Fridays",
+    date: "Every Friday",
+    type: "jazz" as const,
+    description: "End your week on a high note. Live jazz from 6pm to 9pm while you enjoy your favorite soul food classics. Extended hours until 9pm.",
+    href: "#reserve",
+    cta: "Reserve Your Table",
+  },
+  {
+    title: "Karaoke Saturdays",
+    date: "Every Saturday",
+    type: "karaoke" as const,
+    description: "Grab the mic and sing your heart out! Karaoke from 6pm to 9pm. Great food, great vibes, great company.",
+    href: "#reserve",
+    cta: "Come Through",
+  },
+  {
+    title: "Sunday Gospel Brunch",
+    date: "Every Sunday",
+    type: "brunch" as const,
+    description: "Brunch served 11am-5pm with live gospel music from 1pm to 5pm. Free champagne with brunch while it lasts. A soul food and gospel experience — comfort food meets community spirit. Senior discount (10%) available.",
+    href: "#reserve",
+    cta: "Join Us",
+  },
+];
+---
+
+<!-- Event schema -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Event",
+      "name": "Live Jazz Wednesday",
+      "description": "Live jazz music at Lonell's Soul Food Cuisine. Dinner served 11am-7pm, music 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Live Jazz Friday",
+      "description": "Live jazz music every Friday at Lonell's. Dinner served 11am-9pm, music 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Karaoke Saturday",
+      "description": "Karaoke night every Saturday at Lonell's Soul Food. Dinner served 11am-9pm, karaoke 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": "Sunday Gospel Brunch",
+      "description": "Sunday Gospel Brunch at Lonell's Soul Food in South Los Angeles. Live gospel music 1-5pm, brunch served 11am-5pm. Free champagne while it lasts. Soul food favorites in a community atmosphere.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  ]
+})}></script>
+
+<BaseLayout title="Entertainment" description="Live Jazz Wednesdays & Fridays, Karaoke Saturdays, and Sunday Gospel Brunch with free champagne at Lonell's Soul Food in South Los Angeles. A cultural hub for food, music, and community.">
+  <div class="min-h-screen pb-16">
+    <Section eyebrow="Come Through" title="Entertainment Schedule" description="Lonell's is one of the only soul food restaurants in Los Angeles with consistent live entertainment every week — a cultural hub where food, music, and community come together." wide>
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {weeklyEvents.map((event) => (
+          <EventCard {...event} />
+        ))}
+      </div>
+
+      <!-- Weekly Schedule Summary -->
+      <div id="schedule" class="mt-16 p-4 md:p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <h3 class="font-display text-2xl font-semibold mb-6 text-center" data-reveal>At a Glance</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <th class="text-left py-3 pr-4 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Day</th>
+                <th class="text-left py-3 pr-4 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Hours</th>
+                <th class="text-left py-3 text-xs tracking-[0.15em] uppercase text-[var(--color-text-muted)]">Entertainment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Monday</td>
+                <td class="py-3 pr-4 text-[var(--color-text-muted)]">CLOSED</td>
+                <td class="py-3 text-[var(--color-text-muted)]">&mdash;</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Tuesday</td>
+                <td class="py-3 pr-4 text-[var(--color-text-muted)]">CLOSED</td>
+                <td class="py-3 text-[var(--color-text-muted)]">&mdash;</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Wednesday</td>
+                <td class="py-3 pr-4">11:00 AM – 7:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Thursday</td>
+                <td class="py-3 pr-4">11:00 AM – 7:00 PM</td>
+                <td class="py-3 text-[var(--color-text-muted)]">N/A</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Friday</td>
+                <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr class="border-b border-[var(--color-border-subtle)]">
+                <td class="py-3 pr-4 font-medium">Saturday</td>
+                <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Karaoke 6:00 PM – 9:00 PM</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-4 font-medium">Sunday</td>
+                <td class="py-3 pr-4">11:00 AM – 5:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Gospel Brunch + Live Music 1:00 PM – 5:00 PM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 p-4 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
+          <p class="text-xs text-[var(--color-text-secondary)] leading-relaxed">
+            <span class="text-[var(--color-accent)] font-semibold">Sunday Brunch Special:</span> Free champagne with brunch. 10% Senior &amp; Government Worker Discount (valid ID required).
+          </p>
+        </div>
+      </div>
+    </Section>
+
+    <!-- Cultural hub framing -->
+    <section class="section-padding">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <span class="eyebrow" data-reveal>The Experience</span>
+            <h2 class="font-display text-3xl md:text-4xl font-bold mt-2 mb-4" data-reveal>More Than a Restaurant</h2>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4" data-reveal>
+              Lonell's was built to be a cultural and social hub where guests can enjoy meaningful moments — 
+              unwinding to the soothing sounds of the best jazz bands in town, sharing expertly crafted 
+              dishes with friends, or experiencing the spirit of gospel on Sunday mornings.
+            </p>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
+              A dedicated performance stage serves as the focal point of the dining room, with live 
+              entertainment every Wednesday, Friday, Saturday, and Sunday. Whether it's a date night, 
+              a gathering with friends, or a solo escape to recharge — Lonell's is the spot.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">4</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Nights of Live Entertainment</p>
+            </div>
+            <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">30+</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Years of Culinary Excellence</p>
+            </div>
+            <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">1</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Dedicated Performance Stage</p>
+            </div>
+            <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">Free</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Champagne at Sunday Brunch</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reserve" class="section-padding">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow" data-reveal>Reserve</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Book Your Table</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6 leading-relaxed" data-reveal>
+          Walk-ins welcome, reservations accepted for parties of any size. Call or email to reserve.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Call (323) 451-3104
+          </a>
+          <a href="mailto:reservations@lonellssoulfood.com" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            Email reservations@lonellssoulfood.com
+          </a>
+          <a href="/contact" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            More Info
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sunday Gospel Brunch highlight -->
+    <section class="section-padding bg-[var(--color-surface-card)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow" data-reveal>Every Sunday</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Sunday Gospel Brunch</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-6 leading-relaxed" data-reveal>
+          Every Sunday, Lonell's becomes a destination for one of the best gospel brunches in South Los Angeles. 
+          Brunch is served from 11am–5pm with soul food favorites and gospel music favorites that resonate 
+          with the community's love for comforting, hearty meals. Live gospel music runs from 1pm–5pm, 
+          free champagne is included with your brunch, and a 10% discount is available for seniors and 
+          government workers with valid ID.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="tel:+13234513104" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+            Reserve Your Spot
+          </a>
+          <a href="/menu" class="inline-flex items-center px-8 py-3 border border-[var(--color-border)] text-[var(--color-text-primary)] rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+            View Menu
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Private Events summary -->
+    <section class="section-padding">
+      <div class="max-w-4xl mx-auto text-center">
+        <span class="eyebrow" data-reveal>Host With Us</span>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Private Events</h2>
+        <p class="text-[var(--color-text-secondary)] max-w-xl mx-auto mb-6 leading-relaxed" data-reveal>
+          Two private event spaces available, the Dining Room and Small Room, each with a maximum capacity of 50 guests. 
+          Perfect for birthdays, anniversaries, corporate dinners, and community gatherings.
+        </p>
+        <a href="/private-events" class="inline-flex items-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+          Learn More & Book
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

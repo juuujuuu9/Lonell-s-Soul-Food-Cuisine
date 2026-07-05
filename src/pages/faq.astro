@@ -5,19 +5,19 @@ import Section from "../components/Section.astro";
 const faqs = [
   {
     q: "What type of cuisine does Lonell's serve?",
-    a: "We serve authentic Southern soul food. Our menu includes oxtails (slow-cooked, fall-off-the-bone tender), fried chicken, baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Friday & Saturday only), brisket, and classic Southern sides like collard greens, mac and cheese, yams, black-eyed peas, red beans & rice, and string beans. Everything is made from scratch using family recipes.",
+    a: "We serve authentic Southern soul food. Our menu includes oxtails (Sundays only), fried and baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Fridays only), brisket, salmon, and classic Southern sides like collard greens, mac and cheese, yams, red beans & rice with smoked turkey, and string beans. Lunch plates are served 11am–3pm; dinner plates include two sides and cornbread. Everything is made from scratch using family recipes.",
   },
   {
     q: "What are Lonell's hours of operation?",
-    a: "We are open Tuesday through Sunday. Closed on Monday. Tuesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM.",
+    a: "We are open Wednesday through Sunday. Closed on Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM.",
   },
   {
     q: "Does Lonell's have live music?",
     a: "Yes! Live entertainment is a cornerstone of what makes Lonell's special. Wednesday: Live Jazz 6-9pm. Friday: Live Jazz 6-9pm. Saturday: Karaoke 6-9pm. Sunday: Live Music during Brunch 1-5pm.",
   },
   {
-    q: "When is Sunday Brunch and what's special about it?",
-    a: "Sunday Brunch is served from 11:00 AM to 5:00 PM with live music from 1:00 PM to 5:00 PM. Free champagne is included with your brunch. Seniors and government workers receive a 10% discount with valid ID.",
+    q: "When is the Sunday Gospel Brunch and what's special about it?",
+    a: "Sunday Gospel Brunch is served from 11:00 AM to 5:00 PM with live gospel music from 1:00 PM to 5:00 PM. Free champagne is included with your brunch — it's one of the best gospel brunches in South Los Angeles. Seniors and government workers receive a 10% discount with valid ID.",
   },
   {
     q: "Do you offer vegan or vegetarian soul food options?",
@@ -28,16 +28,24 @@ const faqs = [
     a: "Yes, we accept reservations. You can call us at (323) 451-3104 or email reservations@lonellssoulfood.com to book a table. Walk-ins are also always welcome.",
   },
   {
-    q: "Does Lonell's offer takeout or delivery?",
-    a: "Yes, we offer both takeout and delivery. Call (323) 451-3104 to place a takeout order or check your favorite delivery app.",
+    q: "Does Lonell's offer takeout?",
+    a: "Yes. Call (323) 451-3104 to place a takeout order. Dine-in is always welcome — walk-ins and reservations accepted.",
   },
   {
     q: "What catering services do you offer?",
-    a: "We cater events of all sizes, from small family gatherings to corporate events and celebrations. Contact us at reservations@lonellssoulfood.com or call (323) 451-3104 for a custom quote.",
+    a: "Lonell's catering operation is built on nearly 30 years of experience serving diverse events — from intimate family gatherings to large-scale corporate functions and celebrity celebrations. Our catering menu is fully customizable, featuring core soul food staples plus options tailored to the preferences of each event. We bring a professional personal touch, smooth logistics, and reliable service to every occasion. Contact us at reservations@lonellssoulfood.com or call (323) 451-3104 for a custom quote.",
   },
   {
     q: "Do you have private event spaces?",
     a: "Yes! We offer two private event spaces: the Dining Room and the Small Room, each with a maximum capacity of 50 guests. Perfect for birthday parties, anniversaries, corporate dinners, community events, and celebrations. Email reservations@lonellssoulfood.com or call (323) 451-3104 to book.",
+  },
+  {
+    q: "Who cooks the food at Lonell's?",
+    a: "Every dish is personally prepared and overseen by Lonell Anderson himself — the founder, owner, and head chef. With nearly 30 years of culinary experience, including catering high-profile events for clients like Shaquille O'Neal and Magic Johnson, Lonell ensures consistency, flavor, and an exceptional dining experience for every guest.",
+  },
+  {
+    q: "What drinks do you serve?",
+    a: "We currently offer a curated selection of beer and wine, carefully chosen to complement our soul food menu and provide guests with a well-rounded dining experience. We have plans to expand to a full bar featuring a range of expertly crafted cocktails.",
   },
   {
     q: "Is Lonell's family-owned and Black-owned?",
@@ -58,7 +66,7 @@ const faqs = [
 ];
 ---
 
-<BaseLayout title="FAQ" noindex description="Frequently asked questions about Lonell's Soul Food Cuisine, including hours, menu, live music, reservations, private events, parking, and more in South Los Angeles.">
+<BaseLayout title="FAQ" description="Frequently asked questions about Lonell's Soul Food Cuisine in South Los Angeles — hours, menu, Sunday Gospel Brunch, live jazz, private events, catering, parking, and more.">
   <div class="min-h-screen pb-16">
     <Section eyebrow="Questions" title="Frequently Asked Questions" description="Everything you need to know before you visit Lonell's Soul Food Cuisine.">
       <div class="mt-12 space-y-0">

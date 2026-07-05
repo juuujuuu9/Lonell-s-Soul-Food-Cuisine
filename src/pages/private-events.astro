@@ -43,9 +43,9 @@ const eventPhotos = [
 ];
 ---
 
-<BaseLayout title="Private Events & Catering" noindex description="Host your celebration at Lonell's Soul Food. Two private event spaces (50 capacity each), catering, and live entertainment. South Los Angeles. (323) 451-3104.">
+<BaseLayout title="Private Events & Catering" description="Host your next event at Lonell's Soul Food in South Los Angeles. Two private event spaces (50 guests each), full-service soul food catering, and live entertainment. Nearly 30 years of experience serving weddings, corporate events, and celebrity clients. (323) 451-3104.">
   <div class="min-h-screen pb-16">
-    <Section eyebrow="Host With Us" title="Private Events & Catering" description="Lonell's offers two private event spaces plus full-service catering, perfect for birthdays, corporate events, anniversaries, celebrations, and community gatherings." />
+    <Section eyebrow="Host With Us" title="Private Events & Catering" description="Lonell's catering operation is built on nearly 30 years of experience serving diverse events — from intimate family celebrations to large-scale corporate functions. Customizable menus, professional service, and a dedicated team that ensures your event leaves a lasting impression." />
 
     <!-- Event spaces -->
     <section class="section-padding bg-[var(--color-surface-card)]">
@@ -78,6 +78,48 @@ const eventPhotos = [
         </div>
 
         <ImageLightboxGallery photos={eventPhotos} mobileCarousel class="mt-12" />
+      </div>
+    </section>
+
+    <!-- Catering credibility -->
+    <section class="section-padding">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span class="eyebrow" data-reveal>Why Lonell's</span>
+            <h2 class="font-display text-3xl md:text-4xl font-bold mt-2 mb-4" data-reveal>30 Years of Proven Excellence</h2>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4" data-reveal>
+              Lonell Anderson has been catering diverse events since 1995 — weddings, corporate functions, 
+              private celebrations, and high-profile events for clients including 
+              <strong class="text-[var(--color-text-primary)]">Shaquille O'Neal</strong> and 
+              <strong class="text-[var(--color-text-primary)]">Magic Johnson</strong>. 
+              That experience means your event is in the hands of someone who has handled it all.
+            </p>
+            <p class="text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
+              Our catering operation is fully scalable — equally capable of handling intimate gatherings 
+              and large-scale functions with the same level of care, reliability, and soul. Every menu 
+              is customizable to the unique preferences of your event.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">30+</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Years Catering Experience</p>
+            </div>
+            <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">2</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Private Event Spaces</p>
+            </div>
+            <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">100+</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Combined Guest Capacity</p>
+            </div>
+            <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">Live</p>
+              <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Entertainment Available</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -130,8 +172,8 @@ const eventPhotos = [
         </div>
         <div class="p-4 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)] inline-block">
           <p class="text-xs text-[var(--color-text-muted)]">
-            Both rooms accommodate up to 50 guests. Catering menu available upon request. 
-            Ask about live entertainment options for your event.
+            Both rooms accommodate up to 50 guests. Fully customizable catering menu available. 
+            Ask about live entertainment on our dedicated performance stage for your event.
           </p>
         </div>
       </div>

@@ -116,7 +116,6 @@ const isHome = Astro.url.pathname === "/";
       "url": siteUrl,
       "priceRange": "$$",
       "openingHoursSpecification": [
-        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:00", "closes": "21:00" },
@@ -138,12 +137,12 @@ const isHome = Astro.url.pathname === "/";
         {
           "@type": "Question",
           "name": "What type of cuisine does Lonell's serve?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We serve authentic Southern soul food including oxtails (slow-cooked, fall-off-the-bone tender), fried chicken, baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Friday & Saturday only), brisket, and classic Southern sides like collard greens, mac and cheese, yams, black-eyed peas, red beans & rice, and string beans. Everything is made from scratch using family recipes." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We serve authentic Southern soul food including oxtails (Sundays only), fried and baked chicken, meatloaf, catfish, pork chops, turkey chops, short ribs (Fridays only), brisket, salmon, and classic Southern sides like collard greens, mac and cheese, yams, red beans & rice with smoked turkey, and string beans. Lunch plates are served 11am–3pm; dinner plates include two sides and cornbread. Everything is made from scratch using family recipes." }
         },
         {
           "@type": "Question",
           "name": "What are Lonell's hours of operation?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We are open Tuesday through Sunday. Closed on Monday. Tuesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We are open Wednesday through Sunday. Closed on Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
         },
         {
           "@type": "Question",
@@ -167,8 +166,8 @@ const isHome = Astro.url.pathname === "/";
         },
         {
           "@type": "Question",
-          "name": "Does Lonell's offer takeout or delivery?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we offer both takeout and delivery. Call (323) 451-3104 to place a takeout order or check your favorite delivery app." }
+          "name": "Does Lonell's offer takeout?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Call (323) 451-3104 to place a takeout order. Dine-in is always welcome — walk-ins and reservations accepted." }
         },
         {
           "@type": "Question",

@@ -116,7 +116,7 @@ export function menuMessage(siteUrl: string): string {
 }
 
 export function eventsMessage(siteUrl: string): string {
-  return `${BRAND}: See our latest events at ${siteUrl}/events. Reply HELP for help. ${FOOTER}`;
+  return `${BRAND}: See our latest events at ${siteUrl}/entertainment. Reply HELP for help. ${FOOTER}`;
 }
 
 export function stopConfirmationMessage(): string {

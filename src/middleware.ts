@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
 const isPublicRoute = createRouteMatcher([
-  "/", "/menu(.*)", "/our-story", "/events(.*)", "/private-events",
+  "/", "/menu(.*)", "/our-story", "/entertainment(.*)", "/private-events",
   "/reviews", "/faq", "/contact", "/join", "/privacy", "/terms", "/sms-terms", "/accessibility",
   "/sign-in(.*)", "/sign-up(.*)",
 ]);

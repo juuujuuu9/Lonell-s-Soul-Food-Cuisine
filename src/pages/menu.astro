@@ -3,90 +3,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ImageLightboxGallery from "../components/ImageLightboxGallery.astro";
 import Section from "../components/Section.astro";
 import type { PageHeaderBackground } from "../components/PageHeader.astro";
-import { foodPhotos } from "../data/menu";
-
-interface MenuItem {
-  name: string;
-  description: string;
-  price: string;
-}
-
-interface MenuSubtitle {
-  mobile: string;
-  desktop: string;
-}
-
-interface MenuCategory {
-  name: string;
-  subtitle: string | MenuSubtitle;
-  items: MenuItem[];
-}
-
-const menuCategories: MenuCategory[] = [
-  {
-    name: "Dinner Plates",
-    subtitle: "Served with 2 sides",
-    items: [
-      { name: "Baked Chicken", description: "Golden-brown, oven-roasted chicken", price: "$31.20" },
-      { name: "Fried Chicken", description: "Crispy, buttermilk-marinated fried chicken", price: "$31.20" },
-      { name: "Meatloaf", description: "Homestyle meatloaf, rich and savory, served with gravy", price: "$27.60" },
-      { name: "Oxtails", description: "Slow-braised, fall-off-the-bone tender. Thursday–Sunday only.", price: "$42.00" },
-      { name: "Pork Chop", description: "Cooked to order, thick-cut and well-seasoned", price: "$31.20" },
-      { name: "Turkey Chop", description: "Cooked to order. A lean, flavorful alternative.", price: "$36.00" },
-      { name: "Catfish", description: "Crispy, Louisiana-style seasoned catfish", price: "$32.40" },
-      { name: "Short Ribs", description: "Rich, braised short ribs. Friday & Saturday only.", price: "$36.00" },
-      { name: "Brisket", description: "Tender, slow-smoked brisket, sliced and sauced", price: "$31.20" },
-      { name: "Salmon", description: "Perfectly seasoned salmon fillet", price: "$32.40" },
-    ],
-  },
-  {
-    name: "A La Carte Proteins",
-    subtitle: "No sides included",
-    items: [
-      { name: "Baked Chicken", description: "", price: "$18.00" },
-      { name: "Fried Chicken", description: "", price: "$18.00" },
-      { name: "Meatloaf", description: "", price: "$14.00" },
-      { name: "Pork Chop", description: "Cooked to order", price: "$16.80" },
-      { name: "Turkey Chop", description: "Cooked to order", price: "$19.20" },
-      { name: "Catfish", description: "", price: "$20.40" },
-      { name: "Short Ribs", description: "Fri & Sat only", price: "$24.00" },
-      { name: "Brisket", description: "", price: "$21.60" },
-    ],
-  },
-  {
-    name: "Sides & Extras",
-    subtitle: "",
-    items: [
-      { name: "String Beans", description: "Fresh green beans, Southern-style", price: "$7.20" },
-      { name: "Mashed Potatoes", description: "Creamy, buttery mashed potatoes", price: "$7.20" },
-      { name: "Collard Greens", description: "Slow-cooked with smoked turkey", price: "$9.60" },
-      { name: "Cabbage", description: "Seasoned Southern-style cabbage", price: "$9.60" },
-      { name: "Red Beans & Rice", description: "Cajun-style with Andouille sausage", price: "$10.80" },
-      { name: "Mac and Cheese", description: "Five-cheese blend, baked golden", price: "$10.80" },
-      { name: "Yams", description: "Candied yams, sweet and tender", price: "$10.80" },
-      { name: "Hot Water Cornbread (2 pc)", description: "Crispy, golden cornmeal cakes", price: "$6.00" },
-      { name: "Cornbread (1 pc)", description: "Classic Southern cornbread", price: "$4.20" },
-    ],
-  },
-  {
-    name: "Desserts",
-    subtitle: "",
-    items: [
-      { name: "Pound Cake", description: "Classic buttery pound cake", price: "$6.00" },
-      { name: "Banana Pudding", description: "Layers of vanilla wafers, fresh bananas, and homemade custard", price: "$7.20" },
-      { name: "Peach Cobbler", description: "Southern-style, warm and spiced", price: "$8.40" },
-    ],
-  },
-  {
-    name: "Beverages",
-    subtitle: "",
-    items: [
-      { name: "Soda", description: "Coke products", price: "$3.60" },
-      { name: "Lemonade", description: "Fresh-squeezed", price: "$4.20" },
-      { name: "Muddy Water", description: "House specialty beverage", price: "$4.80" },
-    ],
-  },
-];
+import { MANAGER_PHONE, MANAGER_PHONE_TEL } from "../data/business";
+import {
+  foodPhotos,
+  MENU_EFFECTIVE_DATE,
+  menuSections,
+  seasonalSpecials,
+  type MenuSectionItem,
+} from "../data/menu";
 
 const menuPhotos = [
   {
@@ -152,26 +76,45 @@ const menuHeaderBackgrounds: PageHeaderBackground[] = foodPhotos.map((photo) => 
   alt: photo.alt,
 }));
 
-// Category navigation helpers
-const categoryId = (name: string) => "cat-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const SEASONAL_ID = "seasonal-specials";
 
 const categoryIcons: Record<string, string> = {
-  "Dinner Plates": "moon",
-  "A La Carte Proteins": "drumstick",
-  "Sides & Extras": "bowl",
-  Desserts: "cake",
-  Beverages: "cup",
+  [SEASONAL_ID]: "sun",
+  "lunch-plates": "clock",
+  "dinner-plates": "moon",
+  "a-la-carte": "drumstick",
+  sides: "bowl",
+  desserts: "cake",
+  beverages: "cup",
 };
 
 const categoryDescriptions: Record<string, string> = {
-  "Dinner Plates": "Hearty dinner entrees",
-  "A La Carte Proteins": "Proteins, no sides",
-  "Sides & Extras": "Classic Southern sides",
-  Desserts: "Sweet finales",
-  Beverages: "Refreshments",
+  [SEASONAL_ID]: "Wed–Fri express plates",
+  "lunch-plates": "11am – 3pm plates",
+  "dinner-plates": "Evening entrees",
+  "a-la-carte": "Protein only",
+  sides: "Classic Southern sides",
+  desserts: "Sweet finales",
+  beverages: "Refreshments",
 };
 
-// SVG icon paths
+const navCategories = [
+  {
+    id: SEASONAL_ID,
+    name: "Summer Specials",
+    description: categoryDescriptions[SEASONAL_ID],
+    icon: categoryIcons[SEASONAL_ID],
+    itemCount: seasonalSpecials.groups.reduce((n, g) => n + g.items.length, 0),
+  },
+  ...menuSections.map((section) => ({
+    id: section.id,
+    name: section.name,
+    description: categoryDescriptions[section.id] ?? "",
+    icon: categoryIcons[section.id] ?? "bowl",
+    itemCount: section.items.length,
+  })),
+];
+
 const iconPaths: Record<string, string> = {
   clock: '<path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/><path d="M12 6v6l4 2"/>',
   sun: '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke-width="2" fill="none"/>',
@@ -181,88 +124,96 @@ const iconPaths: Record<string, string> = {
   cake: '<path d="M4 16h16v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-5z"/><path d="M4 12h16v4H4z"/><path d="M4 10V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/><path d="M8 6V4"/><path d="M12 6V3"/><path d="M16 6V4"/>',
   cup: '<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3" fill="none"/>',
 };
+
+const priceToSchema = (price: string) => price.replace(/[^0-9.]/g, "");
+
+const toSchemaItem = (item: MenuSectionItem) => {
+  const entry: Record<string, unknown> = {
+    "@type": "MenuItem",
+    name: item.name,
+  };
+  const description = [item.description, item.note].filter(Boolean).join(". ");
+  if (description) entry.description = description;
+  if (item.price) {
+    entry.offers = {
+      "@type": "Offer",
+      price: priceToSchema(item.price),
+      priceCurrency: "USD",
+    };
+  }
+  return entry;
+};
+
+const schemaItems = [
+  ...seasonalSpecials.groups.flatMap((group) => group.items.map(toSchemaItem)),
+  ...menuSections.flatMap((section) => section.items.map(toSchemaItem)),
+];
 ---
 
-<!-- Menu schema — all items for rich Google results / generative AI -->
+<!-- Menu schema — generated from src/data/menu.ts -->
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Menu",
   "name": "Lonell's Soul Food Cuisine Menu",
-  "description": "Dinner plates served with 2 sides, a la carte proteins, sides, desserts, and beverages.",
-  "hasMenuItem": [
-    // Dinner Plates
-    { "@type": "MenuItem", "name": "Baked Chicken Dinner", "description": "Golden-brown, oven-roasted chicken served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Fried Chicken Dinner", "description": "Crispy, buttermilk-marinated fried chicken served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Meatloaf Dinner", "description": "Homestyle meatloaf, rich and savory, served with gravy and 2 sides", "offers": { "@type": "Offer", "price": "27.60", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Oxtails Dinner", "description": "Slow-braised, fall-off-the-bone tender oxtails. Thursday-Sunday only.", "offers": { "@type": "Offer", "price": "42.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Pork Chop Dinner", "description": "Cooked to order, thick-cut and well-seasoned pork chop served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Turkey Chop Dinner", "description": "Cooked to order. A lean, flavorful alternative served with 2 sides", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Catfish Dinner", "description": "Crispy, Louisiana-style seasoned catfish served with 2 sides", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Short Ribs Dinner", "description": "Rich, braised short ribs. Friday & Saturday only.", "offers": { "@type": "Offer", "price": "36.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Brisket Dinner", "description": "Tender, slow-smoked brisket, sliced and sauced, served with 2 sides", "offers": { "@type": "Offer", "price": "31.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Salmon Dinner", "description": "Perfectly seasoned salmon fillet served with 2 sides", "offers": { "@type": "Offer", "price": "32.40", "priceCurrency": "USD" } },
-    // A La Carte Proteins
-    { "@type": "MenuItem", "name": "Baked Chicken (A La Carte)", "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Fried Chicken (A La Carte)", "offers": { "@type": "Offer", "price": "18.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Meatloaf (A La Carte)", "offers": { "@type": "Offer", "price": "14.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Pork Chop (A La Carte)", "offers": { "@type": "Offer", "price": "16.80", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Turkey Chop (A La Carte)", "offers": { "@type": "Offer", "price": "19.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Catfish (A La Carte)", "offers": { "@type": "Offer", "price": "20.40", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Short Ribs (A La Carte)", "offers": { "@type": "Offer", "price": "24.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Brisket (A La Carte)", "offers": { "@type": "Offer", "price": "21.60", "priceCurrency": "USD" } },
-    // Sides
-    { "@type": "MenuItem", "name": "String Beans", "description": "Fresh green beans, Southern-style", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Mashed Potatoes", "description": "Creamy, buttery mashed potatoes", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Collard Greens", "description": "Slow-cooked with smoked turkey", "offers": { "@type": "Offer", "price": "9.60", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Cabbage", "description": "Seasoned Southern-style cabbage", "offers": { "@type": "Offer", "price": "9.60", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Red Beans & Rice", "description": "Cajun-style with Andouille sausage", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Mac and Cheese", "description": "Five-cheese blend, baked golden", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Yams", "description": "Candied yams, sweet and tender", "offers": { "@type": "Offer", "price": "10.80", "priceCurrency": "USD" } },
-    // Desserts
-    { "@type": "MenuItem", "name": "Pound Cake", "offers": { "@type": "Offer", "price": "6.00", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Banana Pudding", "description": "Layers of vanilla wafers, fresh bananas, and homemade custard", "offers": { "@type": "Offer", "price": "7.20", "priceCurrency": "USD" } },
-    { "@type": "MenuItem", "name": "Peach Cobbler", "description": "Southern-style, warm and spiced", "offers": { "@type": "Offer", "price": "8.40", "priceCurrency": "USD" } }
-  ]
+  "description": `Effective ${MENU_EFFECTIVE_DATE}. Lunch and dinner plates with sides, seasonal specials, a la carte, sides, desserts, and beverages.`,
+  "hasMenuItem": schemaItems,
 })}></script>
 
 <BaseLayout title="Menu" ogImage="/og-menu.jpg" headerBackgrounds={menuHeaderBackgrounds}>
   <div class="min-h-screen pb-16">
-    <Section eyebrow="A Place of Love" title="Our Menu" description="Authentic soul food made from scratch. Dinner plates include your choice of two sides. Dine-in, takeout, or delivery.">
+    <Section
+      eyebrow="A Place of Love"
+      title="Our Menu"
+      description="Lunch plates (11am–3pm) and dinner plates include 2 sides & cornbread. Dine-in, takeout, or call ahead. Menu updates seasonally as supply allows."
+      class="menu-page-section"
+    >
+      <div class="flex flex-wrap items-center gap-3 mt-2 mb-4">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase bg-[var(--color-brand-amber)]/15 text-[var(--color-brand-amber)] border border-[var(--color-brand-amber)]/30">
+          Effective {MENU_EFFECTIVE_DATE}
+        </span>
+        <span class="text-xs text-[var(--color-text-muted)]">{seasonalSpecials.season}</span>
+      </div>
+      <div class="mb-8">
+        <a
+          href={`tel:${MANAGER_PHONE_TEL}`}
+          class="inline-flex items-center justify-center px-6 py-3 bg-[var(--color-brand-amber)] text-black font-semibold rounded-full hover:bg-[var(--color-brand-amber-light)] transition-colors text-sm"
+        >
+          Call to Order · {MANAGER_PHONE}
+        </a>
+      </div>
+
       <!-- Bento Quick-Select Grid -->
-      <div id="bento-grid" class="mt-10 mb-16">
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
-          {menuCategories.map((category) => {
-            const id = categoryId(category.name);
-            return (
-              <button
-                data-bento-card
-                data-category={id}
-                class="group relative flex flex-col items-start justify-between p-4 md:p-5 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)] hover:border-[var(--color-brand-amber)]/40 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all duration-300 text-left cursor-pointer"
-                aria-label={`Jump to ${category.name}`}
-              >
-                <span class="mb-3 text-[var(--color-brand-amber)] w-7 h-7 md:w-8 md:h-8" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="w-full h-full">
-                    {iconPaths[categoryIcons[category.name]]}
-                  </svg>
+      <div id="bento-grid" class="mb-12">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          {navCategories.map((category) => (
+            <button
+              data-bento-card
+              data-category={category.id}
+              class="group relative flex flex-col items-start justify-between p-4 md:p-5 rounded-xl bg-[var(--color-surface-card)] border border-[var(--color-border-subtle)] hover:border-[var(--color-brand-amber)]/40 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all duration-300 text-left cursor-pointer"
+              aria-label={`Jump to ${category.name}`}
+            >
+              <span class="mb-3 text-[var(--color-brand-amber)] w-7 h-7 md:w-8 md:h-8" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" class="w-full h-full">
+                  <Fragment set:html={iconPaths[category.icon]} />
+                </svg>
+              </span>
+              <div>
+                <span class="block font-display text-sm md:text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
+                  {category.name}
                 </span>
-                <div>
-                  <span class="block font-display text-sm md:text-base font-semibold text-[var(--color-text-primary)] group-hover:text-[var(--color-accent)] transition-colors">
-                    {category.name}
-                  </span>
-                  <span class="block text-xs text-[var(--color-text-muted)] mt-0.5">
-                    {categoryDescriptions[category.name]}
-                  </span>
-                  <span class="inline-block mt-2 text-[10px] font-medium tracking-wider uppercase text-[var(--color-brand-amber)]/70">
-                    {category.items.length} {category.items.length === 1 ? "item" : "items"}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
+                <span class="block text-xs text-[var(--color-text-muted)] mt-0.5">
+                  {category.description}
+                </span>
+                <span class="inline-block mt-2 text-[10px] font-medium tracking-wider uppercase text-[var(--color-brand-amber)]/70">
+                  {category.itemCount} {category.itemCount === 1 ? "item" : "items"}
+                </span>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 
-      <!-- Sticky Category Pill Bar (hidden until bento scrolls past) -->
+      <!-- Sticky Category Pill Bar -->
       <div
         id="category-pill-bar"
         class="fixed left-0 right-0 z-[105] opacity-0 pointer-events-none transition-opacity duration-300"
@@ -273,75 +224,130 @@ const iconPaths: Record<string, string> = {
         <div class="bg-[var(--color-surface-card)]/90 backdrop-blur-md border-b border-[var(--color-border-subtle)]">
           <div class="w-full py-2.5 px-4 md:px-6 lg:flex lg:justify-center">
             <nav class="flex gap-1.5 xl:gap-2 overflow-x-auto hide-scrollbar w-full max-w-full lg:w-auto lg:inline-flex lg:overflow-x-visible" role="tablist">
-              {menuCategories.map((category) => {
-                const id = categoryId(category.name);
-                return (
-                  <button
-                    data-pill
-                    data-category={id}
-                    class="shrink-0 px-3 py-1.5 rounded-full text-[10px] sm:text-[11px] font-display font-semibold tracking-wide uppercase leading-none whitespace-nowrap border transition-all duration-300 cursor-pointer
-                      border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)]
-                      active:bg-[var(--color-surface-hover)] inline-flex items-center justify-center text-center
-                      xl:px-3 xl:py-2 xl:text-xs xl:tracking-wider"
-                    role="tab"
-                    aria-selected="false"
-                  >
-                    {category.name}
-                  </button>
-                );
-              })}
+              {navCategories.map((category) => (
+                <button
+                  data-pill
+                  data-category={category.id}
+                  class="shrink-0 px-3 py-1.5 rounded-full text-[10px] sm:text-[11px] font-display font-semibold tracking-wide uppercase leading-none whitespace-nowrap border transition-all duration-300 cursor-pointer
+                    border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)]
+                    active:bg-[var(--color-surface-hover)] inline-flex items-center justify-center text-center
+                    xl:px-3 xl:py-2 xl:text-xs xl:tracking-wider"
+                  role="tab"
+                  aria-selected="false"
+                >
+                  {category.name}
+                </button>
+              ))}
             </nav>
           </div>
         </div>
       </div>
 
       <div class="mt-12 space-y-16">
-        {menuCategories.map((category) => {
-          const id = categoryId(category.name);
-          return (
-            <div id={id} data-category-section style="scroll-margin-top: 8rem;">
-              <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-6">
-                <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{category.name}</h3>
-                {category.subtitle && (
-                  typeof category.subtitle === "string" ? (
-                    <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{category.subtitle}</span>
-                  ) : (
-                    <>
-                      <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] whitespace-pre sm:hidden">{category.subtitle.mobile}</span>
-                      <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)] hidden sm:inline">{category.subtitle.desktop}</span>
-                    </>
-                  )
-                )}
-              </div>
-              {
-                category.name === "Dinner Plates" && (
-                  <div class="mb-8">
-                    <ImageLightboxGallery photos={foodPhotos} mobileCarousel layout="row5" />
-                  </div>
-                )
-              }
-              <div class="space-y-6">
-                {category.items.map((item) => (
-                  <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
-                    <div>
-                      <h4 class="font-display text-lg font-medium">{item.name}</h4>
-                      {item.description && (
-                        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
-                      )}
-                    </div>
-                    {item.price && (
-                      <span class="text-sm text-[var(--color-accent)] whitespace-nowrap">{item.price}</span>
+        <!-- Seasonal Specials -->
+        <div id={SEASONAL_ID} data-category-section style="scroll-margin-top: 8rem;">
+          <div class="p-6 md:p-8 rounded-xl border border-[var(--color-brand-amber)]/30 bg-[var(--color-brand-amber)]/5">
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-2">
+              <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{seasonalSpecials.title}</h3>
+              <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{seasonalSpecials.schedule}</span>
+            </div>
+            <p class="text-sm text-[var(--color-text-secondary)] mb-6">{seasonalSpecials.note}</p>
+            <div class="space-y-10">
+              {seasonalSpecials.groups.map((group) => (
+                <div>
+                  <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-4">
+                    <h4 class="font-display text-lg font-semibold text-[var(--color-text-primary)]">{group.name}</h4>
+                    {group.subtitle && (
+                      <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{group.subtitle}</span>
                     )}
                   </div>
-                ))}
-              </div>
+                  <div class="space-y-4">
+                    {group.items.map((item) => (
+                      <div class="flex justify-between items-start gap-4 pb-4 border-b border-[var(--color-border-subtle)] last:border-0">
+                        <div>
+                          <p class="font-display text-base font-medium">{item.name}</p>
+                          {item.description && (
+                            <p class="text-sm text-[var(--color-text-secondary)] mt-0.5">{item.description}</p>
+                          )}
+                        </div>
+                        {item.price && (
+                          <span class="text-sm text-[var(--color-accent)] whitespace-nowrap font-medium">{item.price}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
-          );
-        })}
+          </div>
+        </div>
+
+        <!-- Regular menu sections -->
+        {menuSections.map((section) => (
+          <div id={section.id} data-category-section style="scroll-margin-top: 8rem;">
+            <div class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 mb-6">
+              <h3 class="font-display text-2xl font-semibold text-[var(--color-accent)]">{section.name}</h3>
+              {section.subtitle && (
+                <span class="text-xs tracking-[0.1em] uppercase text-[var(--color-text-muted)]">{section.subtitle}</span>
+              )}
+            </div>
+            {section.id === "dinner-plates" && (
+              <div class="mb-8">
+                <ImageLightboxGallery photos={foodPhotos} mobileCarousel layout="row5" />
+              </div>
+            )}
+            {section.id === "beverages" && (
+              <p class="text-sm text-[var(--color-text-secondary)] mb-6">
+                We also offer a curated selection of <strong class="text-[var(--color-text-primary)]">beer and wine</strong>.
+                Ask your server for today's selection. A full bar with cocktails is coming soon.
+              </p>
+            )}
+            <div class="space-y-6">
+              {section.items.map((item) => (
+                <div class="flex justify-between items-start gap-4 pb-6 border-b border-[var(--color-border-subtle)] last:border-0">
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <h4 class="font-display text-lg font-medium">{item.name}</h4>
+                      {item.note && (
+                        <span class="inline-flex px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase bg-[var(--color-brand-amber)]/15 text-[var(--color-brand-amber)] border border-[var(--color-brand-amber)]/25">
+                          {item.note}
+                        </span>
+                      )}
+                    </div>
+                    {item.description && (
+                      <p class="text-sm text-[var(--color-text-secondary)] mt-1">{item.description}</p>
+                    )}
+                  </div>
+                  {item.price && (
+                    <span class="text-sm text-[var(--color-accent)] whitespace-nowrap font-medium">{item.price}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Sunday Gospel Brunch callout -->
+      <div class="mt-16 p-6 md:p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <div class="flex flex-col md:flex-row md:items-center gap-6">
+          <div class="flex-1">
+            <span class="eyebrow" data-reveal>Every Sunday</span>
+            <h3 class="font-display text-2xl font-semibold mt-1 mb-2" data-reveal>Sunday Gospel Brunch</h3>
+            <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+              Sundays feature a special menu of soul food and gospel favorites — comforting, hearty dishes
+              that resonate with the community's love for home cooking. Brunch served 11am–5pm with live
+              gospel music from 1pm–5pm. Free champagne included while it lasts.
+            </p>
+          </div>
+          <a href="/entertainment#brunch" class="shrink-0 inline-flex items-center px-6 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors text-sm">
+            Brunch Details
+          </a>
+        </div>
       </div>
 
       <!-- Promotions -->
-      <div class="mt-16 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center">
+      <div class="mt-8 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center">
         <span class="eyebrow" data-reveal>Special Offer</span>
         <h3 class="font-display text-xl font-semibold mb-2" data-reveal>Discounts</h3>
         <p class="text-sm text-[var(--color-text-secondary)]">10% off for seniors &amp; government workers with valid ID</p>
@@ -357,7 +363,16 @@ const iconPaths: Record<string, string> = {
 </BaseLayout>
 
 <style is:global>
-  /* Hide scrollbar for pill bar */
+  .menu-page-section.section-padding {
+    padding-top: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .menu-page-section.section-padding {
+      padding-top: 1.5rem;
+    }
+  }
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -366,24 +381,18 @@ const iconPaths: Record<string, string> = {
     display: none;
   }
 
-  /* Pill bar active state */
   [data-pill].active {
     background: var(--color-brand-amber);
     border-color: var(--color-brand-amber);
     color: #000;
   }
 
-  /* Bento card active/focus state */
-  [data-bento-card]:focus-visible {
-    outline: 2px solid var(--color-brand-amber);
-    outline-offset: 2px;
-  }
+  [data-bento-card]:focus-visible,
   [data-pill]:focus-visible {
     outline: 2px solid var(--color-brand-amber);
     outline-offset: 2px;
   }
 
-  /* Ensure pill bar adjusts below sticky header on desktop */
   @media (min-width: 768px) {
     #category-pill-bar {
       top: calc(4rem + 0px);
@@ -403,17 +412,15 @@ const iconPaths: Record<string, string> = {
 
     const pillNav = pillBar.querySelector<HTMLElement>("nav");
 
-    // ── Scroll-to-section helper ──
     const scrollToCategory = (id: string) => {
       const target = document.getElementById(id);
       if (!target) return;
       const headerH = window.innerWidth < 768 ? 56 : 64;
-      const pillH = 56; // approximate pill bar height
+      const pillH = 56;
       const top = target.getBoundingClientRect().top + window.scrollY - headerH - pillH - 8;
       window.scrollTo({ top, behavior: "smooth" });
     };
 
-    // ── Bento card clicks ──
     for (const card of bentoCards) {
       card.addEventListener("click", () => {
         const id = card.getAttribute("data-category");
@@ -421,7 +428,6 @@ const iconPaths: Record<string, string> = {
       });
     }
 
-    // ── Pill clicks ──
     for (const pill of pills) {
       pill.addEventListener("click", () => {
         const id = pill.getAttribute("data-category");
@@ -429,8 +435,6 @@ const iconPaths: Record<string, string> = {
       });
     }
 
-    // ── Bento grid collapse threshold ──
-    // Show the pill bar when the bento grid's bottom edge passes the top of the viewport
     let bentoThreshold = bentoGrid.offsetTop + bentoGrid.offsetHeight;
 
     const scrollPillIntoView = (pill: HTMLButtonElement) => {
@@ -448,7 +452,6 @@ const iconPaths: Record<string, string> = {
       }
     };
 
-    // ── Active section tracking with IntersectionObserver ──
     let activeId: string | null = null;
 
     const updateActivePill = (id: string | null) => {
@@ -464,22 +467,17 @@ const iconPaths: Record<string, string> = {
       if (activePill) scrollPillIntoView(activePill);
     };
 
-    // Determine the root margin so we trigger early enough.
-    // The pill bar is ~56px tall and sticky header is ~56-64px.
-    // We want the pill to activate when the section top crosses below the pill bar.
     const headerH = () => (window.innerWidth < 768 ? 56 : 64);
     const pillH = 56;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the first section that is currently intersecting from the top
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
 
         if (visible.length > 0) {
-          const id = visible[0].target.getAttribute("id");
-          updateActivePill(id);
+          updateActivePill(visible[0].target.getAttribute("id"));
         }
       },
       {
@@ -492,7 +490,6 @@ const iconPaths: Record<string, string> = {
       observer.observe(section);
     }
 
-    // ── Show/hide pill bar on scroll ──
     let ticking2 = false;
 
     const updatePillBar = () => {
@@ -513,10 +510,8 @@ const iconPaths: Record<string, string> = {
       { passive: true }
     );
 
-    // Initial state
     updatePillBar();
 
-    // ── Handle resize for rootMargin ──
     let resizeTimer: ReturnType<typeof setTimeout> | undefined;
     let currentObserver = observer;
     window.addEventListener("resize", () => {
@@ -538,7 +533,6 @@ const iconPaths: Record<string, string> = {
         for (const section of sections) {
           currentObserver.observe(section);
         }
-        // Recalculate bento threshold on resize
         bentoThreshold = bentoGrid.offsetTop + bentoGrid.offsetHeight;
         updatePillBar();
       }, 200);

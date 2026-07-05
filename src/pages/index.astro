@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import EventScheduleIcon from "../components/EventScheduleIcon.astro";
 import Hero from "../components/Hero.astro";
 import Section from "../components/Section.astro";
-import { getFeaturedDishes } from "../data/menu";
+import { getFeaturedDishes, seasonalSpecials } from "../data/menu";
 import LoyaltySignupButton from "../components/LoyaltySignupButton.astro";
 import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SIGNUP_ID } from "../data/business";
 
@@ -16,6 +16,27 @@ const featuredDishes = getFeaturedDishes();
   ogImage="/og-home.jpg"
 >
   <Hero />
+
+  <!-- Summer specials — social / IG / TikTok landing hook -->
+  <section class="section-padding py-8 md:py-10 bg-[var(--color-brand-amber)]/5 border-y border-[var(--color-brand-amber)]/20">
+    <div class="max-w-4xl mx-auto px-4 md:px-6">
+      <div class="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
+        <div class="flex-1">
+          <span class="eyebrow text-[var(--color-brand-amber)]">{seasonalSpecials.season}</span>
+          <h2 class="font-display text-2xl md:text-3xl font-bold mt-1 mb-2">{seasonalSpecials.title}</h2>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+            {seasonalSpecials.schedule} · Plates from $12–$20 · {seasonalSpecials.note}
+          </p>
+        </div>
+        <a
+          href="/menu#seasonal-specials"
+          class="shrink-0 inline-flex items-center justify-center px-8 py-3 bg-[var(--color-brand-amber)] text-black font-semibold rounded-full hover:bg-[var(--color-brand-amber-light)] transition-colors text-sm"
+        >
+          View Summer Menu
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- About snapshot -->
   <Section eyebrow="About" title="Soul Food with a Side of Live Entertainment" description="Lonell's Soul Food Cuisine is one of the few soul food spots in Los Angeles that combines authentic, made-from-scratch cooking with consistent live entertainment, including jazz, karaoke, and Sunday brunch performances.">
@@ -34,8 +55,8 @@ const featuredDishes = getFeaturedDishes();
       <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col">
         <h3 class="font-display text-lg font-semibold mb-2">Live Music Venue</h3>
         <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Jazz Wednesdays & Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
-        <a href="/events" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
-          See Schedule
+        <a href="/entertainment" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+          Entertainment
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="7" x2="11" y2="7" />
             <polyline points="7,3 11,7 7,11" />
@@ -70,7 +91,7 @@ const featuredDishes = getFeaturedDishes();
       {
         featuredDishes.map((dish) => (
           <a
-            href="/menu#cat-dinner-plates"
+            href="/menu#dinner-plates"
             class="group overflow-hidden rounded-xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)] hover:border-[var(--color-brand-amber)]/40 transition-colors"
           >
             {
@@ -141,13 +162,13 @@ const featuredDishes = getFeaturedDishes();
           <EventScheduleIcon type="brunch" />
           <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Sunday</span>
         </div>
-        <h3 class="font-display text-lg font-semibold mb-1">Brunch + Live Music</h3>
+        <h3 class="font-display text-lg font-semibold mb-1">Gospel Brunch</h3>
         <p class="text-sm text-[var(--color-text-secondary)]">1:00 PM – 5:00 PM</p>
       </div>
     </div>
     <div class="mt-6 text-center">
-      <a href="/events" class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
-        Full Event Details
+      <a href="/entertainment" class="inline-flex items-center gap-2 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+        Entertainment Schedule
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="7" x2="11" y2="7" />
           <polyline points="7,3 11,7 7,11" />
