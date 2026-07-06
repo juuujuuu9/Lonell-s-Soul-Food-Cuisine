@@ -1,60 +1,29 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/astro/server";
-import { neon } from "@neondatabase/serverless";
-import { drizzle } from "drizzle-orm/neon-http";
+import { authorizeAdmin } from "./lib/admin-auth";
 import { adminApiError } from "./lib/admin-api";
-import { staff } from "./db/schema";
-import { eq } from "drizzle-orm";
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
 const isPublicRoute = createRouteMatcher([
   "/", "/menu(.*)", "/our-story", "/entertainment(.*)", "/private-events",
   "/reviews", "/faq", "/contact", "/join", "/privacy", "/terms", "/sms-terms", "/accessibility",
-  "/sign-in(.*)", "/sign-up(.*)",
+  "/sign-in(.*)", "/sign-up(.*)", "/access-denied",
 ]);
-// API routes that must stay public (webhooks, cron, subscribe)
 const isPublicApiRoute = createRouteMatcher([
   "/api/sms-subscribe", "/api/sms-webhook", "/api/sms-status-callback",
   "/api/cron(.*)",
 ]);
 
-// Lazy-init DB connection for auth lookups
-let _db: ReturnType<typeof drizzle> | null = null;
-function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
-    _db = drizzle(neon(process.env.DATABASE_URL), { schema: { staff } });
-  }
-  return _db;
-}
-
-async function authorizeStaff(userId: string): Promise<boolean> {
-  const db = getDb();
-  if (!db) return false;
-  try {
-    const [staffMember] = await db
-      .select({ role: staff.role })
-      .from(staff)
-      .where(eq(staff.clerkId, userId))
-      .limit(1);
-    const role = staffMember?.role;
-    return !!(role && ["owner", "manager"].includes(role));
-  } catch (e) {
-    console.error("[middleware] DB role lookup failed:", e);
-    return false;
-  }
-}
-
 export const onRequest = clerkMiddleware(async (auth, request) => {
-  const { userId } = auth();
+  const { userId, sessionClaims } = auth();
 
-  // Allow public routes
   if (isPublicRoute(request) || isPublicApiRoute(request)) {
     return;
   }
 
-  // Protect admin routes (pages + API)
   if (isAdminRoute(request)) {
+    const urlStr = typeof request.url === "string" ? request.url : request.url.toString();
+
     if (!userId) {
-      const urlStr = typeof request.url === "string" ? request.url : request.url.toString();
       if (urlStr.includes("/api/")) {
         return adminApiError(401);
       }
@@ -63,14 +32,13 @@ export const onRequest = clerkMiddleware(async (auth, request) => {
       return Response.redirect(signInUrl.toString());
     }
 
-    if (await authorizeStaff(userId)) {
+    if (await authorizeAdmin(userId, sessionClaims)) {
       return;
     }
 
-    const urlStr = typeof request.url === "string" ? request.url : request.url.toString();
     if (urlStr.includes("/api/")) {
       return adminApiError(403);
     }
-    return Response.redirect(new URL("/sign-in?error=admin_required", urlStr).toString());
+    return Response.redirect(new URL("/access-denied", urlStr).toString());
   }
 });

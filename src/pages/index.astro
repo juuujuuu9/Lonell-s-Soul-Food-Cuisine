@@ -2,10 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EventScheduleIcon from "../components/EventScheduleIcon.astro";
 import Hero from "../components/Hero.astro";
+import LoyaltySignupForm from "../components/LoyaltySignupForm.astro";
 import Section from "../components/Section.astro";
+import { LOYALTY_SIGNUP_ID } from "../data/business";
 import { getFeaturedDishes, seasonalSpecials } from "../data/menu";
-import LoyaltySignupButton from "../components/LoyaltySignupButton.astro";
-import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SIGNUP_ID } from "../data/business";
+import { LOYALTY_PROGRAM_NAME } from "../data/loyalty-consent";
 
 const featuredDishes = getFeaturedDishes();
 ---
@@ -132,7 +133,7 @@ const featuredDishes = getFeaturedDishes();
 
   <!-- Weekly Entertainment Schedule -->
   <Section eyebrow="This Week" title="Live Entertainment Schedule" description="Every week at Lonell's. Good food, good music, good vibes." class="bg-[var(--color-surface-card)]" wide>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
       <div class="event-card rounded-xl p-6 text-center">
         <div class="flex flex-col items-center gap-2 mb-4">
           <EventScheduleIcon type="jazz" />
@@ -140,6 +141,14 @@ const featuredDishes = getFeaturedDishes();
         </div>
         <h3 class="font-display text-lg font-semibold mb-1">Live Jazz</h3>
         <p class="text-sm text-[var(--color-text-secondary)]">6:00 PM – 9:00 PM</p>
+      </div>
+      <div class="event-card rounded-xl p-6 text-center">
+        <div class="flex flex-col items-center gap-2 mb-4">
+          <EventScheduleIcon type="comedy" />
+          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">3rd Thursday</span>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-1">Comedy Night</h3>
+        <p class="text-sm text-[var(--color-text-secondary)]">7:00 PM – 9:00 PM</p>
       </div>
       <div class="event-card rounded-xl p-6 text-center">
         <div class="flex flex-col items-center gap-2 mb-4">
@@ -225,19 +234,14 @@ const featuredDishes = getFeaturedDishes();
     </div>
   </Section>
 
-  <!-- SMS Signup Teaser -->
   <Section
     id={LOYALTY_SIGNUP_ID}
-    eyebrow="Stay Connected"
-    title="Join the SoulFood Fam"
-    description="Be the first to know about new menu items, events, and exclusive offers."
-    className="text-center [&>div>p]:mx-auto"
+    eyebrow="Join the Fam"
+    title={LOYALTY_PROGRAM_NAME}
+    className="text-center bg-[var(--color-surface-card)]"
   >
-    <div class="mt-8 p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg mx-auto text-center">
-      <p class="text-xs tracking-[0.15em] uppercase text-[var(--color-neon)] mb-3">Text Us</p>
-      <p class="text-base md:text-lg font-semibold mb-2">Text <span class="text-[var(--color-accent)]">{LOYALTY_KEYWORD}</span> to <span class="text-[var(--color-accent)]">{LOYALTY_SMS_DISPLAY}</span></p>
-      <p class="text-sm text-[var(--color-text-secondary)] mb-4">Get 10% off your dinner when you show your welcome text. Offer expires 30 days after you join.</p>
-      <LoyaltySignupButton />
+    <div class="mt-8 p-6 md:p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow max-w-lg mx-auto text-left">
+      <LoyaltySignupForm />
     </div>
   </Section>
 </BaseLayout>

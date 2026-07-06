@@ -32,10 +32,10 @@ if (!dbUrl) {
 const db = drizzle(neon(dbUrl));
 
 try {
-  // Check if user already exists
-  const [existing] = await db.execute(
-    sql`SELECT clerk_id, role FROM staff WHERE clerk_id = ${clerkId}`
+  const existingRows = await db.execute(
+    sql`SELECT clerk_id, role FROM staff WHERE clerk_id = ${clerkId}`,
   );
+  const existing = existingRows.rows?.[0] ?? existingRows[0];
 
   if (existing) {
     console.log(`\n  User ${clerkId} already exists with role: ${existing.role}\n`);

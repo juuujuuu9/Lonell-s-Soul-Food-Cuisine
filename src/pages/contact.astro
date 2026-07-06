@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import type { PageHeaderBackground } from "../components/PageHeader.astro";
+import LoyaltySignupForm from "../components/LoyaltySignupForm.astro";
 import Section from "../components/Section.astro";
-import LoyaltySignupButton from "../components/LoyaltySignupButton.astro";
-import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SIGNUP_ID } from "../data/business";
+import { LOYALTY_SIGNUP_ID } from "../data/business";
+import { LOYALTY_PROGRAM_NAME } from "../data/loyalty-consent";
 
 const headerBackground: PageHeaderBackground = {
   webp: "/media/images/contact-header.webp",
@@ -99,7 +100,7 @@ const headerBackground: PageHeaderBackground = {
                   <tr class="border-b border-[var(--color-border-subtle)]">
                     <td class="py-4 px-6 font-medium">Thursday</td>
                     <td class="py-4 px-6">11:00 AM – 7:00 PM</td>
-                    <td class="py-4 px-6"></td>
+                    <td class="py-4 px-6 text-[var(--color-neon)] text-xs">Comedy Night 7pm (3rd Thu)</td>
                   </tr>
                   <tr class="border-b border-[var(--color-border-subtle)]">
                     <td class="py-4 px-6 font-medium">Friday</td>
@@ -194,12 +195,13 @@ const headerBackground: PageHeaderBackground = {
     <section id={LOYALTY_SIGNUP_ID} class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-lg mx-auto text-center">
         <span class="eyebrow" data-reveal>Join the Fam</span>
-        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>SoulFood SMS Club</h2>
-        <p class="text-[var(--color-text-secondary)] mb-6 leading-relaxed" data-reveal>
-          Text <strong class="text-[var(--color-accent)]">{LOYALTY_KEYWORD}</strong> to <strong class="text-[var(--color-accent)]">{LOYALTY_SMS_DISPLAY}</strong> to join our VIP list.
-          Get 10% off your dinner when you show your welcome text. Offer expires 30 days after you join.
-        </p>
-        <LoyaltySignupButton variant="card" />
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-8" data-reveal>{LOYALTY_PROGRAM_NAME}</h2>
+        <div
+          class="p-6 md:p-8 bg-[var(--color-surface-base)] rounded-xl border border-[var(--color-neon-subtle)] neon-glow text-left"
+          data-reveal
+        >
+          <LoyaltySignupForm />
+        </div>
       </div>
     </section>
   </div>

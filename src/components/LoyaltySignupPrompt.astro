@@ -1,0 +1,339 @@
+---
+import { PROMO_VALID_DAYS } from "../data/business";
+import {
+  LOYALTY_MESSAGE_FREQUENCY,
+  LOYALTY_OFFER_LINE,
+  LOYALTY_PROGRAM_NAME,
+  LOYALTY_VALUE_PROP,
+} from "../data/loyalty-consent";
+---
+
+<div
+  id="loyalty-signup-prompt"
+  class="loyalty-prompt"
+  role="region"
+  aria-label="Join SoulFood Fam"
+  aria-hidden="true"
+  hidden
+>
+  <button
+    type="button"
+    class="loyalty-prompt-close"
+    data-loyalty-prompt-close
+    aria-label="Dismiss signup prompt"
+  >
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M4 4l8 8M12 4l-8 8"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <div class="loyalty-prompt-content" data-loyalty-prompt-form>
+    <p class="loyalty-prompt-eyebrow">{LOYALTY_PROGRAM_NAME}</p>
+    <h2 class="loyalty-prompt-title">Join the SoulFood Fam</h2>
+    <p class="loyalty-prompt-lead">{LOYALTY_VALUE_PROP}</p>
+    <p class="loyalty-prompt-offer">
+      {LOYALTY_OFFER_LINE} Offer expires {PROMO_VALID_DAYS} days after you join.
+    </p>
+
+    <form class="loyalty-prompt-form" data-loyalty-prompt-submit novalidate>
+      <label class="sr-only" for="loyalty-prompt-phone">Mobile phone number</label>
+      <input
+        id="loyalty-prompt-phone"
+        class="loyalty-prompt-input"
+        type="tel"
+        name="phone"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="(555) 555-5555"
+        required
+      />
+      <button type="submit" class="loyalty-prompt-join">Join SoulFood Fam</button>
+      <p class="loyalty-prompt-consent">
+        By providing your mobile number and tapping Join, you agree to receive recurring automated
+        SMS from Lonell&apos;s Soul Food Cuisine ({LOYALTY_PROGRAM_NAME}), including offers, menu
+        updates, and event alerts ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not required to purchase.
+        Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. See our{" "}
+        <a href="/terms#sms-program">Terms</a> and <a href="/privacy#sms-privacy">Privacy Policy</a>.
+      </p>
+      <p class="loyalty-prompt-error" data-loyalty-prompt-error hidden role="alert"></p>
+    </form>
+  </div>
+
+  <div class="loyalty-prompt-success" data-loyalty-prompt-success hidden>
+    <p class="loyalty-prompt-eyebrow">You&apos;re in</p>
+    <h2 class="loyalty-prompt-title">Check your phone</h2>
+    <p class="loyalty-prompt-lead">
+      We sent your welcome text with your offer. Show it on your next visit.
+    </p>
+  </div>
+</div>
+
+<script>
+  const STORAGE_DISMISSED = "soulfam-prompt-dismissed";
+  const STORAGE_JOINED = "soulfam-prompt-joined";
+  const SHOW_DELAY_MS = 2000;
+
+  const prompt = document.getElementById("loyalty-signup-prompt");
+  if (!prompt) throw new Error("loyalty-signup-prompt missing");
+
+  function normalizePhone(input: string): string | null {
+    const digits = input.replace(/\D/g, "");
+    if (digits.length === 10) return `+1${digits}`;
+    if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+    return null;
+  }
+
+  function hidePrompt() {
+    prompt.classList.remove("loyalty-prompt-visible");
+    prompt.setAttribute("aria-hidden", "true");
+    window.setTimeout(() => {
+      prompt.hidden = true;
+    }, 300);
+  }
+
+  function showPrompt() {
+    prompt.hidden = false;
+    prompt.setAttribute("aria-hidden", "false");
+    requestAnimationFrame(() => {
+      prompt.classList.add("loyalty-prompt-visible");
+    });
+  }
+
+  if (localStorage.getItem(STORAGE_DISMISSED) || localStorage.getItem(STORAGE_JOINED)) {
+    prompt.remove();
+  } else {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.setTimeout(showPrompt, reducedMotion ? 0 : SHOW_DELAY_MS);
+
+    prompt.querySelector("[data-loyalty-prompt-close]")?.addEventListener("click", () => {
+      localStorage.setItem(STORAGE_DISMISSED, "1");
+      hidePrompt();
+    });
+
+    const form = prompt.querySelector<HTMLFormElement>("[data-loyalty-prompt-submit]");
+    const errorEl = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-error]");
+    const formPanel = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-form]");
+    const successPanel = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-success]");
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form || !errorEl) return;
+
+      errorEl.hidden = true;
+      errorEl.textContent = "";
+
+      const input = form.querySelector<HTMLInputElement>("#loyalty-prompt-phone");
+      const phone = normalizePhone(input?.value ?? "");
+      if (!phone) {
+        errorEl.textContent = "Enter a valid 10-digit US mobile number.";
+        errorEl.hidden = false;
+        input?.focus();
+        return;
+      }
+
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Joining…";
+      }
+
+      try {
+        const res = await fetch("/api/sms-subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: phone }),
+        });
+
+        if (!res.ok) {
+          const data = (await res.json().catch(() => null)) as { error?: string } | null;
+          throw new Error(data?.error ?? "Something went wrong. Please try again.");
+        }
+
+        localStorage.setItem(STORAGE_JOINED, "1");
+        formPanel?.setAttribute("hidden", "");
+        successPanel?.removeAttribute("hidden");
+
+        window.setTimeout(hidePrompt, 5000);
+      } catch (err) {
+        errorEl.textContent = err instanceof Error ? err.message : "Something went wrong.";
+        errorEl.hidden = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Join SoulFood Fam";
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .loyalty-prompt {
+    position: fixed;
+    z-index: 115;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.25rem 1rem 1rem;
+    border-top: 1px solid var(--color-neon-subtle);
+    background: var(--color-surface-elevated);
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s ease;
+    pointer-events: none;
+  }
+
+  .loyalty-prompt-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  @media (min-width: 768px) {
+    .loyalty-prompt {
+      left: auto;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      width: min(100% - 3rem, 22rem);
+      padding: 1.25rem;
+      border: 1px solid var(--color-neon-subtle);
+      border-radius: 1rem;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  .loyalty-prompt-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+  }
+
+  .loyalty-prompt-close:hover {
+    color: var(--color-text-primary);
+    background: var(--color-surface-hover);
+  }
+
+  .loyalty-prompt-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-neon);
+  }
+
+  .loyalty-prompt-title {
+    margin: 0 0 0.5rem;
+    padding-right: 1.75rem;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .loyalty-prompt-lead {
+    margin: 0 0 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .loyalty-prompt-offer {
+    margin: 0 0 0.875rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-accent);
+  }
+
+  .loyalty-prompt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .loyalty-prompt-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-size: 0.9375rem;
+  }
+
+  .loyalty-prompt-input:focus {
+    outline: 2px solid var(--color-neon);
+    outline-offset: 1px;
+  }
+
+  .loyalty-prompt-join {
+    width: 100%;
+    padding: 0.625rem 1rem;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-neon);
+    color: #000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .loyalty-prompt-join:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  .loyalty-prompt-join:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .loyalty-prompt-consent {
+    margin: 0;
+    font-size: 0.625rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .loyalty-prompt-consent a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .loyalty-prompt-error {
+    margin: 0;
+    font-size: 0.75rem;
+    color: var(--color-brand-rose);
+  }
+
+  .loyalty-prompt-success .loyalty-prompt-lead {
+    margin-bottom: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loyalty-prompt {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

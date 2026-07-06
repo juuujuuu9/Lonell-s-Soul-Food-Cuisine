@@ -1,0 +1,214 @@
+---
+import { PROMO_VALID_DAYS } from "../data/business";
+import {
+  LOYALTY_MESSAGE_FREQUENCY,
+  LOYALTY_OFFER_LINE,
+  LOYALTY_PROGRAM_NAME,
+  LOYALTY_VALUE_PROP,
+} from "../data/loyalty-consent";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+const formId = `loyalty-signup-${Math.random().toString(36).slice(2, 9)}`;
+const phoneId = `${formId}-phone`;
+---
+
+<div class:list={["loyalty-signup-form", className]} id={formId}>
+  <div data-loyalty-signup-panel>
+    <p class="loyalty-signup-lead">{LOYALTY_VALUE_PROP}</p>
+    <p class="loyalty-signup-offer">
+      {LOYALTY_OFFER_LINE} Offer expires {PROMO_VALID_DAYS} days after you join.
+    </p>
+
+    <form class="loyalty-signup-fields" data-loyalty-signup-submit novalidate>
+      <label class="sr-only" for={phoneId}>Mobile phone number</label>
+      <input
+        id={phoneId}
+        class="loyalty-signup-input"
+        type="tel"
+        name="phone"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="(555) 555-5555"
+        required
+      />
+      <button type="submit" class="loyalty-signup-button">Join SoulFood Fam</button>
+      <p class="loyalty-signup-consent">
+        By providing your mobile number and tapping Join, you agree to receive recurring automated
+        SMS from Lonell&apos;s Soul Food Cuisine ({LOYALTY_PROGRAM_NAME}), including offers, menu
+        updates, and event alerts ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not required to purchase.
+        Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. See our{" "}
+        <a href="/terms#sms-program">Terms</a> and <a href="/privacy#sms-privacy">Privacy Policy</a>.
+      </p>
+      <p class="loyalty-signup-error" data-loyalty-signup-error hidden role="alert"></p>
+    </form>
+  </div>
+
+  <div class="loyalty-signup-success" data-loyalty-signup-success hidden>
+    <p class="loyalty-signup-success-title">You&apos;re in!</p>
+    <p class="loyalty-signup-lead">
+      Check your phone — we sent your welcome text with your offer. Show it on your next visit.
+    </p>
+  </div>
+</div>
+
+<script define:vars={{ formId }}>
+  const root = document.getElementById(formId);
+  if (!root) throw new Error(`loyalty signup form missing: ${formId}`);
+
+  function normalizePhone(input) {
+    const digits = input.replace(/\D/g, "");
+    if (digits.length === 10) return `+1${digits}`;
+    if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+    return null;
+  }
+
+  const form = root.querySelector("[data-loyalty-signup-submit]");
+  const errorEl = root.querySelector("[data-loyalty-signup-error]");
+  const panel = root.querySelector("[data-loyalty-signup-panel]");
+  const successPanel = root.querySelector("[data-loyalty-signup-success]");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!form || !errorEl) return;
+
+    errorEl.hidden = true;
+    errorEl.textContent = "";
+
+    const input = form.querySelector('input[type="tel"]');
+    const phone = normalizePhone(input?.value ?? "");
+    if (!phone) {
+      errorEl.textContent = "Enter a valid 10-digit US mobile number.";
+      errorEl.hidden = false;
+      input?.focus();
+      return;
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Joining…";
+    }
+
+    try {
+      const res = await fetch("/api/sms-subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber: phone }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error ?? "Something went wrong. Please try again.");
+      }
+
+      localStorage.setItem("soulfam-prompt-joined", "1");
+      panel?.setAttribute("hidden", "");
+      successPanel?.removeAttribute("hidden");
+    } catch (err) {
+      errorEl.textContent = err instanceof Error ? err.message : "Something went wrong.";
+      errorEl.hidden = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Join SoulFood Fam";
+      }
+    }
+  });
+</script>
+
+<style>
+  .loyalty-signup-form {
+    text-align: left;
+  }
+
+  .loyalty-signup-lead {
+    margin: 0 0 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+
+  .loyalty-signup-offer {
+    margin: 0 0 1.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-accent);
+  }
+
+  .loyalty-signup-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .loyalty-signup-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background: var(--color-surface-base);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+  }
+
+  .loyalty-signup-input:focus {
+    outline: 2px solid var(--color-neon);
+    outline-offset: 1px;
+  }
+
+  .loyalty-signup-button {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--color-neon);
+    color: #000;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .loyalty-signup-button:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  .loyalty-signup-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .loyalty-signup-consent {
+    margin: 0;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .loyalty-signup-consent a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .loyalty-signup-error {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-brand-rose);
+  }
+
+  .loyalty-signup-success {
+    text-align: center;
+  }
+
+  .loyalty-signup-success-title {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-neon);
+  }
+</style>

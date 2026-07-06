@@ -74,16 +74,17 @@ import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty
         <p>We offer two ways to join:</p>
         <ol class="list-decimal pl-6 space-y-3 mt-2">
           <li>
-            <strong class="text-[var(--color-text-primary)]">Text keyword:</strong> Text {LOYALTY_KEYWORD} to{" "}
-            {LOYALTY_SMS_DISPLAY}. Sending the keyword constitutes your consent to receive SMS messages.
+            <strong class="text-[var(--color-text-primary)]">Website form:</strong> Enter your mobile
+            number on our{" "}
+            <a href="/join" class="text-[var(--color-accent)] hover:underline">join page</a>,{" "}
+            <a href="/contact#sms-signup" class="text-[var(--color-accent)] hover:underline">contact page</a>,
+            or the signup form on our homepage. Review the consent disclosure and tap Join. Submitting
+            your number constitutes your consent to receive SMS messages.
           </li>
           <li>
-            <strong class="text-[var(--color-text-primary)]">QR code or website:</strong> Scan a QR code at our
-            restaurant or visit{" "}
-            <a href="/join" class="text-[var(--color-accent)] hover:underline">lonellssoulfood.com/join</a>.
-            Review the consent disclosure, then tap the button to open a pre-filled text message to{" "}
-            {LOYALTY_SMS_DISPLAY}. Sending {LOYALTY_KEYWORD} completes your opt-in. The same consent
-            disclosure appears in a popup before the messaging app opens on our main website.
+            <strong class="text-[var(--color-text-primary)]">In-store keyword:</strong> At our restaurant,
+            scan a QR code or text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}. Sending the keyword
+            constitutes your consent to receive SMS messages.
           </li>
         </ol>
         <p class="mt-3">

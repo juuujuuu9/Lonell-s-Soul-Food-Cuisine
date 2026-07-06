@@ -1,0 +1,107 @@
+---
+import { SignOutButton } from "@clerk/astro/components";
+
+export const prerender = false;
+
+const { userId } = Astro.locals.auth();
+
+if (!userId) {
+  return Astro.redirect("/sign-in");
+}
+---
+
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Access Denied | Lonell's Soul Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Arbutus+Slab&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        background: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Inter", system-ui, sans-serif;
+        color: #fafafa;
+        -webkit-font-smoothing: antialiased;
+      }
+      .panel {
+        width: 100%;
+        max-width: 24rem;
+        padding: 0 1rem;
+        text-align: center;
+      }
+      h1 {
+        font-family: "Arbutus Slab", Georgia, serif;
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      p {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: #a3a3a3;
+        margin-bottom: 1rem;
+      }
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.625rem 1.25rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        border: 0;
+      }
+      .btn-primary {
+        background: #f59e0b;
+        color: #000;
+      }
+      .btn-secondary {
+        background: transparent;
+        color: #a3a3a3;
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h1>Admin access required</h1>
+      <p>
+        Your account is signed in, but it is not linked to an admin role (owner, manager, or staff).
+        Add this Clerk user ID to the staff table, or set{" "}
+        <code style="color: #fafafa;">publicMetadata.role</code> in the Clerk dashboard.
+      </p>
+      <p
+        style="font-size: 0.75rem; line-height: 1.5; color: #6b6b6b; word-break: break-all; margin-bottom: 1rem;"
+      >
+        Your Clerk user ID:<br />
+        <code style="color: #34d399;">{userId}</code>
+      </p>
+      <p style="font-size: 0.75rem; line-height: 1.5; color: #6b6b6b; margin-bottom: 1rem;">
+        Seed command:<br />
+        <code style="color: #fafafa;">node scripts/seed-admin.mjs {userId}</code>
+      </p>
+      <div class="actions">
+        <SignOutButton redirectUrl="/sign-in" class="btn btn-primary">
+          Sign out
+        </SignOutButton>
+        <a href="/" class="btn btn-secondary">Back to website</a>
+      </div>
+    </div>
+  </body>
+</html>

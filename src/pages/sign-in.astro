@@ -1,5 +1,14 @@
 ---
 import { SignIn } from "@clerk/astro/components";
+
+export const prerender = false;
+
+const { userId } = Astro.locals.auth();
+const redirectUrl = Astro.url.searchParams.get("redirect_url") || "/admin";
+
+if (userId) {
+  return Astro.redirect(redirectUrl);
+}
 ---
 
 <!doctype html>
@@ -31,7 +40,7 @@ import { SignIn } from "@clerk/astro/components";
         <source srcset="/media/images/lonells-logo.webp 1x, /media/images/lonells-logo@2x.webp 2x" type="image/webp" />
         <img src="/media/images/lonells-logo.jpg" alt="Lonell's Soul Food Cuisine" class="logo" width="180" height="auto" />
       </picture>
-      <SignIn afterSignInUrl="/admin"
+      <SignIn afterSignInUrl={redirectUrl}
         appearance={{
           variables: {
             colorPrimary: "#f59e0b",
