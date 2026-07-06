@@ -51,14 +51,18 @@ import {
         placeholder="(555) 555-5555"
         required
       />
+      <label class="loyalty-prompt-consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>
+          I agree to receive recurring automated SMS from Lonell&apos;s Soul Food Cuisine
+          ({LOYALTY_PROGRAM_NAME}), including offers, menu updates, and event alerts
+          ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not required to purchase.
+          Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help.
+          See our <a href="/terms#sms-program">Terms</a> and
+          <a href="/privacy#sms-privacy">Privacy Policy</a>.
+        </span>
+      </label>
       <button type="submit" class="loyalty-prompt-join">Join SoulFood Fam</button>
-      <p class="loyalty-prompt-consent">
-        By providing your mobile number and tapping Join, you agree to receive recurring automated
-        SMS from Lonell&apos;s Soul Food Cuisine ({LOYALTY_PROGRAM_NAME}), including offers, menu
-        updates, and event alerts ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not required to purchase.
-        Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help. See our{" "}
-        <a href="/terms#sms-program">Terms</a> and <a href="/privacy#sms-privacy">Privacy Policy</a>.
-      </p>
       <p class="loyalty-prompt-error" data-loyalty-prompt-error hidden role="alert"></p>
     </form>
   </div>
@@ -135,6 +139,14 @@ import {
         return;
       }
 
+      const consentCb = form.querySelector<HTMLInputElement>('input[name="consent"]');
+      if (!consentCb || !consentCb.checked) {
+        errorEl.textContent = "You must agree to receive SMS messages to join.";
+        errorEl.hidden = false;
+        consentCb?.focus();
+        return;
+      }
+
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -145,7 +157,7 @@ import {
         const res = await fetch("/api/sms-subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: phone }),
+          body: JSON.stringify({ phoneNumber: phone, consent: true }),
         });
 
         if (!res.ok) {
@@ -308,10 +320,20 @@ import {
   }
 
   .loyalty-prompt-consent {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
     margin: 0;
     font-size: 0.625rem;
     line-height: 1.45;
     color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .loyalty-prompt-consent input[type="checkbox"] {
+    margin-top: 0.15em;
+    flex-shrink: 0;
+    accent-color: var(--color-neon);
   }
 
   .loyalty-prompt-consent a {

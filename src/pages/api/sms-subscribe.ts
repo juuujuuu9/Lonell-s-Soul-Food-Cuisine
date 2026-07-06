@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const data = await request.json();
-    const { phoneNumber } = data;
+    const { phoneNumber, consent } = data;
 
     if (!phoneNumber || typeof phoneNumber !== "string") {
       return new Response(JSON.stringify({ error: "Phone number is required" }), {
@@ -28,6 +28,13 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (phoneNumber.length > 20) {
       return new Response(JSON.stringify({ error: "Invalid phone number" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    if (consent !== true) {
+      return new Response(JSON.stringify({ error: "You must consent to receive SMS messages." }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });

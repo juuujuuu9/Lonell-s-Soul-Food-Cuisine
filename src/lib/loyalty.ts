@@ -1,6 +1,5 @@
 import {
   GOOGLE_REVIEW_URL as GOOGLE_REVIEW_DEFAULT,
-  LOYALTY_KEYWORD,
   MANAGER_PHONE,
   PROMO_VALID_DAYS,
   WIN_BACK_VALID_DAYS,
@@ -9,6 +8,8 @@ import {
 
 const BRAND = "Lonell's Soul Food Cuisine";
 const FOOTER = "Reply STOP to opt out.";
+const HELP_FOOTER = "Reply HELP for help.";
+const FULL_FOOTER = `${HELP_FOOTER} ${FOOTER}`;
 
 export type DripSubscriber = {
   consentAt: Date;
@@ -72,15 +73,15 @@ export function isEligibleForWinBack(sub: DripSubscriber, now = new Date()): boo
 
 export function welcomeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. ${FOOTER}`;
+  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. ${FULL_FOOTER}`;
 }
 
 export function existingMemberMessage(expiresAt: Date | null): string {
   if (expiresAt && expiresAt > new Date()) {
     const expiry = formatPromoExpiry(expiresAt);
-    return `${BRAND}: You're already a member. Show this message for 10% off your dinner plate. Expires ${expiry}. Reply HELP for help. ${FOOTER}`;
+    return `${BRAND}: You're already a member. Show this message for 10% off your dinner plate. Expires ${expiry}. ${FULL_FOOTER}`;
   }
-  return `${BRAND}: You're already a member. Reply HELP for help. ${FOOTER}`;
+  return `${BRAND}: You're already a member. ${FULL_FOOTER}`;
 }
 
 export function rejoinMessage(expiresAt: Date): string {
@@ -89,12 +90,12 @@ export function rejoinMessage(expiresAt: Date): string {
 
 export function reviewPromptMessage(): string {
   const google = getGoogleReviewUrl();
-  return `${BRAND}: We hope you enjoyed your time with us! If we made your day a little better, we'd love your words on Google or Yelp. Share your experience and show us your posted review for a complimentary side on your next visit.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
+  return `${BRAND}: We hope you enjoyed your visit! We'd love a review on Google or Yelp. Share your experience and show us your posted review for a complimentary side on your next visit.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
 }
 
 export function day7NudgeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We'd love to see you again! This Wed: live jazz 6-9pm. This Sun: brunch and live music 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return `${BRAND}: We'd love to see you again! Live jazz this Wed 6-9pm & Sunday brunch 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
 export function winBackMessage(expiresAt: Date): string {
@@ -103,32 +104,32 @@ export function winBackMessage(expiresAt: Date): string {
 }
 
 export function weeklyJazzMessage(): string {
-  return `${BRAND}: Tonight at Lonell's: Live jazz, 6 to 9! Good food, good music, good company. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return `${BRAND}: Live jazz tonight 6-9pm. Walk in or call ${MANAGER_PHONE} to reserve. ${FULL_FOOTER}`;
 }
 
 export function weeklyBrunchMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: Sunday Brunch is live at Lonell's! Music starts at 1, the kitchen is open until 5. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
+  return `${BRAND}: Sunday Brunch is live at Lonell's! Music starts at 1pm, kitchen open until 5pm. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
 }
 
 export function menuMessage(siteUrl: string): string {
-  return `${BRAND}: Menu at ${siteUrl}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler! Reply HELP for help. ${FOOTER}`;
+  return `${BRAND}: Menu at ${siteUrl}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler! ${FULL_FOOTER}`;
 }
 
 export function eventsMessage(siteUrl: string): string {
-  return `${BRAND}: See our latest events at ${siteUrl}/entertainment. Reply HELP for help. ${FOOTER}`;
+  return `${BRAND}: Events at ${siteUrl}/entertainment. Live jazz Wed & Fri, Karaoke Sat, Brunch Sun. ${FULL_FOOTER}`;
 }
 
 export function stopConfirmationMessage(): string {
-  return `${BRAND}: You've been unsubscribed. Reply ${LOYALTY_KEYWORD} to rejoin anytime.`;
+  return `${BRAND}: You have been unsubscribed. You will not receive any more messages. Reply START to resubscribe.`;
 }
 
 export function helpMessage(siteUrl: string): string {
-  return `${BRAND}: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Visit ${siteUrl} for more.`;
+  return `${BRAND}: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Msg & data rates may apply. Visit ${siteUrl} for more. ${FULL_FOOTER}`;
 }
 
 export function unknownKeywordMessage(siteUrl: string): string {
-  return `${BRAND}: Reply ${LOYALTY_KEYWORD} to join, MENU for menu, EVENTS for events, HELP for info, STOP to cancel. Visit ${siteUrl}.`;
+  return `${BRAND}: Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, or STOP to cancel. Msg & data rates may apply. Visit ${siteUrl}.`;
 }
 
 if (import.meta.env?.DEV) {

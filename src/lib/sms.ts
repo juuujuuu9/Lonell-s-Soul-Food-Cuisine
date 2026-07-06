@@ -113,10 +113,13 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
 }
 
 // ── Handle inbound keywords (TCPA/CTIA compliant). Returns reply text only — webhook sends via TwiML. ──
+const OPT_OUT_KEYWORDS = new Set(["STOP", "CANCEL", "END", "QUIT", "UNSUBSCRIBE", "REVOKE", "STOPALL"]);
+const OPT_IN_KEYWORDS = new Set(["SOUL", "START", "YES", "UNSTOP"]);
+
 export async function handleInbound(from: string, keyword: string): Promise<string> {
   const normalized = keyword.trim().toUpperCase();
 
-  if (normalized === "STOP") {
+  if (OPT_OUT_KEYWORDS.has(normalized)) {
     if (isDbReady()) {
       const existing = await db!
         .select()
@@ -138,7 +141,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
     return helpMessage(siteUrl());
   }
 
-  if (normalized === "SOUL") {
+  if (OPT_IN_KEYWORDS.has(normalized)) {
     if (isDbReady()) {
       const existing = await db!
         .select()
