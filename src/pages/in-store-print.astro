@@ -1,0 +1,441 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LOYALTY_KEYWORD, LOYALTY_SMS_DISPLAY } from "../data/business";
+const siteUrl = "https://lonellssoulfood.com";
+const isDev = import.meta.env.DEV;
+---
+
+<BaseLayout
+  title="In-Store Print Collateral"
+  description="Visual reference for Lonell's in-store QR print pieces — entrance poster, counter standee, and handout cards."
+  noindex
+>
+  <!-- Dev-only: fallback preview styles when Google Fonts may not load in print-preview -->
+  {isDev && (
+    <link slot="head" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&family=Inter:wght@400;600;700&display=swap" />
+  )}
+
+  <div class="preview-page">
+    <div class="preview-intro">
+      <span class="eyebrow">Print Reference</span>
+      <h1 class="font-display text-3xl md:text-4xl font-bold mt-2">In-Store Print Collateral</h1>
+      <p class="text-(--color-text-secondary) mt-3 max-w-lg mx-auto">
+        Full-size visual mockup of the three print formats for the sign shop. Sizes are rendered at
+        actual print dimensions (96 DPI on screen).
+      </p>
+    </div>
+
+    <!-- ==========================================
+         FORMAT 1: STANDARD SHEET (8.5" x 11")
+         ========================================== -->
+    <div class="print-piece standard-sheet">
+      <div class="standard-header">
+        <img src="/media/images/lonells-gold-logo.png" alt="Lonell's Gold Logo" class="standard-logo" />
+        <div class="eyebrow">Scan &amp; Connect</div>
+        <h1 class="font-display">Menu &amp; SMS Club</h1>
+      </div>
+
+      <div class="standard-columns">
+        <div class="card standard-col">
+          <h2 class="font-display">View Our Menu</h2>
+          <div class="qr-plate">
+            <img src="/media/qrcodes/qr-menu.png" alt="Menu QR Code" />
+          </div>
+          <div>
+            <div class="caption">Scan with your camera — lunch, dinner, sides &amp; more.</div>
+            <div class="fallback-text">{siteUrl}/menu</div>
+          </div>
+        </div>
+
+        <div class="card standard-col sms-border">
+          <h2 class="font-display">Join Our SMS Club</h2>
+          <div class="qr-plate">
+            <img src="/media/qrcodes/qr-sms-optin.png" alt="SMS Opt-in QR Code" />
+          </div>
+          <div>
+            <div class="caption">Scan to text {LOYALTY_KEYWORD} — or text it yourself to {LOYALTY_SMS_DISPLAY}.</div>
+            <div class="offer-line">Show welcome text for 10% off your dinner!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="standard-footer">
+        <div class="disclaimer-full">
+          By texting {LOYALTY_KEYWORD} you agree to receive recurring automated marketing texts from Lonell's Soul Food Cuisine at the number used. Msg &amp; data rates may apply. Message frequency varies (approx. 2–4 msgs/month). Consent is not a condition of purchase. Reply STOP to cancel, HELP for help. Terms: {siteUrl}/terms &middot; Privacy: {siteUrl}/privacy &middot; Phone: (323) 451-3104 &middot; {siteUrl}
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         FORMAT 2: HALF SHEET (5.5" x 8.5")
+         ========================================== -->
+    <div class="print-piece half-sheet">
+      <div class="half-header">
+        <img src="/media/images/lonells-gold-logo.png" alt="Lonell's Gold Logo" class="half-logo" />
+        <div class="eyebrow">Stay Connected</div>
+        <h1 class="font-display">Join SoulFood Fam</h1>
+      </div>
+
+      <div class="card half-main-card">
+        <div class="qr-plate primary-qr">
+          <img src="/media/qrcodes/qr-sms-optin.png" alt="SMS Opt-in QR Code" />
+        </div>
+        <div class="fallback-text" style="font-size: 16px; margin-bottom: 6px;">
+          Text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}
+        </div>
+        <div style="margin-bottom: 0; font-size: 13px; color: var(--neon-sms); font-weight: 600;">
+          Show your welcome text for 10% off dinner.
+        </div>
+      </div>
+
+      <div class="half-divider"></div>
+
+      <div class="card half-secondary-zone">
+        <div class="half-secondary-text">
+          <h3 class="font-display">Want the menu first?</h3>
+          <div class="fallback-text" style="font-size: 13px;">{siteUrl}/menu</div>
+        </div>
+        <div class="qr-plate secondary-qr">
+          <img src="/media/qrcodes/qr-menu.png" alt="Menu QR Code" />
+        </div>
+      </div>
+
+      <div class="disclaimer-condensed">
+        Msg &amp; data rates may apply. ~2–4 msgs/mo. Consent not required to purchase. Reply STOP to cancel, HELP for help. Terms at {siteUrl}/sms
+      </div>
+    </div>
+
+    <!-- ==========================================
+         FORMAT 3: QUARTER SHEETS (4.25" x 5.5")
+         ========================================== -->
+    <div class="quarter-container">
+      <!-- Variant A: SMS Club -->
+      <div class="print-piece quarter-sheet">
+        <div>
+          <div class="eyebrow">Text to Join</div>
+          <h1 class="font-display">SoulFood SMS Club</h1>
+        </div>
+
+        <div class="quarter-center">
+          <div class="qr-plate">
+            <img src="/media/qrcodes/qr-sms-optin.png" alt="SMS Opt-in QR Code" />
+          </div>
+          <div class="fallback-text" style="font-size: 14px;">
+            Scan, or text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}
+          </div>
+          <div class="offer-line" style="color: var(--amber);">
+            New members: show this welcome text for 10% off dinner.
+          </div>
+        </div>
+
+        <div class="quarter-footer">
+          <div class="disclaimer-condensed">
+            Msg &amp; data rates may apply. ~2–4 msgs/mo. Consent not required to purchase. Reply STOP to cancel, HELP for help. Terms at {siteUrl}/sms
+          </div>
+        </div>
+      </div>
+
+      <!-- Variant B: Menu Focus -->
+      <div class="print-piece quarter-sheet">
+        <div>
+          <div class="eyebrow">Scan the Menu</div>
+          <h1 class="font-display">See What's Cooking</h1>
+        </div>
+
+        <div class="quarter-center">
+          <div class="qr-plate">
+            <img src="/media/qrcodes/qr-menu.png" alt="Menu QR Code" />
+          </div>
+          <div class="caption" style="text-align: center;">Point your camera — no app needed.</div>
+          <div class="fallback-text" style="font-size: 15px;">{siteUrl}/menu</div>
+        </div>
+
+        <div class="quarter-footer" style="border: none; padding-top: 0;">
+          <div style="font-size: 11px; color: var(--text-muted); text-align: center; letter-spacing: 0.05em;">
+            (323) 451-3104 &middot; &quot;A Place of Love&quot;
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Print info footer -->
+    <div class="card print-info">
+      <h2 class="font-display text-lg font-semibold mb-2">Print Specs</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+        <div>
+          <p class="text-xs text-(--color-brand-amber) font-semibold uppercase tracking-widest mb-1">Standard Sheet</p>
+          <p class="text-sm text-(--color-text-secondary)">8.5 &times; 11 in &middot; 100lb text / 14pt cardstock<br />Matte laminate &middot; Acrylic wall/stand mount</p>
+        </div>
+        <div>
+          <p class="text-xs text-(--color-brand-amber) font-semibold uppercase tracking-widest mb-1">Half Sheet</p>
+          <p class="text-sm text-(--color-text-secondary)">5.5 &times; 8.5 in &middot; 14–16pt cardstock<br />Matte laminate &middot; Countertop stand</p>
+        </div>
+        <div>
+          <p class="text-xs text-(--color-brand-amber) font-semibold uppercase tracking-widest mb-1">Quarter Sheets</p>
+          <p class="text-sm text-(--color-text-secondary)">4.25 &times; 5.5 in &middot; 14pt cardstock<br />Rounded corners &middot; Bag insert / handout</p>
+        </div>
+      </div>
+      <p class="text-xs text-(--color-text-muted) mt-4">
+        All QR codes printed at 800&times;800px source resolution. Pre-test scans with 2–3 phone models before full print run. See <a href="/docs/in-store-qr-print-collateral.md" class="text-(--color-brand-amber) hover:underline">docs/in-store-qr-print-collateral.md</a> for the full design brief.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* --- Print-piece preview page --- */
+  .preview-page {
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+  }
+  .preview-intro {
+    text-align: center;
+    max-width: 640px;
+  }
+  .preview-intro .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-brand-amber);
+    margin-bottom: 4px;
+  }
+
+  /* --- Brand tokens for print pieces --- */
+  .print-piece {
+    --brand-dark: #0a0a0a;
+    --card-surface: #141414;
+    --card-border: #262626;
+    --amber: #f59e0b;
+    --amber-light: #fbbf24;
+    --neon-sms: #34d399;
+    --text-secondary: #a3a3a3;
+    --text-muted: #6b6b6b;
+
+    background: var(--brand-dark);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: var(--color-text-primary);
+    display: flex;
+    flex-direction: column;
+  }
+  .print-piece .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+  .print-piece .font-display {
+    font-family: "Arbutus Slab", Georgia, serif;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+  }
+  .print-piece .qr-plate {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  .print-piece .qr-plate img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .print-piece .card {
+    background: var(--card-surface);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .print-piece .caption {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    max-width: 240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .print-piece .fallback-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--amber-light);
+  }
+  .print-piece .offer-line {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--neon-sms);
+    margin-top: 10px;
+  }
+
+  /* --- Standard Sheet (8.5" × 11") --- */
+  .standard-sheet {
+    width: 816px;
+    max-width: 100%;
+    min-height: 1056px;
+    padding: 50px;
+    justify-content: space-between;
+  }
+  .standard-header {
+    text-align: center;
+  }
+  .standard-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 15px;
+  }
+  .standard-sheet h1 {
+    font-size: 42px;
+    margin-bottom: 40px;
+  }
+  .standard-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: stretch;
+  }
+  .standard-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    padding: 40px 30px;
+  }
+  .standard-col.sms-border {
+    border: 2px solid var(--neon-sms);
+  }
+  .standard-col h2 {
+    font-family: "Arbutus Slab", Georgia, serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .standard-sheet .qr-plate {
+    width: 216px;
+    margin-bottom: 20px;
+  }
+  .standard-footer {
+    border-top: 1px solid var(--card-border);
+    padding-top: 20px;
+    text-align: center;
+  }
+  .disclaimer-full {
+    font-size: 9px;
+    line-height: 1.4;
+    color: var(--text-muted);
+    text-align: justify;
+  }
+
+  /* --- Half Sheet (5.5" × 8.5") --- */
+  .half-sheet {
+    width: 528px;
+    max-width: 100%;
+    min-height: 816px;
+    padding: 35px;
+    justify-content: space-between;
+  }
+  .half-header {
+    text-align: center;
+  }
+  .half-logo {
+    width: 86px;
+    margin-bottom: 10px;
+  }
+  .half-sheet h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .half-main-card {
+    border: 2px solid var(--neon-sms);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    text-align: center;
+  }
+  .half-sheet .qr-plate.primary-qr {
+    width: 156px;
+    margin-bottom: 15px;
+  }
+  .half-divider {
+    height: 1px;
+    background: var(--card-border);
+    margin: 20px 0;
+    width: 100%;
+  }
+  .half-secondary-zone {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    gap: 16px;
+  }
+  .half-secondary-text h3 {
+    font-family: "Arbutus Slab", Georgia, serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .half-sheet .qr-plate.secondary-qr {
+    width: 110px;
+  }
+  .disclaimer-condensed {
+    font-size: 7.5px;
+    line-height: 1.3;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* --- Quarter Sheets (4.25" × 5.5") --- */
+  .quarter-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .quarter-sheet {
+    width: 408px;
+    max-width: 100%;
+    min-height: 528px;
+    padding: 25px;
+    justify-content: space-between;
+    border-radius: 12px;
+  }
+  .quarter-sheet h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  .quarter-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+    justify-content: center;
+  }
+  .quarter-sheet .qr-plate {
+    width: 130px;
+    margin-bottom: 15px;
+  }
+  .quarter-sheet .offer-line {
+    font-size: 13px;
+    margin-top: 12px;
+    max-width: 280px;
+  }
+  .quarter-footer {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  /* --- Print info card --- */
+  .print-info {
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+  }
+</style>
