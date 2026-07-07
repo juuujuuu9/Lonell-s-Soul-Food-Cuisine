@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LOYALTY_SMS_DISPLAY, LOYALTY_KEYWORD, LOYALTY_SMS_NUMBER } from "../data/business";
+import { loyaltySmsHref } from "../data/business";
+---
+
+<BaseLayout title="QR Codes" description="Scan to view our menu or join our SMS club." noindex>
+  <div class="min-h-screen pb-16">
+    <div class="max-w-5xl mx-auto px-4 pt-16 md:pt-24">
+      <div class="text-center mb-12">
+        <span class="eyebrow" data-reveal>Scan & Connect</span>
+        <h1 class="font-display text-3xl md:text-4xl font-bold mt-2" data-reveal>QR Codes</h1>
+        <p class="text-[var(--color-text-secondary)] mt-3" data-reveal>
+          Point your camera at the code below to view our menu or join our SMS club.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+        <!-- Menu QR -->
+        <div class="flex flex-col items-center p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]" data-reveal>
+          <h2 class="font-display text-xl font-semibold mb-1">View Our Menu</h2>
+          <p class="text-xs text-[var(--color-text-muted)] mb-4">Table tent / menu insert</p>
+          <img
+            src="/media/qrcodes/qr-menu.png"
+            alt="QR code for Lonell's menu page"
+            width="400"
+            height="400"
+            class="w-64 h-64 md:w-72 md:h-72 object-contain mb-4"
+            loading="eager"
+          />
+          <p class="text-sm text-[var(--color-text-secondary)] text-center mb-4">
+            Scan to browse the full menu — lunch plates, dinner entrees, sides, desserts, and beverages.
+          </p>
+          <a
+            href="/media/qrcodes/qr-menu.png"
+            download="lonells-menu-qr.png"
+            class="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold rounded-full border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PNG
+          </a>
+        </div>
+
+        <!-- SMS Club QR — in-store display variant (direct sms: URI) -->
+        <div class="flex flex-col items-center p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]" data-reveal>
+          <h2 class="font-display text-xl font-semibold mb-1">Join Our SMS Club</h2>
+          <p class="text-xs text-[var(--color-text-muted)] mb-4">In-store display / window decal</p>
+          <img
+            src="/media/qrcodes/qr-sms-optin.png"
+            alt={`QR code to join Lonell's SMS club: opens messenger with keyword ${LOYALTY_KEYWORD} pre-filled`}
+            width="400"
+            height="400"
+            class="w-64 h-64 md:w-72 md:h-72 object-contain mb-4"
+            loading="eager"
+          />
+          <p class="text-sm text-[var(--color-text-secondary)] text-center mb-4">
+            Scanning this opens the messenger app on your phone pre-filled with <strong class="text-[var(--color-brand-amber)]">{LOYALTY_KEYWORD}</strong>
+            sent to {LOYALTY_SMS_DISPLAY}. Show the welcome text for <strong>10% off your dinner</strong>.
+          </p>
+          <div class="text-left w-full mb-4 p-3 bg-[var(--color-surface-base)] rounded-lg border border-[var(--color-border-subtle)]">
+            <p class="text-xs font-mono text-[var(--color-text-muted)] break-all">
+              <span class="text-[var(--color-brand-amber)]">SMS URI:</span> {`sms:${LOYALTY_SMS_NUMBER}?body=${LOYALTY_KEYWORD}`}
+            </p>
+          </div>
+          <div class="flex flex-wrap justify-center gap-2">
+            <a
+              href="/media/qrcodes/qr-sms-optin.png"
+              download="lonells-sms-club-instore-qr.png"
+              class="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold rounded-full border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)] transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download In-Store QR
+            </a>
+            <a
+              href="/media/qrcodes/qr-sms-web.png"
+              download="lonells-sms-club-web-qr.png"
+              class="inline-flex items-center gap-2 px-5 py-2 text-xs font-semibold rounded-full border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)] transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Web QR
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- In-store display instructions -->
+      <div class="mt-16 p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 text-center" data-reveal>
+        <h2 class="font-display text-lg font-semibold mb-2">For In-Store Display & Printing</h2>
+        <p class="text-sm text-[var(--color-text-secondary)] mb-4 max-w-xl mx-auto">
+          Download the high-res PNGs (800×800 px) above. Use them on table tents, menu inserts, flyers, window decals, or counter signs.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="/media/qrcodes/qr-menu.png"
+            download="lonells-menu-qr.png"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-hover)] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Menu QR (800px)
+          </a>
+          <a
+            href="/media/qrcodes/qr-sms-optin.png"
+            download="lonells-sms-club-instore-qr.png"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-hover)] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            SMS Club QR — In-Store (800px)
+          </a>
+          <a
+            href="/media/qrcodes/qr-sms-web.png"
+            download="lonells-sms-club-web-qr.png"
+            class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full bg-[var(--color-accent)] text-black hover:bg-[var(--color-accent-hover)] transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            SMS Club QR — Web (800px)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

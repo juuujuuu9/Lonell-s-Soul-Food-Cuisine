@@ -16,6 +16,9 @@ import {
   aria-hidden="true"
   hidden
 >
+  <!-- Backdrop for click-outside-to-close -->
+  <div class="loyalty-prompt-backdrop" data-loyalty-prompt-backdrop aria-hidden="true"></div>
+
   <button
     type="button"
     class="loyalty-prompt-close"
@@ -26,7 +29,7 @@ import {
       <path
         d="M4 4l8 8M12 4l-8 8"
         stroke="currentColor"
-        stroke-width="1.5"
+        stroke-width="3"
         stroke-linecap="round"></path>
     </svg>
   </button>
@@ -118,6 +121,11 @@ import {
       hidePrompt();
     });
 
+    prompt.querySelector("[data-loyalty-prompt-backdrop]")?.addEventListener("click", () => {
+      localStorage.setItem(STORAGE_DISMISSED, "1");
+      hidePrompt();
+    });
+
     const form = prompt.querySelector<HTMLFormElement>("[data-loyalty-prompt-submit]");
     const errorEl = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-error]");
     const formPanel = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-form]");
@@ -183,6 +191,27 @@ import {
 </script>
 
 <style>
+  .loyalty-prompt-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  .loyalty-prompt-visible .loyalty-prompt-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 768px) {
+    .loyalty-prompt-backdrop {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
+
   .loyalty-prompt {
     position: fixed;
     z-index: 115;
@@ -232,16 +261,14 @@ import {
     border: 0;
     border-radius: 9999px;
     background: transparent;
-    color: var(--color-text-muted);
+    color: #fff;
     cursor: pointer;
     transition:
-      color 0.15s ease,
       background-color 0.15s ease;
   }
 
   .loyalty-prompt-close:hover {
-    color: var(--color-text-primary);
-    background: var(--color-surface-hover);
+    background: rgba(255, 255, 255, 0.15);
   }
 
   .loyalty-prompt-eyebrow {

@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LOYALTY_SMS_NUMBER, LOYALTY_KEYWORD, LOYALTY_SMS_DISPLAY } from "../data/business";
+---
+
+<BaseLayout title="Join Our SMS Club" description={`Text ${LOYALTY_KEYWORD} to ${LOYALTY_SMS_DISPLAY} to join Lonell's Soul Food SMS club and get 10% off your dinner.`} noindex>
+  <div class="min-h-screen flex flex-col items-center justify-center px-4 py-16 text-center">
+    <div class="max-w-md mx-auto">
+      <span class="eyebrow" data-reveal>Stay Connected</span>
+      <h1 class="font-display text-3xl md:text-4xl font-bold mt-2 mb-4" data-reveal>Join Our SMS Club</h1>
+      <p class="text-[var(--color-text-secondary)] mb-8 leading-relaxed" data-reveal>
+        Get exclusive offers, menu previews, event invitations, and more. Show your welcome text for
+        <strong class="text-[var(--color-accent)]">10% off your dinner</strong>.
+      </p>
+
+      <!-- SMS action card -->
+      <div
+        class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20 mb-8"
+        data-reveal
+      >
+        <p class="text-sm text-[var(--color-text-secondary)] mb-3">Text the keyword below to our SMS number:</p>
+        <p class="text-2xl font-display font-bold text-[var(--color-brand-amber)] tracking-wider mb-1">
+          {LOYALTY_KEYWORD}
+        </p>
+        <p class="text-lg text-[var(--color-text-primary)] mb-6">{LOYALTY_SMS_DISPLAY}</p>
+
+        <a
+          id="sms-link"
+          href={`sms:${LOYALTY_SMS_NUMBER}?body=${encodeURIComponent(LOYALTY_KEYWORD)}`}
+          class="inline-flex items-center justify-center px-8 py-3 bg-[var(--color-accent)] text-black font-semibold rounded-full hover:bg-[var(--color-accent-hover)] transition-colors text-sm w-full sm:w-auto"
+        >
+          Open Messenger
+        </a>
+      </div>
+
+      <div class="space-y-3 text-xs text-[var(--color-text-muted)]" data-reveal>
+        <p>Message and data rates may apply. Reply STOP to cancel at any time.</p>
+        <p>
+          By signing up, you agree to our
+          <a href="/sms-terms" class="text-[var(--color-brand-amber)] underline hover:no-underline">SMS Terms</a>
+          and
+          <a href="/privacy" class="text-[var(--color-brand-amber)] underline hover:no-underline">Privacy Policy</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Auto-open SMS composer on mobile after a brief delay so the page content renders
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    const link = document.getElementById("sms-link");
+    if (link) {
+      setTimeout(() => {
+        link.click();
+      }, 600);
+    }
+  }
+</script>
