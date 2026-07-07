@@ -113,18 +113,33 @@ import {
   if (localStorage.getItem(STORAGE_DISMISSED) || localStorage.getItem(STORAGE_JOINED)) {
     prompt.remove();
   } else {
+    const isMobile = window.innerWidth < 768;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.setTimeout(showPrompt, reducedMotion ? 0 : SHOW_DELAY_MS);
 
+    // X button always closes
     prompt.querySelector("[data-loyalty-prompt-close]")?.addEventListener("click", () => {
       localStorage.setItem(STORAGE_DISMISSED, "1");
       hidePrompt();
     });
 
-    prompt.querySelector("[data-loyalty-prompt-backdrop]")?.addEventListener("click", () => {
-      localStorage.setItem(STORAGE_DISMISSED, "1");
-      hidePrompt();
-    });
+    // Mobile-only: tap outside or scroll dismisses
+    if (isMobile) {
+      prompt.querySelector("[data-loyalty-prompt-backdrop]")?.addEventListener("click", () => {
+        localStorage.setItem(STORAGE_DISMISSED, "1");
+        hidePrompt();
+      });
+
+      let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+      window.addEventListener("scroll", () => {
+        if (scrollTimer) return;
+        scrollTimer = setTimeout(() => {
+          localStorage.setItem(STORAGE_DISMISSED, "1");
+          hidePrompt();
+          scrollTimer = undefined;
+        }, 200);
+      }, { passive: true });
+    }
 
     const form = prompt.querySelector<HTMLFormElement>("[data-loyalty-prompt-submit]");
     const errorEl = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-error]");
@@ -209,6 +224,10 @@ import {
   @media (min-width: 768px) {
     .loyalty-prompt-backdrop {
       background: rgba(0, 0, 0, 0.6);
+    }
+
+    .loyalty-prompt-visible .loyalty-prompt-backdrop {
+      pointer-events: none;
     }
   }
 
