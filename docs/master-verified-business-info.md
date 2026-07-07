@@ -30,7 +30,6 @@
 | Name | Role |
 |------|------|
 | **Lonell Anderson** | Founder & Owner |
-| **Rev. Quanetha Hunt** | Co-Manager |
 
 **Background:** Lonell Anderson has been in the catering industry since 1995, serving high-profile clients including Shaquille O'Neal and Magic Johnson, and catering events ranging from weddings to corporate gatherings. After nearly three decades in catering, he opened Lonell's Soul Food Cuisine in 2024.
 
@@ -208,4 +207,5 @@ Use when reconciling `src/pages/menu.astro`, `src/data/menu.ts`, and schema mark
 | 2026-06-10 | Initial master doc created from client official dinner print PDF. Prices flagged as outdated per client. |
 | 2026-06-10 | Aligned website to official data: Tuesday hours changed to OPEN 11am–7pm across footer, contact, events, FAQ, and schema; "Smoking Room" → "Dining Room" on private events, FAQ, events page, and schema; Oxtails now listed with "Thursday–Sunday only" on dinner plates; "Pork Chops" → "Pork Chop" and "Turkey Chops" → "Turkey Chop" (singular) in dinner section; senior discount expanded to include government workers with ID; Lunch Specials subtitle updated from Wed-Thu to Tue-Thu. Prices remain unmodified (awaiting client update). |
 | 2026-06-10 | **Removed** "Lunch Specials" and "Lunch Menu" sections from the site entirely — not present in the official dinner PDF. Will reinstate when client provides a lunch menu file. |
-| 2026-06-26 | Added verified ownership/management info from client Company Analysis document (photo): legal entity confirmed as Lonell's LLC, founded 2024, founder Lonell Anderson (catering since 1995, high-profile clients Shaquille O'Neal & Magic Johnson), co-manager Rev. Quanetha Hunt. Updated `our-story.astro` to reflect official narrative; updated Schema.org `foundingDate`, `founder`, and `employee` fields in `BaseLayout.astro`; updated this master doc with Leadership section. |
+| 2026-06-26 | Added verified ownership/management info from client Company Analysis document (photo): legal entity confirmed as Lonell's LLC, founded 2024, founder Lonell Anderson (catering since 1995, high-profile clients Shaquille O'Neal & Magic Johnson). Updated `our-story.astro` to reflect official narrative; updated Schema.org `foundingDate` and `founder` fields in `BaseLayout.astro`; updated this master doc with Leadership section. |
+| 2026-07-05 | Removed co-manager Rev. Quanetha Hunt from all site pages (schema.org, our-story.astro, docs) per client request. |

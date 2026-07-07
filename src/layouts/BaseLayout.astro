@@ -93,11 +93,11 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
         "@type": "Person",
         "name": "Lonell Anderson"
       },
-      "employee": {
-        "@type": "Person",
-        "name": "Quanetha Hunt",
-        "jobTitle": "Co-Manager"
-      },
+      "sameAs": [
+        "https://www.instagram.com/lonellssoulfood/",
+        "https://www.facebook.com/p/Lonells-Soul-Food-Cuisine-61575890204111/",
+        "https://www.yelp.com/biz/lonells-soul-food-cuisine-los-angeles"
+      ],
       "servesCuisine": "Soul Food",
       "image": `${siteUrl}/media/images/lonells-logo.jpg`,
       "telephone": "(323) 451-3104",
@@ -131,7 +131,30 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
       "areaServed": "South Los Angeles"
     })}></script>
 
-    <!-- FAQ Schema (expanded, 13 Qs for AI search readiness) -->
+    <!-- BreadcrumbList schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": (() => {
+        const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+        const segments = path === "/" ? [] : path.split("/").filter(Boolean);
+        const items = [{ name: "Home", path: "/" }];
+        let accumulated = "";
+        for (const seg of segments) {
+          accumulated += `/${seg}`;
+          const label = seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+          items.push({ name: label, path: accumulated });
+        }
+        return items.map((item, i) => ({
+          "@type": "ListItem",
+          "position": i + 1,
+          "name": item.name,
+          "item": `${siteUrl}${item.path}/`
+        }));
+      })()
+    })}></script>
+
+    <!-- FAQ Schema (expanded, 17 Qs for AI search readiness) -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -200,6 +223,31 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
           "@type": "Question",
           "name": "How does the SMS club work?",
           "acceptedAnswer": { "@type": "Answer", "text": "Join on our website at lonellssoulfood.com/join by entering your mobile number and checking an explicit consent box (unchecked by default). You will get exclusive offers, menu previews, and event invitations. Show your welcome text for 10% off your dinner. Offer expires 30 days after you join. In-store, you can also text SOUL to (424) 295-8020. Reply STOP anytime to cancel. Message and data rates may apply." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you serve alcohol?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we offer a curated selection of beer and wine that pairs perfectly with our soul food menu. A full bar featuring a range of expertly crafted cocktails is coming soon. Ask your server about today's beer and wine selection." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a dress code?",
+          "acceptedAnswer": { "@type": "Answer", "text": "There is no formal dress code at Lonell's. We welcome guests as they are — whether you're dressing up for a night out or keeping it casual. We want everyone to feel comfortable and at home." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you deliver?",
+          "acceptedAnswer": { "@type": "Answer", "text": "We currently offer dine-in and takeout. Call (323) 451-3104 to place a takeout order. We are exploring delivery options for the future." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you have gluten-free options?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Several of our menu items can be prepared gluten-free. Our meat and seafood dishes are naturally gluten-free or can be made gluten-free upon request. Sides like collard greens, string beans, candied yams, and red beans & rice are gluten-free. Please inform your server about any dietary restrictions and we will do our best to accommodate you." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book the whole restaurant?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For full buyouts or large-scale events, please contact us directly at reservations@lonellssoulfood.com or call (323) 451-3104 to discuss options and availability. Our private event spaces accommodate up to 50 guests each and we can explore full-restaurant bookings for special occasions." }
         }
       ]
     })}></script>

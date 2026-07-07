@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, boolean, varchar, integer, uniqueIndex } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, serial, text, timestamp, boolean, varchar, integer, uniqueIndex } from "drizzle-orm/pg-core";
 
 // ── SMS Subscribers ──
 export const subscribers = pgTable("subscribers", {
@@ -73,6 +73,23 @@ export const reviewSyncState = pgTable("review_sync_state", {
   reviewCount: integer("review_count"),
   lastSyncedAt: timestamp("last_synced_at").notNull(),
   lastError: text("last_error"),
+});
+
+// ── POS Orders (webhook from Genius POS Data Stream) ──
+export const posOrders = pgTable("pos_orders", {
+  id: serial("id").primaryKey(),
+  phoneNumber: varchar("phone_number", { length: 20 }).notNull(),
+  subscriberId: integer("subscriber_id").references(() => subscribers.id),
+  geniusOrderId: varchar("genius_order_id", { length: 100 }).notNull().unique(),
+  items: jsonb("items"),
+  total: varchar("total", { length: 20 }),
+  promoCode: varchar("promo_code", { length: 50 }),
+  promoRedeemed: boolean("promo_redeemed").notNull().default(false),
+  orderType: varchar("order_type", { length: 20 }),
+  orderSource: varchar("order_source", { length: 50 }),
+  rawPayload: jsonb("raw_payload"),
+  orderedAt: timestamp("ordered_at").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 // ── Events ──
