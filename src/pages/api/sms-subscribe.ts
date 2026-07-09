@@ -7,6 +7,9 @@ import { sendSms } from "../../lib/sms";
 
 export const prerender = false;
 
+const VALID_CONSENT_TYPES = ["marketing", "informational"] as const;
+type ConsentType = (typeof VALID_CONSENT_TYPES)[number];
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     if (!isDbReady()) {
@@ -17,7 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const data = await request.json();
-    const { phoneNumber, consent } = data;
+    const { phoneNumber, consentTypes } = data;
 
     if (!phoneNumber || typeof phoneNumber !== "string") {
       return new Response(JSON.stringify({ error: "Phone number is required" }), {
@@ -33,8 +36,18 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    if (consent !== true) {
-      return new Response(JSON.stringify({ error: "You must consent to receive SMS messages." }), {
+    if (!Array.isArray(consentTypes) || consentTypes.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "You must select at least one type of message to receive." }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const invalid = consentTypes.filter(
+      (t: string) => !VALID_CONSENT_TYPES.includes(t as ConsentType),
+    );
+    if (invalid.length > 0) {
+      return new Response(JSON.stringify({ error: `Invalid consent type(s): ${invalid.join(", ")}` }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
@@ -60,6 +73,7 @@ export const POST: APIRoute = async ({ request }) => {
         phoneNumber,
         keyword: "SOUL",
         consentSource: "web_form",
+        consentTypes,
         promoCode: PROMO_CODE,
         consentAt: new Date(),
         promoExpiresAt: expires,
@@ -71,6 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
           optOut: false,
           optOutAt: null,
           consentAt: new Date(),
+          consentTypes,
           promoExpiresAt: expires,
           reviewPromptSentAt: null,
           day7NudgeSentAt: null,

@@ -1,0 +1,1 @@
+ALTER TABLE "subscribers" ADD COLUMN "consent_types" jsonb DEFAULT '[]'::jsonb;

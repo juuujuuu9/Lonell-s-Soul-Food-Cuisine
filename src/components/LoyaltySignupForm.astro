@@ -35,17 +35,40 @@ const phoneId = `${formId}-phone`;
         placeholder="(555) 555-5555"
         required
       />
-      <label class="loyalty-signup-consent">
-        <input type="checkbox" name="consent" value="1" required />
-        <span>
-          I agree to receive recurring automated SMS from Lonell&apos;s Soul Food Cuisine
-          ({LOYALTY_PROGRAM_NAME}), including offers, menu updates, and event alerts
-          ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not required to purchase.
-          Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help.
-          See our <a href="/terms#sms-program">Terms</a> and
-          <a href="/privacy#sms-privacy">Privacy Policy</a>.
-        </span>
-      </label>
+      <fieldset class="loyalty-signup-consent-group">
+        <legend class="sr-only">Message preferences</legend>
+
+        <label class="loyalty-signup-consent">
+          <input type="checkbox" name="consent-marketing" value="marketing" />
+          <span>
+            Yes, <strong>send me</strong> <strong>deals &amp; perks</strong> — coupons, flash sales, and
+            exclusive offers (about 2–3 texts/month).
+          </span>
+        </label>
+
+        <label class="loyalty-signup-consent">
+          <input type="checkbox" name="consent-informational" value="informational" />
+          <span>
+            Yes, <strong>keep me</strong> <strong>in the loop</strong> — new menu items, holiday hours, event reminders, and
+            location updates (about 1–2 texts/month).
+          </span>
+        </label>
+
+        <label class="loyalty-signup-consent loyalty-signup-select-all">
+          <input type="checkbox" name="consent-all" value="all" />
+          <span>
+            <strong>Get both</strong> — I want the full SoulFood experience!
+          </span>
+        </label>
+      </fieldset>
+
+      <p class="loyalty-signup-disclaimer">
+        Consent is not required to purchase. Message &amp; data rates may apply.
+        Reply STOP to cancel, HELP for help.
+        See our <a href="/terms#sms-program">Terms</a> and
+        <a href="/privacy#sms-privacy">Privacy Policy</a>.
+      </p>
+
       <button type="submit" class="loyalty-signup-button">Join SoulFood Fam</button>
       <p class="loyalty-signup-error" data-loyalty-signup-error hidden role="alert"></p>
     </form>
@@ -75,6 +98,33 @@ const phoneId = `${formId}-phone`;
   const panel = root.querySelector("[data-loyalty-signup-panel]");
   const successPanel = root.querySelector("[data-loyalty-signup-success]");
 
+  // "Select all" toggles both individual checkboxes
+  const marketingCb = root.querySelector('input[name="consent-marketing"]');
+  const infoCb = root.querySelector('input[name="consent-informational"]');
+  const allCb = root.querySelector('input[name="consent-all"]');
+
+  allCb?.addEventListener("change", () => {
+    const checked = allCb.checked;
+    if (marketingCb) marketingCb.checked = checked;
+    if (infoCb) infoCb.checked = checked;
+  });
+
+  // Uncheck "select all" if either individual box is unchecked
+  function syncSelectAll() {
+    if (allCb) {
+      allCb.checked = marketingCb?.checked === true && infoCb?.checked === true;
+    }
+  }
+  marketingCb?.addEventListener("change", syncSelectAll);
+  infoCb?.addEventListener("change", syncSelectAll);
+
+  function getConsentTypes() {
+    const types = [];
+    if (marketingCb?.checked) types.push("marketing");
+    if (infoCb?.checked) types.push("informational");
+    return types;
+  }
+
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form || !errorEl) return;
@@ -91,11 +141,11 @@ const phoneId = `${formId}-phone`;
       return;
     }
 
-    const consentCb = form.querySelector('input[name="consent"]');
-    if (!consentCb || !consentCb.checked) {
-      errorEl.textContent = "You must agree to receive SMS messages to join.";
+    const consentTypes = getConsentTypes();
+    if (consentTypes.length === 0) {
+      errorEl.textContent = "Select at least one message preference to join.";
       errorEl.hidden = false;
-      consentCb?.focus();
+      marketingCb?.focus();
       return;
     }
 
@@ -109,7 +159,7 @@ const phoneId = `${formId}-phone`;
       const res = await fetch("/api/sms-subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: phone, consent: true }),
+        body: JSON.stringify({ phoneNumber: phone, consentTypes }),
       });
 
       if (!res.ok) {
@@ -193,14 +243,23 @@ const phoneId = `${formId}-phone`;
     cursor: wait;
   }
 
+  .loyalty-signup-consent-group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .loyalty-signup-consent {
     display: flex;
     gap: 0.5rem;
     align-items: flex-start;
     margin: 0;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     line-height: 1.5;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     cursor: pointer;
   }
 
@@ -211,6 +270,33 @@ const phoneId = `${formId}-phone`;
   }
 
   .loyalty-signup-consent a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .loyalty-signup-consent strong {
+    color: var(--color-text-primary);
+  }
+
+  .loyalty-signup-select-all {
+    margin-top: 0.25rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .loyalty-signup-select-all span {
+    color: var(--color-neon);
+  }
+
+  .loyalty-signup-disclaimer {
+    margin: 0;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .loyalty-signup-disclaimer a {
     color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 2px;
