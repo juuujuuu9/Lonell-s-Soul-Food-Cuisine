@@ -44,8 +44,8 @@ Fixed the 8 highest-priority issues from the previous audit (see table below). A
 |---|-------|--------|-------|
 | M1 | ImageLightboxGallery.astro is 629 lines | **RESOLVED** | Dropped to 170 lines — CSS moved to global.css, JS extracted to `ImageLightboxGallery.client.ts` |
 | M2 | `db!` non-null assertions used 30+ times | **RESOLVED** | Zero `db!` remaining across all 14 files — `db/index.ts` uses Proxy that throws on first access, typed as non-nullable |
-| M3 | Biweekly broadcast anchor date hardcoded | **PENDING** | Use configurable anchor or first-run detection |
-| M4 | Custom `.env` parser in drizzle config | **PENDING** | Replace with `dotenv` or drizzle-kit built-in |
+| M3 | Biweekly broadcast anchor date hardcoded | **RESOLVED** | Configurable via `BROADCAST_ANCHOR_DATE` env var, falls back to 2026-01-07 |
+| M4 | Custom `.env` parser in drizzle config | **RESOLVED** | Replaced 28-line custom parser with Node 21+ built-in `process.loadEnvFile` |
 | M5 | Type safety in admin-auth `Record<string, unknown>` | **PENDING** | Use typed Clerk session claims interface |
 | M6 | Hardcoded Twilio from-number fallback | **RESOLVED** | Removed hardcoded `+14242958020` fallback — returns `""` if unset, which fails visibly in Twilio |
 
