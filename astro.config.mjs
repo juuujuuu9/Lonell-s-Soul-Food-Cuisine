@@ -27,7 +27,6 @@ export default defineConfig({
           "/private-events/",
           "/faq/",
           "/reviews/",
-          "/join/",
         ]);
         return allowed.has(new URL(page).pathname);
       },

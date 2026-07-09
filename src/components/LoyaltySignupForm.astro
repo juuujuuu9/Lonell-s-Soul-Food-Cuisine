@@ -35,13 +35,14 @@ const phoneId = `${formId}-phone`;
         placeholder="(555) 555-5555"
         required
       />
+
       <fieldset class="loyalty-signup-consent-group">
         <legend class="sr-only">Message preferences</legend>
 
         <label class="loyalty-signup-consent">
           <input type="checkbox" name="consent-marketing" value="marketing" />
           <span>
-            Yes, <strong>send me</strong> <strong>deals &amp; perks</strong> — coupons, flash sales, and
+            Yes, send me <strong>deals &amp; perks</strong> — coupons, birthday rewards, flash sales, and
             exclusive offers (about 2–3 texts/month).
           </span>
         </label>
@@ -49,7 +50,7 @@ const phoneId = `${formId}-phone`;
         <label class="loyalty-signup-consent">
           <input type="checkbox" name="consent-informational" value="informational" />
           <span>
-            Yes, <strong>keep me</strong> <strong>in the loop</strong> — new menu items, holiday hours, event reminders, and
+            Yes, keep me <strong>in the loop</strong> — new menu items, holiday hours, event reminders, and
             location updates (about 1–2 texts/month).
           </span>
         </label>
@@ -284,6 +285,7 @@ const phoneId = `${formId}-phone`;
     margin-top: 0.25rem;
     padding-top: 0.5rem;
     border-top: 1px solid var(--color-border);
+    font-size: 0.8125rem;
   }
 
   .loyalty-signup-select-all span {

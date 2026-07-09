@@ -1,4 +1,4 @@
-# Handoff — Conversion Optimization Implementation
+# Handoff — Code Quality & Integrity Audit
 
 ## Context
 
@@ -6,63 +6,94 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 
 ## Key Documents
 
-- **Guardrails Guide:** `docs/restaurant-website-guardrails-guide.md` — the source reference doc
-- **Implementation Plan:** `docs/conversion-optimization-plan.md` — full audit + 4-phase roadmap
-- **SMS Loyalty Program:** `docs/sms-loyalty-program.md` — message specs, automated triggers, voice rules, contact card strategy, owner checklist
+- **Guardrails Guide:** `docs/restaurant-website-guardrails-guide.md`
+- **Implementation Plan:** `docs/conversion-optimization-plan.md`
+- **SMS Loyalty Program:** `docs/sms-loyalty-program.md`
+- **QR Print Collateral:** `docs/in-store-qr-print-collateral.md`
 
-## Current State (all buildable — `npm run build` passes)
+## Current State
 
-### Completed (Phases 1 & 2 + 4.4)
+### What Was Just Done (this session)
 
-| Phase | Item | Files |
-|-------|------|-------|
-| 1.1 | Sticky header with Order Now + Phone CTAs + MENU button | `src/components/StickyHeader.astro` (NEW) |
-| 1.2 | Hero CTAs restructured (hierarchical) | `src/components/Hero.astro` |
-| 1.4 | Hero image preload for LCP | `src/layouts/BaseLayout.astro` |
-| 2.2 | Legal pages: Privacy, SMS Terms, Accessibility | `src/pages/{privacy,sms-terms,accessibility}.astro` (NEW) |
-| 2.2 | Footer: Google Maps link, Review link, today highlight, legal links | `src/components/SiteFooter.astro` |
-| 2.2 | Contact page: Google Maps embed replacing placeholder | `src/pages/contact.astro` |
-| 2.3 | FAQ Schema expanded from 4 to 13 QA pairs | `src/layouts/BaseLayout.astro` |
-| 2.5 | Dish landing pages (10 dishes at `/menu/[slug]`) | `src/data/menu.ts` (NEW), `src/pages/menu/[slug].astro` (NEW) |
-| 2.5 | Menu page dish names link to individual pages | `src/pages/menu.astro` |
-| 4.4 | Nav overlay reordered (MENU first, ORDER NOW, CALL TO ORDER, HOME removed) | `src/components/NavOverlay.astro` |
+A full code quality and integrity audit covering 74 source files. Findings documented in the conversation transcript. Key outcomes:
 
-### StickyHeader Behavior
+- **Merge conflicts resolved**: `LoyaltySignupForm.astro` and `LoyaltySignupPrompt.astro` — accepted the "Stashed changes" side on all 8 unresolved conflict blocks.
+- The working tree is clean with all changes pushed.
 
-- **Hidden initially**, appears after scrolling 1/4 viewport height
-- After reveal: slides up on scroll-down, slides back on scroll-up
-- **MENU toggle button** is inside the header (icon-only on mobile, "MENU" + icon on md+)
-- Old standalone fixed hamburger button removed from `BaseLayout.astro`
-- Overlay open forces header to stay visible for CLOSE access
-- Z-index 110 (above nav overlay at 100)
+## Open Issues Requiring Action
 
-## What's Left (needs owner input or is new work)
+### 🔴 Critical (fix before next deploy)
 
-| Item | Blocks On |
-|------|-----------|
-| 1.3 — SMS number placeholders (`(323) XXX-XXXX`) | Resolved — number is +1 (424) 295-8020 |
-| 2.1 — Online ordering integration | Owner's platform preference |
-| 2.4 — Exit-intent popup | Ready to build (no deps) |
-| 3.1 — SMS automation flows (Day 1, Day 7, 30-day, birthday, weekly broadcasts) | Message specs in sms-loyalty-program.md, needs implementation in src/lib/sms.ts |
-| 3.2 — Review request automation | Ready to build (see Day 1 spec in sms-loyalty-program.md) |
-| 3.3 — Live rating (Google/Yelp) in header | Ready to build |
-| 3.4 — Chat widget | Ready to build |
-| 4.1 — GA4 analytics | Ready to setup |
-| 4.2 — Call tracking | Owner's call tracking service |
+| # | Issue | Location | Fix |
+|---|-------|----------|-----|
+| C1 | ~~Merge conflict artifacts~~ | LoyaltySignupForm.astro, LoyaltySignupPrompt.astro | **RESOLVED** |
+| C2 | `.env` tracked in git history | Root | `git rm --cached .env`, rotate all exposed secrets (DATABASE_URL, CLERK_SECRET_KEY, TWILIO_AUTH_TOKEN) |
+| C3 | Broadcast endpoint fetches ALL subscribers + leaks PII | `src/pages/api/admin/send-broadcast.ts` | Add pagination (limit 500), remove `results` array from response, set `maxDuration` |
+| C4 | No authorization on admin sync-reviews page POST | `src/pages/admin/reviews.astro` (line 68) | Verify middleware covers `/admin(.*)` — confirmed it does via `isAdminRoute` matcher |
 
-## Important Project Details
+### 🟠 High Priority
 
-- **Framework:** Astro 5, Tailwind v4 via `@tailwindcss/vite`
-- **Design tokens:** Defined in `src/styles/global.css` as CSS custom properties under `@theme`
-- **Images:** All optimized via sharp pipeline (WebP + JPEG fallback, retina 2x)
-- **SMS infra:** Fully built (Twilio, DB schema, admin dashboard, TCPA compliance) — see [SMS Loyalty Program Design](./sms-loyalty-program.md) for the full message specs and owner checklist
-- **Auth:** Clerk middleware guarding `/admin(.*)` routes
-- **Deploy:** Vercel via `@astrojs/vercel`
-- **DB:** Neon Postgres + Drizzle ORM
+| # | Issue | Location | Fix |
+|---|-------|----------|-----|
+| H1 | Dual DB connection pools | `src/lib/admin-auth.ts` (lines 22–27) | Reuse shared `db` from `db/index.ts` instead of creating second `drizzle(neon(...))` instance |
+| H2 | Serial SMS sending in cron loop | `src/lib/cron.ts` (lines 24–43) | Batch with `Promise.allSettled` in groups of 10–20 |
+| H3 | Admin settings page leaks partial secret values | `src/pages/admin/settings.astro` (lines 42–44) | Show only "Set"/"Not Set" — never the value itself |
+| H4 | No `maxDuration` on cron API routes | `src/pages/api/cron/*.ts` | Add `export const config = { maxDuration: 300 }` to each |
+| H5 | Opt-out cleanup permanently deletes records | `src/lib/cron.ts` (lines 224–242) | Soft-delete or archive instead of `DELETE` for TCPA compliance |
 
-## Questions for Owner
+### 🟡 Medium Priority
 
-1. SMS number: what's the real short code/long code?
-2. Online ordering: preference for platform? (Toast, ChowNow, Square Online, GloriaFood, custom?)
-3. Google Review direct deep link (place_id needed for the review link in footer)
-4. Call tracking: do you have a CallRail or similar account?
+| # | Issue | Location | Fix |
+|---|-------|----------|-----|
+| M1 | ImageLightboxGallery.astro is 629 lines | `src/components/ImageLightboxGallery.astro` | Extract JS into separate file, move shared CSS to global stylesheet |
+| M2 | `db!` non-null assertions used 30+ times | `src/db/index.ts` (line 20) | Make `db` throw if uninitialized instead of being `null` |
+| M3 | Biweekly broadcast anchor date hardcoded | `src/lib/biweekly-broadcast.ts` (line 6) | Use configurable anchor or first-run detection |
+| M4 | Custom `.env` parser in drizzle config | `drizzle.config.ts` | Replace with `dotenv` or rely on drizzle-kit's built-in env |
+| M5 | Type safety: `Record<string, unknown>` in admin-auth | `src/lib/admin-auth.ts` (line 16) | Use typed Clerk session claims interface |
+| M6 | Hardcoded Twilio from-number fallback | `src/lib/sms.ts` (line 18) | Remove fallback; let it fail visibly if not configured |
+
+### 🟢 Quick Wins (cleanup)
+
+| # | Issue | Location |
+|---|-------|----------|
+| L1 | Remove deprecated `sendWeeklyPromo` | `src/lib/cron.ts` (line 218) |
+
+## Project Architecture (Locked)
+
+- **Framework**: Astro 5, static output; SSR routes use `export const prerender = false`
+- **CSS**: Tailwind v4 via `@tailwindcss/vite`, custom theme tokens in `src/styles/global.css`
+- **Deploy**: Vercel via `@astrojs/vercel`, cron jobs defined in `vercel.json`
+- **DB**: Neon Postgres + Drizzle ORM (`drizzle-orm/neon-http`), migrations in `src/db/migrations/`
+- **Auth**: Clerk `@clerk/astro` — middleware gates `/admin(.*)` + `/api/admin(.*)` by admin role
+- **SMS**: Twilio, behind `SMS_ENABLED` flag. When off, messages are simulated to DB. See `src/lib/sms.ts`
+- **Media**: Auto-optimized on write via Cursor hook (WebP + JPEG, retina, large variants)
+
+### DB Schema — 6 Tables
+
+`subscribers`, `messages`, `staff`, `reviews`, `reviewSyncState`, `posOrders`, `events`
+
+### Source Layout (74 files)
+
+| Directory | Count | Description |
+|-----------|-------|-------------|
+| `src/pages/` | 21 | Public pages (index, menu, our-story, etc.) |
+| `src/pages/admin/` | 6 | Admin dashboard pages |
+| `src/pages/api/` | 14 | API routes (sms, admin, cron, pos) |
+| `src/components/` | 15 | Astro components |
+| `src/layouts/` | 2 | BaseLayout (SEO, schema, nav), AdminLayout |
+| `src/lib/` | 10 | Utilities (sms, loyalty, cron, auth, reviews) |
+| `src/db/` | 3 | Schema, client, migrations |
+| `src/data/` | 3 | Business constants, menu data, loyalty copy |
+| `src/styles/` | 1 | global.css |
+
+## NAP / Business Facts
+
+- Address: 8501 S Vermont Ave, Los Angeles, CA 90044
+- Phone: (323) 451-3104
+- SMS keyword: "Text SOUL to (424) 295-8020" → promo code SOUL10
+- Hours: Wed-Thu 11-7, Fri-Sat 11-9, Sun 11-5. Closed Mon-Tue
+- Live entertainment: Jazz Wed/Fri, Comedy 3rd Thu, Karaoke Sat, Gospel Brunch Sun
+
+## Contact
+
+Questions about this handoff, or if something is unclear, refer back to the audit session transcript.
