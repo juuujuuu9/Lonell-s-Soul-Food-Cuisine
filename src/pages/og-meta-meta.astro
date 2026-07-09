@@ -130,15 +130,15 @@ const imageInventory = [
 const sitemapInfo = {
   path: "/sitemap-index.xml",
   source: "astro.config.mjs:20-23",
-  allowedPaths: ["/", "/menu/", "/contact/"],
-  filterDescription: "Only /, /menu/, and /contact/ are in the sitemap. All other pages (our-story, events, faq, reviews, privacy, etc.) are excluded from indexing."
+  allowedPaths: ["/", "/menu/", "/contact/", "/our-story/", "/entertainment/", "/private-events/", "/faq/", "/reviews/"],
+  filterDescription: "8 indexable pages in the sitemap: home, menu, contact, our-story, entertainment, private-events, faq, and reviews. Admin, auth, utility pages (privacy, terms, SMS club, join, accessibility, etc.) are excluded from indexing."
 };
 
 // ── Robots.txt ──
 const robotsInfo = {
   path: "/robots.txt",
   source: "public/robots.txt:1-16",
-  disallowed: ["/admin/", "/api/", "/sign-in", "/sign-up", "/reviews", "/join", "/privacy", "/terms", "/accessibility", "/sms-terms"],
+  disallowed: ["/admin/", "/api/", "/sign-in", "/sign-up", "/join", "/privacy", "/terms", "/accessibility", "/sms-terms"],
 };
 ---
 
@@ -463,14 +463,11 @@ const robotsInfo = {
         <!-- ════════════════════════════════════════ -->
         <!-- Summary banner -->
         <!-- ════════════════════════════════════════ -->
-        <section class="p-6 rounded-lg border border-[var(--color-brand-rose)] bg-[var(--color-surface-card)]">
-          <h3 class="font-display text-xl font-bold text-[var(--color-text-primary)] mb-3">Things Missing</h3>
-          <ul class="space-y-2 text-sm">
-            <li class="flex items-center gap-2">
-              <span class="text-[var(--color-brand-rose)]">&#x2715;</span>
-              <span><strong>noindex on content pages</strong> — /our-story, /events, /faq, etc. are disallowed in robots.txt but still carry canonical + OG tags</span>
-            </li>
-          </ul>
+        <section class="p-6 rounded-lg border border-[var(--color-neon)]/30 bg-[var(--color-surface-card)]">
+          <h3 class="font-display text-xl font-bold text-[var(--color-text-primary)] mb-3">Status</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">
+            All known SEO issues from prior audits have been resolved. 8 content pages are indexable, correctly represented in the sitemap, and carry full OG / Twitter / schema markup. Utility and auth pages are properly noindexed and blocked in robots.txt. See <code class="text-[var(--color-accent)]">public/robots.txt</code> and <code class="text-[var(--color-accent)]">astro.config.mjs</code> for the source of truth.
+          </p>
         </section>
 
       </div>
@@ -489,4 +486,4 @@ const robotsInfo = {
     );
   }
   td, th { vertical-align: top; }
-</style>｜｜DSML｜｜parameter name="path" string="true">/Users/user/Development/Lonells-Soul-Food-Web/src/pages/og-meta-meta.astro
+</style>

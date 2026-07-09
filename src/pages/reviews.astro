@@ -188,8 +188,8 @@ import { GOOGLE_REVIEW_URL, YELP_REVIEW_URL } from "../data/business";
         Follow us on Instagram for daily specials, event announcements, and behind-the-scenes looks at what's cooking. 
         7,400+ followers and growing.
       </p>
-      <div class="flex flex-wrap gap-4">
-        <a href="https://www.instagram.com/lonellssoulfood/?hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 bg-[var(--color-accent)] text-black font-semibold text-sm rounded-full hover:bg-[var(--color-accent-hover)] transition-colors">
+      <div class="flex flex-col items-center sm:flex-row flex-wrap gap-4">
+        <a href="https://www.instagram.com/lonellssoulfood/?hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[var(--color-accent)] text-black font-semibold text-sm rounded-full hover:bg-[var(--color-accent-hover)] transition-colors w-full sm:w-auto">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" fill="currentColor"></path>
             <path d="M18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z" fill="currentColor"></path>
@@ -197,7 +197,7 @@ import { GOOGLE_REVIEW_URL, YELP_REVIEW_URL } from "../data/business";
           </svg>
           Follow on Instagram
         </a>
-        <a href={YELP_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={YELP_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors w-full sm:w-auto">
           <svg viewBox="-6 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-4 h-4 shrink-0" fill="#D32200">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
               <g transform="translate(-306.000000, -760.000000)" fill="#D32200">
@@ -207,7 +207,7 @@ import { GOOGLE_REVIEW_URL, YELP_REVIEW_URL } from "../data/business";
           </svg>
           Read Yelp Reviews
         </a>
-        <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors w-full sm:w-auto">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="w-4 h-4 shrink-0">
             <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
               <circle cx="45" cy="45" r="45" style="fill: rgb(255,255,255);" />
@@ -219,7 +219,7 @@ import { GOOGLE_REVIEW_URL, YELP_REVIEW_URL } from "../data/business";
           </svg>
           Leave a Google Review
         </a>
-        <a href="https://www.facebook.com/p/Lonells-Soul-Food-Cuisine-61575890204111/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors">
+        <a href="https://www.facebook.com/p/Lonells-Soul-Food-Cuisine-61575890204111/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-2.5 border border-[var(--color-border)] text-[var(--color-text-primary)] text-sm rounded-full hover:bg-[var(--color-surface-hover)] transition-colors w-full sm:w-auto">
           <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0">
             <path d="M12 2.03998C6.5 2.03998 2 6.52998 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.84998C10.44 7.33998 11.93 5.95998 14.22 5.95998C15.31 5.95998 16.45 6.14998 16.45 6.14998V8.61998H15.19C13.95 8.61998 13.56 9.38998 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C15.9164 21.5878 18.0622 20.3855 19.6099 18.57C21.1576 16.7546 22.0054 14.4456 22 12.06C22 6.52998 17.5 2.03998 12 2.03998Z"></path>
           </svg>
