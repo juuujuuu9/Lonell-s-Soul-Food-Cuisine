@@ -78,7 +78,7 @@ Reply STOP to opt out.
 ```
 We'd love to see you again! 🎷
 
-This Wednesday: Live jazz from 6 to 9. This Sunday: Brunch and live music from 1 to 5. Mention this message for a complimentary champagne upgrade.
+This Friday: Live jazz from 6 to 9. This Sunday: Brunch and live music from 1 to 5. Mention this message for a complimentary champagne upgrade.
 
 Walk in, or call [PHONE] to reserve your table.
 
@@ -88,7 +88,7 @@ Reply STOP to opt out.
 
 **Notes:**
 - Only fires if customer has not returned within 7 days
-- Promotes two anchor events: Wednesday jazz and Sunday brunch
+- Promotes two anchor events: Friday jazz and Sunday brunch
 - Champagne upgrade is a fixed incentive
 - **Not yet implemented**
 
@@ -140,7 +140,7 @@ Reply STOP to opt out.
 
 ## Weekly Broadcasts (Pick One Per Week)
 
-### Wednesday — Jazz Night
+### Friday — Jazz Night
 
 ```
 Tonight at Lonell's: Live jazz, 6 to 9! 🎷 Good food, good music, good company.
@@ -152,8 +152,8 @@ Reply STOP to opt out.
 ```
 
 **Notes:**
-- Send Wednesday between 11am-2pm
-- Primary anchor for midweek traffic
+- Send Friday between 11am-2pm
+- Primary anchor for end-of-week traffic
 - No incentive needed — music is the draw
 - **Not yet implemented** — needs scheduled broadcast system
 
@@ -293,7 +293,7 @@ A digital business card (vCard / .vcf file) delivered via MMS that subscribers s
 | Timing | Rationale |
 |--------|-----------|
 | **Day 2 or 3 (NOT Day 0)** | Day 0 priority is the welcome reward. Day 1 is the review request. Contact card comes after they've engaged twice — they're warm, not cold. |
-| **Before a major event** | "Save us now so you don't miss Jazz Wednesday this week." |
+| **Before a major event** | "Save us now so you don't miss Jazz Friday this week." |
 | **In a win-back campaign** | Re-establish the relationship with a personal touch. |
 | **VIP milestone** | After 5+ visits, make it official. |
 
@@ -308,7 +308,7 @@ A digital business card (vCard / .vcf file) delivered via MMS that subscribers s
 | **Website** | `https://lonellssoulfood.com` | One-tap access to menu, events, reservations |
 | **Email** | `info@lonellssoulfood.com` | For catering, private events, general inquiries |
 | **Address** | Full Vermont Knolls address | One-tap directions via Maps |
-| **Note** | `Text SOUL for exclusive offers. Jazz Wed/Fri, Karaoke Sat, Brunch Sun 1-5pm.` | Context + CTA |
+| **Note** | `Text SOUL for exclusive offers. Jazz Fri, Karaoke Sat, Brunch Sun 1-5pm.` | Context + CTA |
 
 ### How to Deliver the Contact Card via Twilio
 
@@ -334,7 +334,7 @@ TEL;TYPE=CELL:+14242958020
 URL:https://lonellssoulfood.com
 EMAIL:info@lonellssoulfood.com
 ADR;TYPE=WORK:;;[Street Address];Los Angeles;CA;90044;USA
-NOTE:Text SOUL for exclusive offers. Jazz Wed/Fri 6-9pm, Karaoke Sat 6-9pm, Brunch Sun 1-5pm. A Place of Love.
+NOTE:Text SOUL for exclusive offers. Jazz Fri 6-9pm, Karaoke Sat 6-9pm, Brunch Sun 1-5pm. A Place of Love.
 PHOTO;VALUE=URL:https://lonellssoulfood.com/logo-512x512.png
 END:VCARD
 ```
@@ -377,7 +377,7 @@ Reply STOP to opt out.
 **Before Major Event:**
 
 ```
-Jazz Wednesday is this week! Save Lonell's to your contacts now so our reminders don't get lost 📇
+Jazz Friday is this week! Save Lonell's to your contacts now so our reminders don't get lost 📇
 
 — Lonell's Soul Food Cuisine
 Reply STOP to opt out.
@@ -429,7 +429,7 @@ Before launching, the owner must provide:
 - [ ] **Phone number:** Restaurant reservation line for all messages
 - [ ] **Google Review link:** Direct link to Google Business review page
 - [ ] **Yelp Review link:** Direct link to Yelp review page
-- [ ] **Weekly broadcast preference:** Wednesday jazz OR Sunday brunch as primary weekly send
+- [ ] **Weekly broadcast preference:** Friday jazz OR Sunday brunch as primary weekly send
 - [ ] **Slow night:** Which night typically needs a push? (Tuesday, Thursday)
 - [ ] **Slow night pricing:** What special pricing for slow night fill?
 - [ ] **Contact card delivery method:** MMS with vCard attachment OR link-based landing page

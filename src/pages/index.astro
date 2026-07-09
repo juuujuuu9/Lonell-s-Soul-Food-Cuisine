@@ -54,7 +54,7 @@ const featuredDishes = getFeaturedDishes();
       </div>
       <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] flex flex-col">
         <h3 class="font-display text-lg font-semibold mb-2">Live Music Venue</h3>
-        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Jazz Wednesdays & Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
+        <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed mb-4">Jazz Fridays, Karaoke Saturdays, and Live Sunday Brunch. Dinner and a show every week.</p>
         <a href="/entertainment" class="mt-auto inline-flex items-center gap-1.5 text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
           Entertainment
           <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -132,15 +132,7 @@ const featuredDishes = getFeaturedDishes();
 
   <!-- Weekly Entertainment Schedule -->
   <Section eyebrow="This Week" title="Live Entertainment Schedule" description="Every week at Lonell's. Good food, good music, good vibes." class="bg-[var(--color-surface-card)]" wide>
-    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div class="event-card rounded-xl p-6 text-center">
-        <div class="flex flex-col items-center gap-2 mb-4">
-          <EventScheduleIcon type="jazz" />
-          <span class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)]">Wednesday</span>
-        </div>
-        <h3 class="font-display text-lg font-semibold mb-1">Live Jazz</h3>
-        <p class="text-sm text-[var(--color-text-secondary)]">6:00 PM – 9:00 PM</p>
-      </div>
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="event-card rounded-xl p-6 text-center">
         <div class="flex flex-col items-center gap-2 mb-4">
           <EventScheduleIcon type="comedy" />

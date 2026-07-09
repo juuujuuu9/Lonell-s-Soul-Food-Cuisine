@@ -95,7 +95,7 @@ export function reviewPromptMessage(): string {
 
 export function day7NudgeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We'd love to see you again! Live jazz this Wed 6-9pm & Sunday brunch 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return `${BRAND}: We'd love to see you again! Live jazz this Fri 6-9pm & Sunday brunch 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
 export function winBackMessage(expiresAt: Date): string {
@@ -117,7 +117,7 @@ export function menuMessage(siteUrl: string): string {
 }
 
 export function eventsMessage(siteUrl: string): string {
-  return `${BRAND}: Events at ${siteUrl}/entertainment. Live jazz Wed & Fri, Karaoke Sat, Brunch Sun. ${FULL_FOOTER}`;
+  return `${BRAND}: Events at ${siteUrl}/entertainment. Live jazz Fri, Karaoke Sat, Brunch Sun. ${FULL_FOOTER}`;
 }
 
 export function stopConfirmationMessage(): string {

@@ -5,14 +5,6 @@ import EventCard from "../components/EventCard.astro";
 
 const weeklyEvents = [
   {
-    title: "Live Jazz Wednesdays",
-    date: "Every Wednesday",
-    type: "jazz" as const,
-    description: "Kick off the middle of your week with live jazz from local LA artists. Dinner service runs 11am-7pm. Music starts at 6pm.",
-    href: "#reserve",
-    cta: "Make a Reservation",
-  },
-  {
     title: "Comedy Night",
     date: "3rd Thursday Monthly",
     type: "comedy" as const,
@@ -53,15 +45,6 @@ const weeklyEvents = [
   "@graph": [
     {
       "@type": "Event",
-      "name": "Live Jazz Wednesday",
-      "description": "Live jazz music at Lonell's Soul Food Cuisine. Dinner served 11am-7pm, music 6-9pm.",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-    },
-    {
-      "@type": "Event",
       "name": "Comedy Night — 3rd Thursday",
       "description": "Monthly comedy night on the 3rd Thursday at Lonell's Soul Food. Dinner served 11am-7pm, comedy 7-9pm.",
       "eventStatus": "https://schema.org/EventScheduled",
@@ -99,7 +82,7 @@ const weeklyEvents = [
   ]
 })}></script>
 
-<BaseLayout title="Entertainment" description="Live Jazz Wednesdays & Fridays, Karaoke Saturdays, and Sunday Gospel Brunch with free champagne at Lonell's Soul Food in South Los Angeles. A cultural hub for food, music, and community.">
+<BaseLayout title="Entertainment" description="Live Jazz Fridays, Karaoke Saturdays, and Sunday Gospel Brunch with free champagne at Lonell's Soul Food in South Los Angeles. A cultural hub for food, music, and community.">
   <div class="min-h-screen pb-16">
     <Section eyebrow="Come Through" title="Entertainment Schedule" description="Lonell's is one of the only soul food restaurants in Los Angeles with consistent live entertainment every week — a cultural hub where food, music, and community come together." wide>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -134,7 +117,7 @@ const weeklyEvents = [
               <tr class="border-b border-[var(--color-border-subtle)]">
                 <td class="py-3 pr-4 font-medium">Wednesday</td>
                 <td class="py-3 pr-4">11:00 AM – 7:00 PM</td>
-                <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-text-muted)]">&mdash;</td>
               </tr>
               <tr class="border-b border-[var(--color-border-subtle)]">
                 <td class="py-3 pr-4 font-medium">Thursday</td>
@@ -182,13 +165,13 @@ const weeklyEvents = [
             </p>
             <p class="text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
               A dedicated performance stage serves as the focal point of the dining room, with live 
-              entertainment every Wednesday, the 3rd Thursday for Comedy Night, Friday, Saturday, and Sunday. Whether it's a date night, 
+              entertainment every Friday, Saturday, and Sunday, plus the 3rd Thursday for Comedy Night. Whether it's a date night, 
               a gathering with friends, or a solo escape to recharge — Lonell's is the spot.
             </p>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
-              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">4</p>
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">3</p>
               <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Nights of Weekly Entertainment</p>
             </div>
             <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">

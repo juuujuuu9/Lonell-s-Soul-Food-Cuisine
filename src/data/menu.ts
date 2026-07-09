@@ -134,7 +134,7 @@ export const seasonalSpecials = {
         { name: "Tuna Sandwich", description: "With fries & drink", price: "$15" },
         { name: "Fettuccine Alfredo or Spaghetti with Meat Sauce", price: "$16" },
         { name: "Party Wings (6)", description: "Tossed in sauce, with fries or coleslaw", price: "$12" },
-        { name: "Party Wings (12)", description: "Tossed in sauce, with fries or coleslaw", price: "$16" },
+        { name: "Party Wings (9)", description: "Tossed in sauce, with fries or coleslaw", price: "$16" },
         { name: "Shrimp Po'boy", description: "With fries", price: "$18" },
       ],
     },

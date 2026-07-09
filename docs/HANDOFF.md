@@ -89,7 +89,7 @@ Fixed the 8 highest-priority issues from the previous audit (see table below). A
 - Phone: (323) 451-3104
 - SMS keyword: "Text SOUL to (424) 295-8020" → promo code SOUL10
 - Hours: Wed-Thu 11-7, Fri-Sat 11-9, Sun 11-5. Closed Mon-Tue
-- Live entertainment: Jazz Wed/Fri, Comedy 3rd Thu, Karaoke Sat, Gospel Brunch Sun
+- Live entertainment: Jazz Fri, Comedy 3rd Thu, Karaoke Sat, Gospel Brunch Sun
 
 ## Contact
 
