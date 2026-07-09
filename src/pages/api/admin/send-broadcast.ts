@@ -1,10 +1,38 @@
 import type { APIRoute } from "astro";
-import { eq } from "drizzle-orm";
+import { and, eq, gt } from "drizzle-orm";
 import { db, schema, isDbReady } from "../../../db/index";
 import { isSmsEnabled } from "../../../lib/env";
 import { sendSms } from "../../../lib/sms";
 
 export const prerender = false;
+
+export const config = { maxDuration: 300 };
+
+const BATCH_SIZE = 500;
+const CONCURRENCY = 10;
+
+async function sendBatch(
+  subscribers: { id: number; phoneNumber: string | null }[],
+  message: string
+): Promise<number> {
+  let sent = 0;
+  const groups: typeof subscribers[] = [];
+  for (let i = 0; i < subscribers.length; i += CONCURRENCY) {
+    groups.push(subscribers.slice(i, i + CONCURRENCY));
+  }
+  for (const group of groups) {
+    const results = await Promise.allSettled(
+      group.map((sub) => {
+        if (!sub.phoneNumber) return Promise.resolve({ success: false } as const);
+        return sendSms(sub.phoneNumber, message);
+      })
+    );
+    for (const r of results) {
+      if (r.status === "fulfilled" && r.value.success) sent++;
+    }
+  }
+  return sent;
+}
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -33,24 +61,33 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const subscribers = await db!
-      .select()
-      .from(schema.subscribers)
-      .where(eq(schema.subscribers.optOut, false));
+    let totalSent = 0;
+    let offset = 0;
+    let hasMore = true;
 
-    let sent = 0;
-    const results = [];
-    for (const sub of subscribers) {
-      const result = await sendSms(sub.phoneNumber!, trimmed);
-      if (result.success) sent++;
-      results.push({ phone: sub.phoneNumber, success: result.success });
+    while (hasMore) {
+      const batch = await db!
+        .select({ id: schema.subscribers.id, phoneNumber: schema.subscribers.phoneNumber })
+        .from(schema.subscribers)
+        .where(
+          and(eq(schema.subscribers.optOut, false), gt(schema.subscribers.id, offset))
+        )
+        .orderBy(schema.subscribers.id)
+        .limit(BATCH_SIZE);
+
+      if (batch.length === 0) {
+        hasMore = false;
+        break;
+      }
+
+      totalSent += await sendBatch(batch, trimmed);
+      offset = batch[batch.length - 1].id;
+      hasMore = batch.length === BATCH_SIZE;
     }
 
     return new Response(JSON.stringify({
-      sent,
-      total: subscribers.length,
+      sent: totalSent,
       simulated: !isSmsEnabled(),
-      results,
     }), {
       status: 200,
       headers: { "Content-Type": "application/json" },

@@ -3,6 +3,7 @@ import { authorizeCron } from "../../../lib/cron-auth";
 import { syncReviews } from "../../../lib/reviews/sync";
 
 export const prerender = false;
+export const config = { maxDuration: 300 };
 
 export const GET: APIRoute = async ({ request }) => {
   const denied = authorizeCron(request);

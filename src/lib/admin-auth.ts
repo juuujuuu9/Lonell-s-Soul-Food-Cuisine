@@ -1,7 +1,6 @@
 import { createClerkClient } from "@clerk/astro/server";
-import { neon } from "@neondatabase/serverless";
 import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/neon-http";
+import { db, isDbReady } from "../db/index";
 import { staff } from "../db/schema";
 
 const ADMIN_ROLES = ["owner", "manager", "staff"] as const;
@@ -17,20 +16,10 @@ function roleFromSessionClaims(sessionClaims: Record<string, unknown> | null | u
   return typeof role === "string" ? role : undefined;
 }
 
-let _db: ReturnType<typeof drizzle> | null = null;
-
-function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
-    _db = drizzle(neon(process.env.DATABASE_URL), { schema: { staff } });
-  }
-  return _db;
-}
-
 async function roleFromStaffTable(userId: string): Promise<string | undefined> {
-  const db = getDb();
-  if (!db) return undefined;
+  if (!isDbReady()) return undefined;
   try {
-    const [member] = await db
+    const [member] = await db!
       .select({ role: staff.role, active: staff.active })
       .from(staff)
       .where(eq(staff.clerkId, userId))

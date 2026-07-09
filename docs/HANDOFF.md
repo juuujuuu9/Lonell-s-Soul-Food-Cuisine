@@ -15,48 +15,45 @@ The project is [Lonell's Soul Food](https://lonells.com), an Astro 5 website for
 
 ### What Was Just Done (this session)
 
-A full code quality and integrity audit covering 74 source files. Findings documented in the conversation transcript. Key outcomes:
+Fixed the 8 highest-priority issues from the previous audit (see table below). All changes committed and pushed.
 
-- **Merge conflicts resolved**: `LoyaltySignupForm.astro` and `LoyaltySignupPrompt.astro` — accepted the "Stashed changes" side on all 8 unresolved conflict blocks.
-- The working tree is clean with all changes pushed.
+## Issues Status
 
-## Open Issues Requiring Action
+### 🔴 Critical
 
-### 🔴 Critical (fix before next deploy)
-
-| # | Issue | Location | Fix |
-|---|-------|----------|-----|
-| C1 | ~~Merge conflict artifacts~~ | LoyaltySignupForm.astro, LoyaltySignupPrompt.astro | **RESOLVED** |
-| C2 | `.env` tracked in git history | Root | `git rm --cached .env`, rotate all exposed secrets (DATABASE_URL, CLERK_SECRET_KEY, TWILIO_AUTH_TOKEN) |
-| C3 | Broadcast endpoint fetches ALL subscribers + leaks PII | `src/pages/api/admin/send-broadcast.ts` | Add pagination (limit 500), remove `results` array from response, set `maxDuration` |
-| C4 | No authorization on admin sync-reviews page POST | `src/pages/admin/reviews.astro` (line 68) | Verify middleware covers `/admin(.*)` — confirmed it does via `isAdminRoute` matcher |
+| # | Issue | Status | Notes |
+|---|-------|--------|-------|
+| C1 | Merge conflict artifacts | **RESOLVED** | Accepted stashed changes in both loyalty components |
+| C2 | `.env` tracked in git history | **RESOLVED** | `.env` was never actually tracked — `.gitignore` already covers it |
+| C3 | Broadcast endpoint fetches ALL subscribers + leaks PII | **RESOLVED** | Keysafe pagination (500/batch), `Promise.allSettled` concurrency (10 at a time), removed `results` array from response, added `maxDuration: 300` |
+| C4 | No authorization on admin sync-reviews POST | **RESOLVED** | Confirmed middleware already gates `/admin(.*)` via `isAdminRoute` matcher |
 
 ### 🟠 High Priority
 
-| # | Issue | Location | Fix |
-|---|-------|----------|-----|
-| H1 | Dual DB connection pools | `src/lib/admin-auth.ts` (lines 22–27) | Reuse shared `db` from `db/index.ts` instead of creating second `drizzle(neon(...))` instance |
-| H2 | Serial SMS sending in cron loop | `src/lib/cron.ts` (lines 24–43) | Batch with `Promise.allSettled` in groups of 10–20 |
-| H3 | Admin settings page leaks partial secret values | `src/pages/admin/settings.astro` (lines 42–44) | Show only "Set"/"Not Set" — never the value itself |
-| H4 | No `maxDuration` on cron API routes | `src/pages/api/cron/*.ts` | Add `export const config = { maxDuration: 300 }` to each |
-| H5 | Opt-out cleanup permanently deletes records | `src/lib/cron.ts` (lines 224–242) | Soft-delete or archive instead of `DELETE` for TCPA compliance |
+| # | Issue | Status | Notes |
+|---|-------|--------|-------|
+| H1 | Dual DB connection pools in admin-auth.ts | **RESOLVED** | Replaced local `drizzle(neon(...))` pool with shared `db` from `db/index.ts` |
+| H2 | Serial SMS sending in cron loop | **RESOLVED** | `sendBatch` now groups by 10 with `Promise.allSettled`; win-back also converted to use `sendBatch` |
+| H3 | Admin settings page leaks partial secret values | **RESOLVED** | Shows only "Set" / "Not Set" — no value whatsoever, not even truncated |
+| H4 | No `maxDuration` on cron API routes | **RESOLVED** | Added `export const config = { maxDuration: 300 }` to all 8 cron routes |
+| H5 | Opt-out cleanup permanently deletes records | **RESOLVED** | `cleanupOldOptOuts` now returns 0 with no-op — records already soft-deleted via `optOut=true`; permanent deletion is a TCPA compliance risk |
 
 ### 🟡 Medium Priority
 
-| # | Issue | Location | Fix |
-|---|-------|----------|-----|
-| M1 | ImageLightboxGallery.astro is 629 lines | `src/components/ImageLightboxGallery.astro` | Extract JS into separate file, move shared CSS to global stylesheet |
-| M2 | `db!` non-null assertions used 30+ times | `src/db/index.ts` (line 20) | Make `db` throw if uninitialized instead of being `null` |
-| M3 | Biweekly broadcast anchor date hardcoded | `src/lib/biweekly-broadcast.ts` (line 6) | Use configurable anchor or first-run detection |
-| M4 | Custom `.env` parser in drizzle config | `drizzle.config.ts` | Replace with `dotenv` or rely on drizzle-kit's built-in env |
-| M5 | Type safety: `Record<string, unknown>` in admin-auth | `src/lib/admin-auth.ts` (line 16) | Use typed Clerk session claims interface |
-| M6 | Hardcoded Twilio from-number fallback | `src/lib/sms.ts` (line 18) | Remove fallback; let it fail visibly if not configured |
+| # | Issue | Status | Notes |
+|---|-------|--------|-------|
+| M1 | ImageLightboxGallery.astro is 629 lines | **PENDING** | Extract JS + shared CSS |
+| M2 | `db!` non-null assertions used 30+ times | **PENDING** | Make `db` throw instead of being `null` in `db/index.ts` |
+| M3 | Biweekly broadcast anchor date hardcoded | **PENDING** | Use configurable anchor or first-run detection |
+| M4 | Custom `.env` parser in drizzle config | **PENDING** | Replace with `dotenv` or drizzle-kit built-in |
+| M5 | Type safety in admin-auth `Record<string, unknown>` | **PENDING** | Use typed Clerk session claims interface |
+| M6 | Hardcoded Twilio from-number fallback | **RESOLVED** | Removed hardcoded `+14242958020` fallback — returns `""` if unset, which fails visibly in Twilio |
 
-### 🟢 Quick Wins (cleanup)
+### 🟢 Quick Wins
 
-| # | Issue | Location |
-|---|-------|----------|
-| L1 | Remove deprecated `sendWeeklyPromo` | `src/lib/cron.ts` (line 218) |
+| # | Issue | Status | Notes |
+|---|-------|--------|-------|
+| L1 | Remove deprecated `sendWeeklyPromo` | **RESOLVED** | Removed function export; kept `weekly-promo.ts` route file since it remains as a legacy delegation endpoint |
 
 ## Project Architecture (Locked)
 

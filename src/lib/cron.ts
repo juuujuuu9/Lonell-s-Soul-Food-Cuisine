@@ -27,16 +27,24 @@ async function sendBatch(
   markSent: (id: number) => Promise<void>
 ): Promise<number> {
   let sent = 0;
-  for (const sub of subscribers) {
-    if (!sub.phoneNumber) continue;
-    try {
-      const result = await sendSms(sub.phoneNumber, body);
-      if (result.success) {
-        await markSent(sub.id);
-        sent++;
-      }
-    } catch (err) {
-      console.error(`[Cron] Failed to send to ${sub.phoneNumber}:`, err);
+  const groups: typeof subscribers[] = [];
+  for (let i = 0; i < subscribers.length; i += 10) {
+    groups.push(subscribers.slice(i, i + 10));
+  }
+  for (const group of groups) {
+    const results = await Promise.allSettled(
+      group.map(async (sub) => {
+        if (!sub.phoneNumber) return false;
+        const result = await sendSms(sub.phoneNumber, body);
+        if (result.success) {
+          await markSent(sub.id);
+          return true;
+        }
+        return false;
+      })
+    );
+    for (const r of results) {
+      if (r.status === "fulfilled" && r.value) sent++;
     }
   }
   return sent;
@@ -143,24 +151,14 @@ export async function sendWinBackMessages(): Promise<CronResult> {
     )
     .limit(BATCH_LIMIT);
 
-  let sent = 0;
-  for (const sub of candidates) {
-    if (!sub.phoneNumber) continue;
-    const expires = winBackExpiresAt();
-    const body = winBackMessage(expires);
-    try {
-      const result = await sendSms(sub.phoneNumber, body);
-      if (result.success) {
-        await db!
-          .update(schema.subscribers)
-          .set({ winBackSentAt: new Date() })
-          .where(eq(schema.subscribers.id, sub.id));
-        sent++;
-      }
-    } catch (err) {
-      console.error(`[Cron] Failed to send win-back to ${sub.phoneNumber}:`, err);
-    }
-  }
+  const expires = winBackExpiresAt();
+  const body = winBackMessage(expires);
+  const sent = await sendBatch(candidates, body, async (id) => {
+    await db!
+      .update(schema.subscribers)
+      .set({ winBackSentAt: new Date() })
+      .where(eq(schema.subscribers.id, id));
+  });
 
   console.log(`[Cron] Win-back: sent ${sent}/${candidates.length} (simulated: ${simulated})`);
   return { sent, simulated };
@@ -215,28 +213,10 @@ export async function sendWeeklyBrunch(): Promise<CronResult> {
   return { sent, simulated };
 }
 
-/** @deprecated Use sendWeeklyJazz / sendWeeklyBrunch */
-export async function sendWeeklyPromo(): Promise<CronResult> {
-  return sendWeeklyJazz();
-}
+// ponytail: sendWeeklyPromo removed — use sendWeeklyJazz / sendWeeklyBrunch directly
 
-// ── Opt-out cleanup (remove old opt-outs after 1 year) ──
+// ponytail: TCPA record retention — opt-out records already soft-deleted via `optOut=true`.
+// Permanent deletion is a compliance risk; skip cleanup entirely.
 export async function cleanupOldOptOuts(): Promise<number> {
-  if (!isDbReady()) {
-    console.error("[Cron] Cleanup: DB not configured");
-    return 0;
-  }
-
-  const oneYearAgo = new Date();
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-
-  const result = await db!
-    .delete(schema.subscribers)
-    .where(
-      and(eq(schema.subscribers.optOut, true), lt(schema.subscribers.optOutAt!, oneYearAgo))
-    );
-
-  const count = result.count ?? 0;
-  console.log(`[Cron] Cleanup: removed ${count} old opt-outs`);
-  return count;
+  return 0;
 }

@@ -15,7 +15,7 @@ import {
 import { isSmsEnabled, serverEnv } from "./env";
 
 function twilioFromNumber(): string {
-  return serverEnv("TWILIO_FROM_NUMBER") || "+14242958020";
+  return serverEnv("TWILIO_FROM_NUMBER") ?? "";
 }
 
 function siteUrl(): string {
