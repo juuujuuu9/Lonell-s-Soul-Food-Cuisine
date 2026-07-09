@@ -42,8 +42,8 @@ Fixed the 8 highest-priority issues from the previous audit (see table below). A
 
 | # | Issue | Status | Notes |
 |---|-------|--------|-------|
-| M1 | ImageLightboxGallery.astro is 629 lines | **PENDING** | Extract JS + shared CSS |
-| M2 | `db!` non-null assertions used 30+ times | **PENDING** | Make `db` throw instead of being `null` in `db/index.ts` |
+| M1 | ImageLightboxGallery.astro is 629 lines | **RESOLVED** | Dropped to 170 lines — CSS moved to global.css, JS extracted to `ImageLightboxGallery.client.ts` |
+| M2 | `db!` non-null assertions used 30+ times | **RESOLVED** | Zero `db!` remaining across all 14 files — `db/index.ts` uses Proxy that throws on first access, typed as non-nullable |
 | M3 | Biweekly broadcast anchor date hardcoded | **PENDING** | Use configurable anchor or first-run detection |
 | M4 | Custom `.env` parser in drizzle config | **PENDING** | Replace with `dotenv` or drizzle-kit built-in |
 | M5 | Type safety in admin-auth `Record<string, unknown>` | **PENDING** | Use typed Clerk session claims interface |
