@@ -22,7 +22,7 @@ let dbError: string | null = null;
 
 if (isDbReady()) {
   try {
-    subscribers = await db!
+    subscribers = await db
       .select({
         id: schema.subscribers.id,
         phoneNumber: schema.subscribers.phoneNumber,

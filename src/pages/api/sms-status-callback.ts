@@ -20,7 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const status = normalizeStatus(messageStatus);
 
-    await db!
+    await db
       .update(schema.messages)
       .set({ status })
       .where(eq(schema.messages.twilioSid, messageSid));

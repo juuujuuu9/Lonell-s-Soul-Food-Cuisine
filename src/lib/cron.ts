@@ -61,7 +61,7 @@ export async function sendReviewPrompts(): Promise<CronResult> {
   const cutoff = new Date();
   cutoff.setHours(cutoff.getHours() - 24);
 
-  const subscribers = await db!
+  const subscribers = await db
     .select()
     .from(schema.subscribers)
     .where(
@@ -75,7 +75,7 @@ export async function sendReviewPrompts(): Promise<CronResult> {
 
   const body = reviewPromptMessage();
   const sent = await sendBatch(subscribers, body, async (id) => {
-    await db!
+    await db
       .update(schema.subscribers)
       .set({ reviewPromptSentAt: new Date() })
       .where(eq(schema.subscribers.id, id));
@@ -96,7 +96,7 @@ export async function sendDay7Nudges(): Promise<CronResult> {
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - 7);
 
-  const candidates = await db!
+  const candidates = await db
     .select()
     .from(schema.subscribers)
     .where(
@@ -115,7 +115,7 @@ export async function sendDay7Nudges(): Promise<CronResult> {
   const expires = offerExpiresAt();
   const body = day7NudgeMessage(expires);
   const sent = await sendBatch(candidates, body, async (id) => {
-    await db!
+    await db
       .update(schema.subscribers)
       .set({ day7NudgeSentAt: new Date() })
       .where(eq(schema.subscribers.id, id));
@@ -136,7 +136,7 @@ export async function sendWinBackMessages(): Promise<CronResult> {
   const cutoff = new Date();
   cutoff.setDate(cutoff.getDate() - 30);
 
-  const candidates = await db!
+  const candidates = await db
     .select()
     .from(schema.subscribers)
     .where(
@@ -154,7 +154,7 @@ export async function sendWinBackMessages(): Promise<CronResult> {
   const expires = winBackExpiresAt();
   const body = winBackMessage(expires);
   const sent = await sendBatch(candidates, body, async (id) => {
-    await db!
+    await db
       .update(schema.subscribers)
       .set({ winBackSentAt: new Date() })
       .where(eq(schema.subscribers.id, id));
@@ -176,7 +176,7 @@ export async function sendWeeklyJazz(): Promise<CronResult> {
     return { sent: 0, simulated, error: "Database not configured" };
   }
 
-  const subscribers = await db!
+  const subscribers = await db
     .select()
     .from(schema.subscribers)
     .where(eq(schema.subscribers.optOut, false))
@@ -200,7 +200,7 @@ export async function sendWeeklyBrunch(): Promise<CronResult> {
     return { sent: 0, simulated, error: "Database not configured" };
   }
 
-  const subscribers = await db!
+  const subscribers = await db
     .select()
     .from(schema.subscribers)
     .where(eq(schema.subscribers.optOut, false))

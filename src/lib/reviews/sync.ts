@@ -8,7 +8,7 @@ async function upsertReviews(records: ReviewRecord[]): Promise<number> {
 
   let upserted = 0;
   for (const record of records) {
-    await db!
+    await db
       .insert(schema.reviews)
       .values({
         platform: record.platform,
@@ -36,7 +36,7 @@ async function upsertReviews(records: ReviewRecord[]): Promise<number> {
 }
 
 async function saveSyncState(result: PlatformSyncResult): Promise<void> {
-  await db!
+  await db
     .insert(schema.reviewSyncState)
     .values({
       platform: result.platform,

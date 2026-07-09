@@ -36,7 +36,7 @@ export async function logOutboundMessage(
   if (!isDbReady()) return;
 
   const simulated = opts?.simulated ?? !isSmsEnabled();
-  await db!.insert(schema.messages).values({
+  await db.insert(schema.messages).values({
     toNumber: to,
     fromNumber: twilioFromNumber(),
     body,
@@ -57,7 +57,7 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
   if (!isSmsEnabled()) {
     log("info", `SIMULATED send to ${to}: "${body}"`);
     try {
-      const [msg] = await db!
+      const [msg] = await db
         .insert(schema.messages)
         .values({
           toNumber: to,
@@ -91,7 +91,7 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
       statusCallback,
     });
 
-    const [msg] = await db!
+    const [msg] = await db
       .insert(schema.messages)
       .values({
         toNumber: to,
@@ -121,14 +121,14 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
 
   if (OPT_OUT_KEYWORDS.has(normalized)) {
     if (isDbReady()) {
-      const existing = await db!
+      const existing = await db
         .select()
         .from(schema.subscribers)
         .where(eq(schema.subscribers.phoneNumber, from))
         .limit(1);
 
       if (existing.length > 0) {
-        await db!
+        await db
           .update(schema.subscribers)
           .set({ optOut: true, optOutAt: new Date() })
           .where(eq(schema.subscribers.phoneNumber, from));
@@ -143,7 +143,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
 
   if (OPT_IN_KEYWORDS.has(normalized)) {
     if (isDbReady()) {
-      const existing = await db!
+      const existing = await db
         .select()
         .from(schema.subscribers)
         .where(eq(schema.subscribers.phoneNumber, from))
@@ -152,7 +152,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
       if (existing.length > 0) {
         if (existing[0].optOut) {
           const expires = promoExpiresAt();
-          await db!
+          await db
             .update(schema.subscribers)
             .set({
               optOut: false,
@@ -171,7 +171,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
       }
 
       const expires = promoExpiresAt();
-      await db!.insert(schema.subscribers).values({
+      await db.insert(schema.subscribers).values({
         phoneNumber: from,
         keyword: "SOUL",
         consentSource: "sms_keyword",

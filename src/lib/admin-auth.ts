@@ -19,7 +19,7 @@ function roleFromSessionClaims(sessionClaims: Record<string, unknown> | null | u
 async function roleFromStaffTable(userId: string): Promise<string | undefined> {
   if (!isDbReady()) return undefined;
   try {
-    const [member] = await db!
+    const [member] = await db
       .select({ role: staff.role, active: staff.active })
       .from(staff)
       .where(eq(staff.clerkId, userId))

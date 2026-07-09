@@ -10,7 +10,7 @@ let dbError: string | null = null;
 
 if (isDbReady()) {
   try {
-    messages = await db!
+    messages = await db
       .select({
         id: schema.messages.id,
         toNumber: schema.messages.toNumber,

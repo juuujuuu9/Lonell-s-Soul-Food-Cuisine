@@ -80,7 +80,7 @@ export async function processPosOrder(data: unknown): Promise<ProcessOrderResult
   }
 
   // Find matching subscriber
-  const [subscriber] = await db!
+  const [subscriber] = await db
     .select()
     .from(schema.subscribers)
     .where(eq(schema.subscribers.phoneNumber, normalizedPhone))
@@ -94,7 +94,7 @@ export async function processPosOrder(data: unknown): Promise<ProcessOrderResult
   let promoRedeemed = false;
   if (promoCode && subscriber && !subscriber.promoRedeemed) {
     if (knownPromos.includes(promoCode.trim().toUpperCase())) {
-      await db!
+      await db
         .update(schema.subscribers)
         .set({ promoRedeemed: true })
         .where(eq(schema.subscribers.id, subscriber.id));
@@ -104,7 +104,7 @@ export async function processPosOrder(data: unknown): Promise<ProcessOrderResult
 
   // Update last visit for matched subscribers
   if (subscriber) {
-    await db!
+    await db
       .update(schema.subscribers)
       .set({ lastVisitAt: new Date() })
       .where(eq(schema.subscribers.id, subscriber.id));
@@ -112,7 +112,7 @@ export async function processPosOrder(data: unknown): Promise<ProcessOrderResult
 
   // Record the order (skip if duplicate geniusOrderId)
   const orderTimestamp = orderedAt ? new Date(orderedAt) : new Date();
-  await db!
+  await db
     .insert(schema.posOrders)
     .values({
       phoneNumber: normalizedPhone,

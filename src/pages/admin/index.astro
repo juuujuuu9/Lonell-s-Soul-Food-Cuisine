@@ -15,13 +15,13 @@ let dbError: string | null = null;
 
 if (isDbReady()) {
   try {
-    const [subResult] = await db!.select({ value: count() }).from(schema.subscribers);
+    const [subResult] = await db.select({ value: count() }).from(schema.subscribers);
     subscriberCount = subResult.value;
 
-    const [msgResult] = await db!.select({ value: count() }).from(schema.messages);
+    const [msgResult] = await db.select({ value: count() }).from(schema.messages);
     messageCount = msgResult.value;
 
-    const [revResult] = await db!.select({ value: count() }).from(schema.reviews);
+    const [revResult] = await db.select({ value: count() }).from(schema.reviews);
     reviewCount = revResult.value;
   } catch (e) {
     dbError = e instanceof Error ? e.message : "Unknown database error";

@@ -42,7 +42,7 @@ async function loadReviewsData() {
   }
 
   try {
-    reviews = await db!
+    reviews = await db
       .select({
         id: schema.reviews.id,
         platform: schema.reviews.platform,
@@ -58,7 +58,7 @@ async function loadReviewsData() {
       .orderBy(desc(sql`coalesce(${schema.reviews.reviewedAt}, ${schema.reviews.createdAt})`))
       .limit(100);
 
-    syncState = await db!.select().from(schema.reviewSyncState);
+    syncState = await db.select().from(schema.reviewSyncState);
   } catch (e) {
     dbError = e instanceof Error ? e.message : "Unknown database error";
     console.error("[Admin Reviews] DB error:", e);

@@ -36,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
         ? { lastVisitAt: now, promoRedeemed: true, winBackSentAt: null }
         : { lastVisitAt: now, winBackSentAt: null };
 
-    const [updated] = await db!
+    const [updated] = await db
       .update(schema.subscribers)
       .set(updates)
       .where(eq(schema.subscribers.id, id))

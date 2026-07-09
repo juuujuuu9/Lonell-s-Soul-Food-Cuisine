@@ -66,7 +66,7 @@ export const POST: APIRoute = async ({ request }) => {
     let hasMore = true;
 
     while (hasMore) {
-      const batch = await db!
+      const batch = await db
         .select({ id: schema.subscribers.id, phoneNumber: schema.subscribers.phoneNumber })
         .from(schema.subscribers)
         .where(

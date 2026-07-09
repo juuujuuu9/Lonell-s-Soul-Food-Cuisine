@@ -53,7 +53,7 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const existing = await db!
+    const existing = await db
       .select()
       .from(schema.subscribers)
       .where(eq(schema.subscribers.phoneNumber, phoneNumber))
@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const expires = promoExpiresAt();
-    await db!
+    await db
       .insert(schema.subscribers)
       .values({
         phoneNumber,
