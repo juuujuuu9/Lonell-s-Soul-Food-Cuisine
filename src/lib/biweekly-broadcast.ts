@@ -2,8 +2,9 @@ export type EntertainmentSlot = "jazz" | "brunch";
 
 const FORTNIGHT_MS = 14 * 24 * 60 * 60 * 1000;
 
-/** First jazz send in the rotation (Wed 2026-01-07, aligned with weekly-jazz cron). */
-const ANCHOR_MS = Date.parse("2026-01-07T19:00:00.000Z");
+// ponytail: anchor moves with the env var so new deployments don't need a code change
+const DEFAULT_ANCHOR = "2026-01-07T19:00:00.000Z";
+const ANCHOR_MS = Date.parse(process.env.BROADCAST_ANCHOR_DATE || DEFAULT_ANCHOR);
 
 export function entertainmentSlot(now = new Date()): EntertainmentSlot {
   const index = Math.floor((now.getTime() - ANCHOR_MS) / FORTNIGHT_MS);
