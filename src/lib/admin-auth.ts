@@ -4,16 +4,20 @@ import { db, isDbReady } from "../db/index";
 import { staff } from "../db/schema";
 
 const ADMIN_ROLES = ["owner", "manager", "staff"] as const;
+type AdminRole = (typeof ADMIN_ROLES)[number];
 
-export function isAdminRole(role: string | undefined): boolean {
-  return !!(role && ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]));
+export function isAdminRole(role: string | undefined): role is AdminRole {
+  return ADMIN_ROLES.includes(role as AdminRole);
 }
 
-function roleFromSessionClaims(sessionClaims: Record<string, unknown> | null | undefined): string | undefined {
-  const metadata = sessionClaims?.publicMetadata;
-  if (!metadata || typeof metadata !== "object") return undefined;
-  const role = (metadata as Record<string, unknown>).role;
-  return typeof role === "string" ? role : undefined;
+interface SessionClaims {
+  publicMetadata?: {
+    role?: string;
+  };
+}
+
+function roleFromSessionClaims(sessionClaims: SessionClaims | null | undefined): string | undefined {
+  return sessionClaims?.publicMetadata?.role;
 }
 
 async function roleFromStaffTable(userId: string): Promise<string | undefined> {
@@ -48,12 +52,13 @@ async function roleFromClerkApi(userId: string): Promise<string | undefined> {
 
 export async function authorizeAdmin(
   userId: string,
-  sessionClaims: Record<string, unknown> | null | undefined,
+  sessionClaims: unknown,
 ): Promise<boolean> {
   const dbRole = await roleFromStaffTable(userId);
   if (isAdminRole(dbRole)) return true;
 
-  const jwtRole = roleFromSessionClaims(sessionClaims);
+  const claims = sessionClaims as SessionClaims | null | undefined;
+  const jwtRole = roleFromSessionClaims(claims);
   if (isAdminRole(jwtRole)) return true;
 
   const apiRole = await roleFromClerkApi(userId);
