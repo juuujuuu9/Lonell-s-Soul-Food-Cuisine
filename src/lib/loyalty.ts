@@ -95,7 +95,7 @@ export function reviewPromptMessage(): string {
 
 export function day7NudgeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We'd love to see you again! Live jazz this Fri 6-9pm & Sunday brunch 1-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return `${BRAND}: We'd love to see you again! Live jazz this Fri 6-9pm & Sunday brunch 11am-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
 export function winBackMessage(expiresAt: Date): string {
@@ -109,7 +109,7 @@ export function weeklyJazzMessage(): string {
 
 export function weeklyBrunchMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: Sunday Brunch is live at Lonell's! Music starts at 1pm, kitchen open until 5pm. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
+  return `${BRAND}: Sunday Brunch is live at Lonell's! Kitchen open 11am-5pm. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
 }
 
 export function menuMessage(siteUrl: string): string {

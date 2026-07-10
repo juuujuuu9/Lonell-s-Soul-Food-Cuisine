@@ -78,7 +78,7 @@ Reply STOP to opt out.
 ```
 We'd love to see you again! 🎷
 
-This Friday: Live jazz from 6 to 9. This Sunday: Brunch and live music from 1 to 5. Mention this message for a complimentary champagne upgrade.
+This Friday: Live jazz from 6 to 9. This Sunday: Brunch from 11 to 5. Mention this message for a complimentary champagne upgrade.
 
 Walk in, or call [PHONE] to reserve your table.
 
@@ -162,7 +162,7 @@ Reply STOP to opt out.
 ### Sunday — Brunch
 
 ```
-Sunday Brunch is live at Lonell's! 🍳 Music starts at 1, the kitchen is open until 5.
+Sunday Brunch is live at Lonell's! 🍳 Kitchen open 11am-5pm.
 
 Mention this message for a complimentary champagne upgrade.
 
@@ -308,7 +308,7 @@ A digital business card (vCard / .vcf file) delivered via MMS that subscribers s
 | **Website** | `https://lonellssoulfood.com` | One-tap access to menu, events, reservations |
 | **Email** | `info@lonellssoulfood.com` | For catering, private events, general inquiries |
 | **Address** | Full Vermont Knolls address | One-tap directions via Maps |
-| **Note** | `Text SOUL for exclusive offers. Jazz Fri, Karaoke Sat, Brunch Sun 1-5pm.` | Context + CTA |
+| **Note** | `Text SOUL for exclusive offers. Jazz Fri, Karaoke Sat, Brunch Sun 11am-5pm.` | Context + CTA |
 
 ### How to Deliver the Contact Card via Twilio
 
@@ -334,7 +334,7 @@ TEL;TYPE=CELL:+14242958020
 URL:https://lonellssoulfood.com
 EMAIL:info@lonellssoulfood.com
 ADR;TYPE=WORK:;;[Street Address];Los Angeles;CA;90044;USA
-NOTE:Text SOUL for exclusive offers. Jazz Fri 6-9pm, Karaoke Sat 6-9pm, Brunch Sun 1-5pm. A Place of Love.
+NOTE:Text SOUL for exclusive offers. Jazz Fri 6-9pm, Karaoke Sat 6-9pm, Brunch Sun 11am-5pm. A Place of Love.
 PHOTO;VALUE=URL:https://lonellssoulfood.com/logo-512x512.png
 END:VCARD
 ```

@@ -28,14 +28,6 @@ const weeklyEvents = [
     href: "#reserve",
     cta: "Come Through",
   },
-  {
-    title: "Sunday Gospel Brunch",
-    date: "Every Sunday",
-    type: "brunch" as const,
-    description: "Brunch served 11am-5pm with live gospel music from 1pm to 5pm. Free champagne with brunch while it lasts. A soul food and gospel experience — comfort food meets community spirit. Senior discount (10%) available.",
-    href: "#reserve",
-    cta: "Join Us",
-  },
 ];
 ---
 
@@ -69,20 +61,11 @@ const weeklyEvents = [
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
-    },
-    {
-      "@type": "Event",
-      "name": "Sunday Gospel Brunch",
-      "description": "Sunday Gospel Brunch at Lonell's Soul Food in South Los Angeles. Live gospel music 1-5pm, brunch served 11am-5pm. Free champagne while it lasts. Soul food favorites in a community atmosphere.",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
   ]
 })}></script>
 
-<BaseLayout title="Entertainment" description="Live Jazz Fridays, Karaoke Saturdays, and Sunday Gospel Brunch with free champagne at Lonell's Soul Food in South Los Angeles. A cultural hub for food, music, and community.">
+<BaseLayout title="Entertainment" description="Live Jazz Fridays and Karaoke Saturdays at Lonell's Soul Food in South Los Angeles, plus Sunday Brunch with free champagne. A cultural hub for food, music, and community.">
   <div class="min-h-screen pb-16">
     <Section eyebrow="Come Through" title="Entertainment Schedule" description="Lonell's is one of the only soul food restaurants in Los Angeles with consistent live entertainment every week — a cultural hub where food, music, and community come together." wide>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -129,15 +112,10 @@ const weeklyEvents = [
                 <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
                 <td class="py-3 text-[var(--color-neon)]">Live Jazz 6:00 PM – 9:00 PM</td>
               </tr>
-              <tr class="border-b border-[var(--color-border-subtle)]">
+              <tr>
                 <td class="py-3 pr-4 font-medium">Saturday</td>
                 <td class="py-3 pr-4">11:00 AM – 9:00 PM</td>
                 <td class="py-3 text-[var(--color-neon)]">Karaoke 6:00 PM – 9:00 PM</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 font-medium">Sunday</td>
-                <td class="py-3 pr-4">11:00 AM – 5:00 PM</td>
-                <td class="py-3 text-[var(--color-neon)]">Gospel Brunch + Live Music 1:00 PM – 5:00 PM</td>
               </tr>
             </tbody>
           </table>
@@ -161,17 +139,17 @@ const weeklyEvents = [
             <p class="text-[var(--color-text-secondary)] leading-relaxed mb-4" data-reveal>
               Lonell's was built to be a cultural and social hub where guests can enjoy meaningful moments — 
               unwinding to the soothing sounds of the best jazz bands in town, sharing expertly crafted 
-              dishes with friends, or experiencing the spirit of gospel on Sunday mornings.
+              dishes with friends, or grabbing brunch on a Sunday morning.
             </p>
             <p class="text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
               A dedicated performance stage serves as the focal point of the dining room, with live 
-              entertainment every Friday, Saturday, and Sunday, plus the 3rd Thursday for Comedy Night. Whether it's a date night, 
+              entertainment every Friday and Saturday, plus the 3rd Thursday for Comedy Night. Whether it's a date night, 
               a gathering with friends, or a solo escape to recharge — Lonell's is the spot.
             </p>
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
-              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">3</p>
+              <p class="font-display text-3xl font-bold text-[var(--color-accent)]">2</p>
               <p class="text-xs tracking-wider uppercase text-[var(--color-text-muted)] mt-1">Nights of Weekly Entertainment</p>
             </div>
             <div class="p-5 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)] text-center">
@@ -212,15 +190,14 @@ const weeklyEvents = [
       </div>
     </section>
 
-    <!-- Sunday Gospel Brunch highlight -->
+    <!-- Sunday Brunch highlight -->
     <section class="section-padding bg-[var(--color-surface-card)]">
       <div class="max-w-4xl mx-auto text-center">
         <span class="eyebrow" data-reveal>Every Sunday</span>
-        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Sunday Gospel Brunch</h2>
+        <h2 class="font-display text-3xl md:text-4xl font-bold mb-4" data-reveal>Sunday Brunch</h2>
         <p class="text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-6 leading-relaxed" data-reveal>
-          Every Sunday, Lonell's becomes a destination for one of the best gospel brunches in South Los Angeles. 
-          Brunch is served from 11am–5pm with soul food favorites and gospel music favorites that resonate 
-          with the community's love for comforting, hearty meals. Live gospel music runs from 1pm–5pm, 
+          Every Sunday, Lonell's serves up brunch from 11am–5pm with soul food favorites that resonate 
+          with the community's love for comforting, hearty meals. No live music on Sundays — 
           free champagne is included with your brunch, and a 10% discount is available for seniors and 
           government workers with valid ID.
         </p>

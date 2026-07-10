@@ -1,6 +1,6 @@
 # Lonell's Soul Food Cuisine
 
-Lonell's Soul Food Cuisine is an authentic soul food restaurant with live jazz, karaoke, and Sunday Gospel Brunch in South Los Angeles. Located at 8501 S Vermont Ave in the Vermont Knolls neighborhood. Proudly Black-owned and family-owned. "A Place of Love."
+Lonell's Soul Food Cuisine is an authentic soul food restaurant with live jazz, karaoke, and Sunday Brunch in South Los Angeles. Located at 8501 S Vermont Ave in the Vermont Knolls neighborhood. Proudly Black-owned and family-owned. "A Place of Love."
 
 ## Pages
 
@@ -39,6 +39,6 @@ Lonell's Soul Food Cuisine is an authentic soul food restaurant with live jazz, 
 - 3rd Thursday Monthly: Comedy Night 7–9 PM
 - Friday: Live Jazz 6–9 PM
 - Saturday: Karaoke 6–9 PM
-- Sunday: Gospel Brunch + Live Music 1–5 PM
+- Sunday: Brunch 11 AM–5 PM (no live music)
 
 For the complete menu, full FAQ, and detailed information, see [llms-full.txt](https://lonellssoulfood.com/llms-full.txt).
