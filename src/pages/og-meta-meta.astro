@@ -39,7 +39,7 @@ const standardMeta = [
   { tag: "title", value: `Home | ${siteName} | Authentic Soul Food & Live Jazz in South LA`, source: "BaseLayout.astro:35" },
   { tag: "meta description", value: defaultDescription, source: "BaseLayout.astro:36" },
   { tag: "link rel=canonical", value: `${siteUrl}/<current-path>`, source: "BaseLayout.astro:39" },
-  { tag: "meta robots (when noindex)", value: "noindex, nofollow", source: "BaseLayout.astro:54" },
+  { tag: "meta robots (when noindex)", value: "noindex, follow", source: "BaseLayout.astro:54" },
 ];
 
 // ── Font preconnects ──
@@ -137,8 +137,9 @@ const sitemapInfo = {
 // ── Robots.txt ──
 const robotsInfo = {
   path: "/robots.txt",
-  source: "public/robots.txt:1-16",
-  disallowed: ["/admin/", "/api/", "/sign-in", "/sign-up", "/join", "/privacy", "/terms", "/accessibility", "/sms-terms"],
+  source: "public/robots.txt:1-13",
+  disallowed: ["/admin/", "/api/", "/sign-in", "/sign-up", "/accessibility"],
+  note: "/join, /sms, /privacy, /sms-terms, and /terms are intentionally NOT disallowed here — A2P 10DLC / carrier compliance reviewers must be able to crawl and verify the opt-in flow, Terms, and Privacy Policy. They're kept noindex (see meta robots above) instead of blocked in robots.txt.",
 };
 ---
 
@@ -413,6 +414,7 @@ const robotsInfo = {
                   </tbody>
                 </table>
               </div>
+              <p class="text-xs text-[var(--color-text-muted)] mt-3">{robotsInfo.note}</p>
             </div>
             <div class="p-5 rounded-lg border border-[var(--color-border-subtle)] bg-[var(--color-surface-card)]">
               <h4 class="font-semibold text-[var(--color-text-primary)] mb-3">
@@ -466,7 +468,7 @@ const robotsInfo = {
         <section class="p-6 rounded-lg border border-[var(--color-neon)]/30 bg-[var(--color-surface-card)]">
           <h3 class="font-display text-xl font-bold text-[var(--color-text-primary)] mb-3">Status</h3>
           <p class="text-sm text-[var(--color-text-muted)]">
-            All known SEO issues from prior audits have been resolved. 8 content pages are indexable, correctly represented in the sitemap, and carry full OG / Twitter / schema markup. Utility and auth pages are properly noindexed and blocked in robots.txt. See <code class="text-[var(--color-accent)]">public/robots.txt</code> and <code class="text-[var(--color-accent)]">astro.config.mjs</code> for the source of truth.
+            8 content pages are indexable, correctly represented in the sitemap, and carry full OG / Twitter / schema markup. Auth and admin pages are blocked in robots.txt. Compliance-sensitive utility pages (join, sms, terms, privacy, sms-terms) are noindexed but deliberately left crawlable/followable so A2P 10DLC and carrier reviewers can verify the opt-in flow and legal pages. See <code class="text-[var(--color-accent)]">public/robots.txt</code> and <code class="text-[var(--color-accent)]">astro.config.mjs</code> for the source of truth.
           </p>
         </section>
 

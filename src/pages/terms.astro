@@ -16,7 +16,13 @@ import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty
         <p>
           These Terms of Service ("Terms") govern your use of the Lonell&apos;s Soul Food Cuisine website
           at lonellssoulfood.com and related services operated by Lonell&apos;s Soul Food Cuisine
-          ("we," "our," or "us"). By using our website or opting into our SMS program, you agree to these Terms.
+          ("we," "our," or "us"). By using our website, you agree to these Terms.
+        </p>
+        <p>
+          <strong class="text-[var(--color-text-primary)]">SMS consent is separate and always optional.</strong>{" "}
+          Browsing our website, dining with us, placing an order, or making a reservation never requires
+          you to join the {LOYALTY_PROGRAM_NAME}. You only receive text messages if you affirmatively opt
+          in using one of the methods described below — nothing on this website automatically enrolls you.
         </p>
 
         <h3 class="font-display text-lg font-semibold text-[var(--color-text-primary)] mt-8 mb-3">Use of Website</h3>
@@ -61,7 +67,9 @@ import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty
         </h3>
         <p>
           By opting into the {LOYALTY_PROGRAM_NAME}, you agree to the SMS terms in this section in
-          addition to the general Terms above.
+          addition to the general Terms above. Opting in is entirely optional and is never required to
+          use our website, dine with us, place an order, or make a reservation. You may decline or skip
+          SMS sign-up at any time and still fully use our services.
         </p>
 
         <h4 class="font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Program Description</h4>
@@ -78,10 +86,13 @@ import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty
             number on our{" "}
             <a href="/join" class="text-[var(--color-accent)] hover:underline">join page</a>,{" "}
             <a href="/contact#sms-signup" class="text-[var(--color-accent)] hover:underline">contact page</a>,
-            or the signup form on our homepage. You will be presented with an explicit consent checkbox
-            that is <strong>unchecked by default</strong>. Checking the box and tapping Join constitutes
-            your active, informed consent to receive SMS messages from us. Your consent is recorded with
-            a timestamp and source for compliance purposes.
+            or the signup form on our homepage. You will be presented with two separate consent
+            checkboxes — one for marketing deals &amp; perks, one for informational updates — plus an
+            optional "select all" shortcut that checks both. All boxes are <strong>unchecked by default</strong>.
+            You must actively check at least one box to proceed; checking a box and tapping Join
+            constitutes your active, informed consent to receive that category of SMS messages from us.
+            Your consent is recorded with a timestamp, source, and which message categories you selected,
+            for compliance purposes.
           </li>
           <li>
             <strong class="text-[var(--color-text-primary)]">In-store keyword:</strong> At our restaurant,

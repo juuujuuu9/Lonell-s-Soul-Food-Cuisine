@@ -4,8 +4,8 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /sign-in
 Disallow: /sign-up
-Disallow: /privacy
 Disallow: /accessibility
-Disallow: /sms-terms
 
+# Privacy Policy and Terms must stay crawlable so A2P 10DLC / carrier
+# compliance reviewers can fetch and verify them. Do not add them here.
 Sitemap: https://lonellssoulfood.com/sitemap-index.xml

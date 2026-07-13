@@ -60,8 +60,11 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
 
-    <!-- Robots -->
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <!-- Robots: keep utility pages (join, sms, terms, privacy) out of search
+         results, but allow crawlers to follow links — A2P 10DLC / carrier
+         compliance reviewers must be able to reach Terms and Privacy from
+         the opt-in page. -->
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
