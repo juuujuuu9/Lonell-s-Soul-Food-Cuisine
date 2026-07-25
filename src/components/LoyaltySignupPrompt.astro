@@ -1,7 +1,7 @@
 ---
 import { PROMO_VALID_DAYS } from "../data/business";
 import {
-  LOYALTY_MESSAGE_FREQUENCY,
+  LOYALTY_MARKETING_CONSENT_LABEL,
   LOYALTY_OFFER_LINE,
   LOYALTY_PROGRAM_NAME,
   LOYALTY_VALUE_PROP,
@@ -52,36 +52,12 @@ import {
         required
       />
 
-      <fieldset class="loyalty-prompt-consent-group">
-        <legend class="sr-only">Message preferences</legend>
-
-        <label class="loyalty-prompt-consent">
-          <input type="checkbox" name="consent-marketing" value="marketing" />
-          <span>
-            Yes, send me <strong>deals &amp; perks</strong> — coupons, seasonal specials, and
-            exclusive offers (about 2–3 texts/month).
-          </span>
-        </label>
-
-        <label class="loyalty-prompt-consent">
-          <input type="checkbox" name="consent-informational" value="informational" />
-          <span>
-            Yes, keep me <strong>in the loop</strong> — new menu items, holiday hours, event reminders, and
-            location updates (about 1–2 texts/month).
-          </span>
-        </label>
-
-        <label class="loyalty-prompt-consent loyalty-prompt-select-all">
-          <input type="checkbox" name="consent-all" value="all" />
-          <span>
-            <strong>Get both</strong> — I want the full SoulFood experience!
-          </span>
-        </label>
-      </fieldset>
+      <label class="loyalty-prompt-consent">
+        <input type="checkbox" name="consent-marketing" value="marketing" />
+        <span>{LOYALTY_MARKETING_CONSENT_LABEL}</span>
+      </label>
 
       <p class="loyalty-prompt-disclaimer">
-        Consent is not required to purchase. Message &amp; data rates may apply.
-        Reply STOP to cancel, HELP for help.
         See our <a href="/terms#sms-program">Terms</a> and
         <a href="/privacy#sms-privacy">Privacy Policy</a>.
       </p>
@@ -131,31 +107,7 @@ import {
     });
   }
 
-  // "Select all" toggles both individual checkboxes
   const marketingCb = prompt.querySelector<HTMLInputElement>('input[name="consent-marketing"]');
-  const infoCb = prompt.querySelector<HTMLInputElement>('input[name="consent-informational"]');
-  const allCb = prompt.querySelector<HTMLInputElement>('input[name="consent-all"]');
-
-  allCb?.addEventListener("change", () => {
-    const checked = allCb.checked;
-    if (marketingCb) marketingCb.checked = checked;
-    if (infoCb) infoCb.checked = checked;
-  });
-
-  function syncSelectAll() {
-    if (allCb) {
-      allCb.checked = marketingCb?.checked === true && infoCb?.checked === true;
-    }
-  }
-  marketingCb?.addEventListener("change", syncSelectAll);
-  infoCb?.addEventListener("change", syncSelectAll);
-
-  function getConsentTypes(): string[] {
-    const types: string[] = [];
-    if (marketingCb?.checked) types.push("marketing");
-    if (infoCb?.checked) types.push("informational");
-    return types;
-  }
 
   if (localStorage.getItem(STORAGE_DISMISSED) || localStorage.getItem(STORAGE_JOINED)) {
     prompt.remove();
@@ -189,13 +141,14 @@ import {
         return;
       }
 
-      const consentTypes = getConsentTypes();
-      if (consentTypes.length === 0) {
-        errorEl.textContent = "Select at least one message preference to join.";
+      if (!marketingCb?.checked) {
+        errorEl.textContent = "Please check the box to agree to marketing texts.";
         errorEl.hidden = false;
         marketingCb?.focus();
         return;
       }
+
+      const consentTypes = ["marketing"];
 
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       if (submitBtn) {
@@ -368,15 +321,6 @@ import {
     cursor: wait;
   }
 
-  .loyalty-prompt-consent-group {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
   .loyalty-prompt-consent {
     display: flex;
     gap: 0.5rem;
@@ -392,26 +336,6 @@ import {
     margin-top: 0.15em;
     flex-shrink: 0;
     accent-color: var(--color-neon);
-  }
-
-  .loyalty-prompt-consent a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .loyalty-prompt-consent strong {
-    color: var(--color-text-primary);
-  }
-
-  .loyalty-prompt-select-all {
-    margin-top: 0.15rem;
-    padding-top: 0.35rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .loyalty-prompt-select-all span {
-    color: var(--color-neon);
   }
 
   .loyalty-prompt-disclaimer {

@@ -5,3 +5,7 @@ export const LOYALTY_VALUE_PROP =
   "Be the first to receive updates on exclusive events, secret menus, special offers, loyalty rewards & more.";
 export const LOYALTY_OFFER_LINE =
   "New members: show your welcome text for 10% off your dinner.";
+
+/** Unchecked-by-default marketing consent — must match A2P MARKETING use case. */
+export const LOYALTY_MARKETING_CONSENT_LABEL =
+  "Yes, I agree to receive recurring automated marketing text messages from Lonell's Soul Food Cuisine — exclusive offers, coupons, menu previews, event invitations, and loyalty rewards (about 2–4 texts/month). Msg & data rates may apply. Consent is not required to purchase. Reply STOP to cancel, HELP for help.";

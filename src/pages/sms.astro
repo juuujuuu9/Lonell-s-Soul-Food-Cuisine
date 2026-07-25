@@ -9,7 +9,8 @@ import { LOYALTY_SMS_NUMBER, LOYALTY_KEYWORD, LOYALTY_SMS_DISPLAY } from "../dat
       <span class="eyebrow" data-reveal>Stay Connected</span>
       <h1 class="font-display text-3xl md:text-4xl font-bold mt-2 mb-4" data-reveal>Join Our SMS Club</h1>
       <p class="text-[var(--color-text-secondary)] mb-8 leading-relaxed" data-reveal>
-        Get exclusive offers, menu previews, event invitations, and more. Show your welcome text for
+        Get recurring automated marketing texts with exclusive offers, menu previews, event
+        invitations, and loyalty rewards. Show your welcome text for
         <strong class="text-[var(--color-accent)]">10% off your dinner</strong>.
       </p>
 
@@ -34,11 +35,15 @@ import { LOYALTY_SMS_NUMBER, LOYALTY_KEYWORD, LOYALTY_SMS_DISPLAY } from "../dat
       </div>
 
       <div class="space-y-3 text-xs text-[var(--color-text-muted)]" data-reveal>
-        <p>Message and data rates may apply. Reply STOP to cancel at any time.</p>
         <p>
-          By signing up, you agree to our
-          <a href="/sms-terms" class="text-[var(--color-brand-amber)] underline hover:no-underline">SMS Terms</a>
-          and
+          By texting {LOYALTY_KEYWORD} you agree to receive recurring automated marketing texts from
+          Lonell&apos;s Soul Food Cuisine. Msg &amp; data rates may apply. Message frequency varies
+          (approx. 2–4 msgs/month). Consent is not a condition of purchase. Reply STOP to cancel,
+          HELP for help.
+        </p>
+        <p>
+          <a href="/terms#sms-program" class="text-[var(--color-brand-amber)] underline hover:no-underline">Terms</a>
+          {" · "}
           <a href="/privacy" class="text-[var(--color-brand-amber)] underline hover:no-underline">Privacy Policy</a>.
         </p>
       </div>

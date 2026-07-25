@@ -1,9 +1,8 @@
 ---
 import { PROMO_VALID_DAYS } from "../data/business";
 import {
-  LOYALTY_MESSAGE_FREQUENCY,
+  LOYALTY_MARKETING_CONSENT_LABEL,
   LOYALTY_OFFER_LINE,
-  LOYALTY_PROGRAM_NAME,
   LOYALTY_VALUE_PROP,
 } from "../data/loyalty-consent";
 
@@ -36,36 +35,12 @@ const phoneId = `${formId}-phone`;
         required
       />
 
-      <fieldset class="loyalty-signup-consent-group">
-        <legend class="sr-only">Message preferences</legend>
-
-        <label class="loyalty-signup-consent">
-          <input type="checkbox" name="consent-marketing" value="marketing" />
-          <span>
-            Yes, send me <strong>deals &amp; perks</strong> — coupons, seasonal specials, and
-            exclusive offers (about 2–3 texts/month).
-          </span>
-        </label>
-
-        <label class="loyalty-signup-consent">
-          <input type="checkbox" name="consent-informational" value="informational" />
-          <span>
-            Yes, keep me <strong>in the loop</strong> — new menu items, holiday hours, event reminders, and
-            location updates (about 1–2 texts/month).
-          </span>
-        </label>
-
-        <label class="loyalty-signup-consent loyalty-signup-select-all">
-          <input type="checkbox" name="consent-all" value="all" />
-          <span>
-            <strong>Get both</strong> — I want the full SoulFood experience!
-          </span>
-        </label>
-      </fieldset>
+      <label class="loyalty-signup-consent">
+        <input type="checkbox" name="consent-marketing" value="marketing" />
+        <span>{LOYALTY_MARKETING_CONSENT_LABEL}</span>
+      </label>
 
       <p class="loyalty-signup-disclaimer">
-        Consent is not required to purchase. Message &amp; data rates may apply.
-        Reply STOP to cancel, HELP for help.
         See our <a href="/terms#sms-program">Terms</a> and
         <a href="/privacy#sms-privacy">Privacy Policy</a>.
       </p>
@@ -99,32 +74,7 @@ const phoneId = `${formId}-phone`;
   const panel = root.querySelector("[data-loyalty-signup-panel]");
   const successPanel = root.querySelector("[data-loyalty-signup-success]");
 
-  // "Select all" toggles both individual checkboxes
   const marketingCb = root.querySelector('input[name="consent-marketing"]');
-  const infoCb = root.querySelector('input[name="consent-informational"]');
-  const allCb = root.querySelector('input[name="consent-all"]');
-
-  allCb?.addEventListener("change", () => {
-    const checked = allCb.checked;
-    if (marketingCb) marketingCb.checked = checked;
-    if (infoCb) infoCb.checked = checked;
-  });
-
-  // Uncheck "select all" if either individual box is unchecked
-  function syncSelectAll() {
-    if (allCb) {
-      allCb.checked = marketingCb?.checked === true && infoCb?.checked === true;
-    }
-  }
-  marketingCb?.addEventListener("change", syncSelectAll);
-  infoCb?.addEventListener("change", syncSelectAll);
-
-  function getConsentTypes() {
-    const types = [];
-    if (marketingCb?.checked) types.push("marketing");
-    if (infoCb?.checked) types.push("informational");
-    return types;
-  }
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -142,13 +92,14 @@ const phoneId = `${formId}-phone`;
       return;
     }
 
-    const consentTypes = getConsentTypes();
-    if (consentTypes.length === 0) {
-      errorEl.textContent = "Select at least one message preference to join.";
+    if (!marketingCb?.checked) {
+      errorEl.textContent = "Please check the box to agree to marketing texts.";
       errorEl.hidden = false;
       marketingCb?.focus();
       return;
     }
+
+    const consentTypes = ["marketing"];
 
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
@@ -245,15 +196,6 @@ const phoneId = `${formId}-phone`;
     cursor: wait;
   }
 
-  .loyalty-signup-consent-group {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
   .loyalty-signup-consent {
     display: flex;
     gap: 0.5rem;
@@ -269,27 +211,6 @@ const phoneId = `${formId}-phone`;
     margin-top: 0.15em;
     flex-shrink: 0;
     accent-color: var(--color-neon);
-  }
-
-  .loyalty-signup-consent a {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .loyalty-signup-consent strong {
-    color: var(--color-text-primary);
-  }
-
-  .loyalty-signup-select-all {
-    margin-top: 0.25rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--color-border);
-    font-size: 0.8125rem;
-  }
-
-  .loyalty-signup-select-all span {
-    color: var(--color-neon);
   }
 
   .loyalty-signup-disclaimer {

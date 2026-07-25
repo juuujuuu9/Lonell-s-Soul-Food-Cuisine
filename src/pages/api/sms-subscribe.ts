@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!Array.isArray(consentTypes) || consentTypes.length === 0) {
       return new Response(
-        JSON.stringify({ error: "You must select at least one type of message to receive." }),
+        JSON.stringify({ error: "You must agree to receive marketing messages." }),
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
@@ -51,6 +51,14 @@ export const POST: APIRoute = async ({ request }) => {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
+    }
+
+    // A2P MARKETING campaign — web opt-in must include marketing consent
+    if (!consentTypes.includes("marketing")) {
+      return new Response(
+        JSON.stringify({ error: "Marketing consent is required to join." }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
     }
 
     const existing = await db

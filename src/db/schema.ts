@@ -8,7 +8,7 @@ export const subscribers = pgTable("subscribers", {
   // TCPA/CTIA compliance
   consentAt: timestamp("consent_at").notNull().defaultNow(),
   consentSource: varchar("consent_source", { length: 50 }).notNull().default("web_form"),
-  // Which types of consent the subscriber gave: "marketing", "informational", or both
+  // Consent categories recorded at opt-in. Web form requires "marketing" (A2P MARKETING use case).
   consentTypes: jsonb("consent_types").default([]),
   optOut: boolean("opt_out").notNull().default(false),
   optOutAt: timestamp("opt_out_at"),
