@@ -4,6 +4,7 @@ import {
   LOYALTY_MARKETING_CONSENT_LABEL,
   LOYALTY_OFFER_LINE,
   LOYALTY_PROGRAM_NAME,
+  LOYALTY_SKIP_LABEL,
   LOYALTY_VALUE_PROP,
 } from "../data/loyalty-consent";
 ---
@@ -38,9 +39,12 @@ import {
     <p class="loyalty-prompt-offer">
       {LOYALTY_OFFER_LINE} Offer expires {PROMO_VALID_DAYS} days after you join.
     </p>
+    <p class="loyalty-prompt-optional-note">
+      Optional — not required to use our site or dine with us.
+    </p>
 
     <form class="loyalty-prompt-form" data-loyalty-prompt-submit novalidate>
-      <label class="sr-only" for="loyalty-prompt-phone">Mobile phone number</label>
+      <label class="sr-only" for="loyalty-prompt-phone">Mobile phone number (only needed if you opt in)</label>
       <input
         id="loyalty-prompt-phone"
         class="loyalty-prompt-input"
@@ -49,7 +53,6 @@ import {
         inputmode="tel"
         autocomplete="tel"
         placeholder="(555) 555-5555"
-        required
       />
 
       <label class="loyalty-prompt-consent">
@@ -62,7 +65,10 @@ import {
         <a href="/privacy#sms-privacy">Privacy Policy</a>.
       </p>
 
-      <button type="submit" class="loyalty-prompt-join">Join SoulFood Fam</button>
+      <button type="submit" class="loyalty-prompt-join">Continue</button>
+      <button type="button" class="loyalty-prompt-skip" data-loyalty-prompt-skip>
+        {LOYALTY_SKIP_LABEL}
+      </button>
       <p class="loyalty-prompt-error" data-loyalty-prompt-error hidden role="alert"></p>
     </form>
   </div>
@@ -115,10 +121,13 @@ import {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.setTimeout(showPrompt, reducedMotion ? 0 : SHOW_DELAY_MS);
 
-    prompt.querySelector("[data-loyalty-prompt-close]")?.addEventListener("click", () => {
+    function dismissWithoutOptIn() {
       localStorage.setItem(STORAGE_DISMISSED, "1");
       hidePrompt();
-    });
+    }
+
+    prompt.querySelector("[data-loyalty-prompt-close]")?.addEventListener("click", dismissWithoutOptIn);
+    prompt.querySelector("[data-loyalty-prompt-skip]")?.addEventListener("click", dismissWithoutOptIn);
 
     const form = prompt.querySelector<HTMLFormElement>("[data-loyalty-prompt-submit]");
     const errorEl = prompt.querySelector<HTMLElement>("[data-loyalty-prompt-error]");
@@ -133,22 +142,28 @@ import {
       errorEl.textContent = "";
 
       const input = form.querySelector<HTMLInputElement>("#loyalty-prompt-phone");
-      const phone = normalizePhone(input?.value ?? "");
+      const rawPhone = (input?.value ?? "").trim();
+      const phone = normalizePhone(rawPhone);
+
+      // A2P 30923: empty Continue declines. Phone without checkbox = nudge, not silent fail.
+      if (!marketingCb?.checked) {
+        if (rawPhone) {
+          errorEl.textContent =
+            "To get texts, check the optional box above. Or tap “No thanks” if you don’t want texts.";
+          errorEl.hidden = false;
+          marketingCb?.focus();
+          return;
+        }
+        dismissWithoutOptIn();
+        return;
+      }
+
       if (!phone) {
-        errorEl.textContent = "Enter a valid 10-digit US mobile number.";
+        errorEl.textContent = "Enter a valid 10-digit US mobile number to receive texts.";
         errorEl.hidden = false;
         input?.focus();
         return;
       }
-
-      if (!marketingCb?.checked) {
-        errorEl.textContent = "Please check the box to agree to marketing texts.";
-        errorEl.hidden = false;
-        marketingCb?.focus();
-        return;
-      }
-
-      const consentTypes = ["marketing"];
 
       const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       if (submitBtn) {
@@ -160,7 +175,7 @@ import {
         const res = await fetch("/api/sms-subscribe", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: phone, consentTypes }),
+          body: JSON.stringify({ phoneNumber: phone, consentTypes: ["marketing"] }),
         });
 
         if (!res.ok) {
@@ -178,7 +193,7 @@ import {
         errorEl.hidden = false;
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Join SoulFood Fam";
+          submitBtn.textContent = "Continue";
         }
       }
     });
@@ -271,9 +286,33 @@ import {
   }
 
   .loyalty-prompt-offer {
-    margin: 0 0 0.875rem;
+    margin: 0 0 0.35rem;
     font-size: 0.75rem;
     line-height: 1.45;
+    color: var(--color-accent);
+  }
+
+  .loyalty-prompt-optional-note {
+    margin: 0 0 0.875rem;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  .loyalty-prompt-skip {
+    width: 100%;
+    padding: 0.35rem;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 0.6875rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .loyalty-prompt-skip:hover {
     color: var(--color-accent);
   }
 

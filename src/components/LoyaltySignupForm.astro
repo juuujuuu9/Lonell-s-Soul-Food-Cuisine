@@ -1,8 +1,11 @@
 ---
 import { PROMO_VALID_DAYS } from "../data/business";
 import {
+  LOYALTY_DECLINE_BODY,
+  LOYALTY_DECLINE_TITLE,
   LOYALTY_MARKETING_CONSENT_LABEL,
   LOYALTY_OFFER_LINE,
+  LOYALTY_SKIP_LABEL,
   LOYALTY_VALUE_PROP,
 } from "../data/loyalty-consent";
 
@@ -21,9 +24,12 @@ const phoneId = `${formId}-phone`;
     <p class="loyalty-signup-offer">
       {LOYALTY_OFFER_LINE} Offer expires {PROMO_VALID_DAYS} days after you join.
     </p>
+    <p class="loyalty-signup-optional-note">
+      Joining is optional — not required to use our website, dine with us, order, or reserve.
+    </p>
 
     <form class="loyalty-signup-fields" data-loyalty-signup-submit novalidate>
-      <label class="sr-only" for={phoneId}>Mobile phone number</label>
+      <label class="sr-only" for={phoneId}>Mobile phone number (only needed if you opt in)</label>
       <input
         id={phoneId}
         class="loyalty-signup-input"
@@ -32,7 +38,6 @@ const phoneId = `${formId}-phone`;
         inputmode="tel"
         autocomplete="tel"
         placeholder="(555) 555-5555"
-        required
       />
 
       <label class="loyalty-signup-consent">
@@ -45,7 +50,10 @@ const phoneId = `${formId}-phone`;
         <a href="/privacy#sms-privacy">Privacy Policy</a>.
       </p>
 
-      <button type="submit" class="loyalty-signup-button">Join SoulFood Fam</button>
+      <button type="submit" class="loyalty-signup-button">Continue</button>
+      <button type="button" class="loyalty-signup-skip" data-loyalty-signup-skip>
+        {LOYALTY_SKIP_LABEL}
+      </button>
       <p class="loyalty-signup-error" data-loyalty-signup-error hidden role="alert"></p>
     </form>
   </div>
@@ -55,6 +63,11 @@ const phoneId = `${formId}-phone`;
     <p class="loyalty-signup-lead">
       Check your phone — we sent your welcome text with your offer. Show it on your next visit.
     </p>
+  </div>
+
+  <div class="loyalty-signup-success" data-loyalty-signup-declined hidden>
+    <p class="loyalty-signup-success-title">{LOYALTY_DECLINE_TITLE}</p>
+    <p class="loyalty-signup-lead">{LOYALTY_DECLINE_BODY}</p>
   </div>
 </div>
 
@@ -73,8 +86,26 @@ const phoneId = `${formId}-phone`;
   const errorEl = root.querySelector("[data-loyalty-signup-error]");
   const panel = root.querySelector("[data-loyalty-signup-panel]");
   const successPanel = root.querySelector("[data-loyalty-signup-success]");
-
+  const declinedPanel = root.querySelector("[data-loyalty-signup-declined]");
   const marketingCb = root.querySelector('input[name="consent-marketing"]');
+  const skipBtn = root.querySelector("[data-loyalty-signup-skip]");
+
+  function showDeclined() {
+    panel?.setAttribute("hidden", "");
+    successPanel?.setAttribute("hidden", "");
+    declinedPanel?.removeAttribute("hidden");
+  }
+
+  function showJoined() {
+    localStorage.setItem("soulfam-prompt-joined", "1");
+    panel?.setAttribute("hidden", "");
+    declinedPanel?.setAttribute("hidden", "");
+    successPanel?.removeAttribute("hidden");
+  }
+
+  skipBtn?.addEventListener("click", () => {
+    showDeclined();
+  });
 
   form?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -84,22 +115,29 @@ const phoneId = `${formId}-phone`;
     errorEl.textContent = "";
 
     const input = form.querySelector('input[type="tel"]');
-    const phone = normalizePhone(input?.value ?? "");
+    const rawPhone = (input?.value ?? "").trim();
+    const phone = normalizePhone(rawPhone);
+
+    // A2P 30923: completable without consent when they aren't trying to join.
+    // If they entered a number but skipped the box, nudge — don't silently decline.
+    if (!marketingCb?.checked) {
+      if (rawPhone) {
+        errorEl.textContent =
+          "To get texts, check the optional box above. Or tap “No thanks” if you don’t want texts.";
+        errorEl.hidden = false;
+        marketingCb?.focus();
+        return;
+      }
+      showDeclined();
+      return;
+    }
+
     if (!phone) {
-      errorEl.textContent = "Enter a valid 10-digit US mobile number.";
+      errorEl.textContent = "Enter a valid 10-digit US mobile number to receive texts.";
       errorEl.hidden = false;
       input?.focus();
       return;
     }
-
-    if (!marketingCb?.checked) {
-      errorEl.textContent = "Please check the box to agree to marketing texts.";
-      errorEl.hidden = false;
-      marketingCb?.focus();
-      return;
-    }
-
-    const consentTypes = ["marketing"];
 
     const submitBtn = form.querySelector('button[type="submit"]');
     if (submitBtn) {
@@ -111,7 +149,7 @@ const phoneId = `${formId}-phone`;
       const res = await fetch("/api/sms-subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: phone, consentTypes }),
+        body: JSON.stringify({ phoneNumber: phone, consentTypes: ["marketing"] }),
       });
 
       if (!res.ok) {
@@ -119,15 +157,13 @@ const phoneId = `${formId}-phone`;
         throw new Error(data?.error ?? "Something went wrong. Please try again.");
       }
 
-      localStorage.setItem("soulfam-prompt-joined", "1");
-      panel?.setAttribute("hidden", "");
-      successPanel?.removeAttribute("hidden");
+      showJoined();
     } catch (err) {
       errorEl.textContent = err instanceof Error ? err.message : "Something went wrong.";
       errorEl.hidden = false;
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Join SoulFood Fam";
+        submitBtn.textContent = "Continue";
       }
     }
   });
@@ -146,10 +182,17 @@ const phoneId = `${formId}-phone`;
   }
 
   .loyalty-signup-offer {
-    margin: 0 0 1.25rem;
+    margin: 0 0 0.5rem;
     font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--color-accent);
+  }
+
+  .loyalty-signup-optional-note {
+    margin: 0 0 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
   }
 
   .loyalty-signup-fields {
@@ -194,6 +237,23 @@ const phoneId = `${formId}-phone`;
   .loyalty-signup-button:disabled {
     opacity: 0.7;
     cursor: wait;
+  }
+
+  .loyalty-signup-skip {
+    width: 100%;
+    padding: 0.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .loyalty-signup-skip:hover {
+    color: var(--color-accent);
   }
 
   .loyalty-signup-consent {
