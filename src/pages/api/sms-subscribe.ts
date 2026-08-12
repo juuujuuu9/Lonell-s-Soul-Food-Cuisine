@@ -102,7 +102,9 @@ export const POST: APIRoute = async ({ request }) => {
         },
       });
 
-    await sendSms(phoneNumber, welcomeMessage(expires));
+    const site =
+      process.env["PUBLIC_SITE_URL"]?.replace(/\/$/, "") || "https://lonellssoulfood.com";
+    await sendSms(phoneNumber, welcomeMessage(expires, site));
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

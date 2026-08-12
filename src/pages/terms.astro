@@ -95,9 +95,15 @@ import { LOYALTY_MESSAGE_FREQUENCY, LOYALTY_PROGRAM_NAME } from "../data/loyalty
             consent is recorded with a timestamp and source for compliance purposes.
           </li>
           <li>
-            <strong class="text-[var(--color-text-primary)]">In-store keyword:</strong> At our restaurant,
-            scan a QR code or text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}. Sending the keyword
-            constitutes your consent to receive recurring automated marketing SMS messages.
+            <strong class="text-[var(--color-text-primary)]">In-store keyword / QR:</strong> At our restaurant,
+            scan a QR code or visit our{" "}
+            <a href="/sms" class="text-[var(--color-accent)] hover:underline">SMS join page</a>{" "}
+            (<a href="/sms" class="text-[var(--color-accent)] hover:underline">lonellssoulfood.com/sms</a>),
+            then text {LOYALTY_KEYWORD} to {LOYALTY_SMS_DISPLAY}. That page displays the keyword, number,
+            full SMS disclosures, and links to these Terms and our Privacy Policy before you send.
+            Sending the keyword constitutes your consent to receive recurring automated marketing SMS messages.
+            Carrier reviewers can also verify both opt-in paths on our public{" "}
+            <a href="/a2p-opt-in-proof" class="text-[var(--color-accent)] hover:underline">opt-in proof page</a>.
           </li>
         </ol>
         <p class="mt-3">

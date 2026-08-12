@@ -8,8 +8,9 @@ const SITE_URL = serverEnv("PUBLIC_SITE_URL") || "https://lonellssoulfood.com";
 const isAdminRoute = createRouteMatcher(["/admin(.*)", "/api/admin(.*)"]);
 const isPublicRoute = createRouteMatcher([
   "/", "/menu(.*)", "/our-story", "/entertainment(.*)", "/private-events",
-  "/reviews", "/faq", "/contact", "/join", "/privacy", "/terms", "/sms-terms", "/accessibility",
-  "/sign-in(.*)", "/sign-up(.*)", "/access-denied",
+  "/reviews", "/faq", "/contact", "/join", "/sms", "/a2p-opt-in-proof",
+  "/privacy", "/privacy-policy", "/terms", "/terms-and-conditions", "/sms-terms",
+  "/accessibility", "/sign-in(.*)", "/sign-up(.*)", "/access-denied",
 ]);
 const isPublicApiRoute = createRouteMatcher([
   "/api/sms-subscribe", "/api/sms-webhook", "/api/sms-status-callback",

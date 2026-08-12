@@ -71,9 +71,10 @@ export function isEligibleForWinBack(sub: DripSubscriber, now = new Date()): boo
   return lastActivity <= cutoff;
 }
 
-export function welcomeMessage(expiresAt: Date): string {
+export function welcomeMessage(expiresAt: Date, siteUrl = "https://lonellssoulfood.com"): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. ${FULL_FOOTER}`;
+  const base = siteUrl.replace(/\/$/, "");
+  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. Msg & data rates may apply. ${FULL_FOOTER} Terms: ${base}/terms Privacy: ${base}/privacy`;
 }
 
 export function existingMemberMessage(expiresAt: Date | null): string {
@@ -84,8 +85,8 @@ export function existingMemberMessage(expiresAt: Date | null): string {
   return `${BRAND}: You're already a member. ${FULL_FOOTER}`;
 }
 
-export function rejoinMessage(expiresAt: Date): string {
-  return welcomeMessage(expiresAt);
+export function rejoinMessage(expiresAt: Date, siteUrl?: string): string {
+  return welcomeMessage(expiresAt, siteUrl);
 }
 
 export function reviewPromptMessage(): string {

@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LoyaltySignupForm from "../components/LoyaltySignupForm.astro";
+import {
+  LOYALTY_KEYWORD,
+  LOYALTY_SMS_DISPLAY,
+  LOYALTY_SMS_NUMBER,
+} from "../data/business";
+import {
+  LOYALTY_MESSAGE_FREQUENCY,
+  LOYALTY_PROGRAM_NAME,
+} from "../data/loyalty-consent";
+
+const site = "https://www.lonellssoulfood.com";
+---
+
+<!--
+  Public, no-auth proof page for A2P 10DLC / carrier reviewers (Twilio 30909).
+  Paste this URL into the campaign Message Flow / CTA field as hosted opt-in proof.
+-->
+<BaseLayout
+  title="SMS Opt-In Proof (A2P)"
+  noindex
+  description={`Live SMS opt-in proof for ${LOYALTY_PROGRAM_NAME}: web form with unchecked consent checkbox, keyword CTA, Terms, and Privacy Policy.`}
+>
+  <div class="min-h-screen px-4 py-16">
+    <div class="mx-auto max-w-2xl space-y-10">
+      <header class="text-center" data-reveal>
+        <p class="eyebrow">A2P 10DLC · Carrier Review</p>
+        <h1 class="font-display mt-2 text-3xl font-bold md:text-4xl">
+          SMS Opt-In Proof
+        </h1>
+        <p class="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+          Lonell&apos;s Soul Food Cuisine — {LOYALTY_PROGRAM_NAME}. This page is
+          publicly accessible without login. Reviewers can verify both opt-in
+          paths below.
+        </p>
+      </header>
+
+      <section
+        class="rounded-xl border border-[var(--color-neon-subtle)] bg-[var(--color-surface-card)] p-6 neon-glow"
+        data-reveal
+        id="web-form-opt-in"
+      >
+        <h2 class="font-display text-xl font-bold">
+          Path 1 — Website form (primary)
+        </h2>
+        <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+          Live opt-in form. Consent checkbox is <strong class="text-[var(--color-text-primary)]">unchecked by default</strong>.
+          Users must actively check it, enter a mobile number, and tap Continue.
+          Same form appears at{" "}
+          <a class="text-[var(--color-accent)] underline" href="/join">{site}/join</a>.
+        </p>
+        <div class="mt-6">
+          <LoyaltySignupForm />
+        </div>
+      </section>
+
+      <section
+        class="rounded-xl border border-[var(--color-brand-amber)]/20 bg-[var(--color-surface-card)] p-6"
+        data-reveal
+        id="keyword-opt-in"
+      >
+        <h2 class="font-display text-xl font-bold">
+          Path 2 — Keyword / QR (in-store)
+        </h2>
+        <p class="mt-2 text-sm text-[var(--color-text-secondary)]">
+          Customers scan an in-store QR or visit{" "}
+          <a class="text-[var(--color-accent)] underline" href="/sms">{site}/sms</a>
+          {" "}and text <strong class="text-[var(--color-text-primary)]">{LOYALTY_KEYWORD}</strong> to{" "}
+          <strong class="text-[var(--color-text-primary)]">{LOYALTY_SMS_DISPLAY}</strong>.
+          Sending the keyword constitutes consent to recurring automated marketing texts.
+        </p>
+        <div class="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+          <img
+            src="/media/qrcodes/qr-sms-optin.png"
+            alt={`QR code: text ${LOYALTY_KEYWORD} to ${LOYALTY_SMS_DISPLAY}`}
+            width="160"
+            height="160"
+            class="rounded-lg bg-white p-2"
+          />
+          <div class="text-center sm:text-left">
+            <p class="text-2xl font-display font-bold text-[var(--color-brand-amber)] tracking-wider">
+              {LOYALTY_KEYWORD}
+            </p>
+            <p class="text-lg">{LOYALTY_SMS_DISPLAY}</p>
+            <a
+              href={`sms:${LOYALTY_SMS_NUMBER}?body=${encodeURIComponent(LOYALTY_KEYWORD)}`}
+              class="mt-3 inline-flex items-center justify-center rounded-full bg-[var(--color-accent)] px-6 py-2 text-sm font-semibold text-black hover:bg-[var(--color-accent-hover)]"
+            >
+              Open Messenger
+            </a>
+          </div>
+        </div>
+        <p class="mt-4 text-xs leading-relaxed text-[var(--color-text-muted)]">
+          By texting {LOYALTY_KEYWORD} you agree to receive recurring automated marketing texts from
+          Lonell&apos;s Soul Food Cuisine. Msg &amp; data rates may apply. Message frequency varies
+          ({LOYALTY_MESSAGE_FREQUENCY}). Consent is not a condition of purchase. Reply STOP to cancel,
+          HELP for help.
+        </p>
+      </section>
+
+      <section class="space-y-3 text-sm leading-relaxed text-[var(--color-text-secondary)]" data-reveal>
+        <h2 class="font-display text-xl font-bold text-[var(--color-text-primary)]">
+          Message flow (for reviewers)
+        </h2>
+        <ol class="list-decimal space-y-2 pl-5">
+          <li>
+            End user opts in via Path 1 (web form + unchecked checkbox) or Path 2 (keyword / QR).
+          </li>
+          <li>
+            System records phone number, consent timestamp, consent source
+            (<code class="text-[var(--color-accent)]">web_form</code> or{" "}
+            <code class="text-[var(--color-accent)]">sms_keyword</code>), and marketing consent type.
+          </li>
+          <li>
+            Immediate welcome SMS confirms enrollment, states the offer, and includes STOP / HELP
+            plus msg &amp; data rates.
+          </li>
+          <li>
+            Ongoing marketing texts ({LOYALTY_MESSAGE_FREQUENCY}) identify Lonell&apos;s Soul Food Cuisine
+            and include opt-out language.
+          </li>
+          <li>
+            Reply <strong>STOP</strong> unsubscribes with confirmation. Reply <strong>HELP</strong> returns help info.
+          </li>
+        </ol>
+        <p>
+          Legal pages (public, no login):{" "}
+          <a class="text-[var(--color-accent)] underline" href="/terms#sms-program">{site}/terms#sms-program</a>
+          {" · "}
+          <a class="text-[var(--color-accent)] underline" href="/privacy#sms-privacy">{site}/privacy#sms-privacy</a>
+          {" · "}
+          <a class="text-[var(--color-accent)] underline" href="/privacy-policy">{site}/privacy-policy</a>
+          {" · "}
+          <a class="text-[var(--color-accent)] underline" href="/terms-and-conditions">{site}/terms-and-conditions</a>
+        </p>
+        <p class="text-xs text-[var(--color-text-muted)]">
+          Static screenshot mirror (same form):{" "}
+          <a class="underline" href="/media/images/a2p-web-opt-in-proof.png">
+            {site}/media/images/a2p-web-opt-in-proof.png
+          </a>
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

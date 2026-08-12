@@ -158,6 +158,8 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
               optOut: false,
               optOutAt: null,
               consentAt: new Date(),
+              consentSource: "sms_keyword",
+              consentTypes: ["marketing"],
               promoExpiresAt: expires,
               reviewPromptSentAt: null,
               day7NudgeSentAt: null,
@@ -165,7 +167,7 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
               lastVisitAt: null,
             })
             .where(eq(schema.subscribers.phoneNumber, from));
-          return rejoinMessage(expires);
+          return rejoinMessage(expires, siteUrl());
         }
         return existingMemberMessage(existing[0].promoExpiresAt);
       }
@@ -175,13 +177,14 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
         phoneNumber: from,
         keyword: "SOUL",
         consentSource: "sms_keyword",
+        consentTypes: ["marketing"],
         promoCode: PROMO_CODE,
         promoExpiresAt: expires,
       });
-      return welcomeMessage(expires);
+      return welcomeMessage(expires, siteUrl());
     }
 
-    return welcomeMessage(promoExpiresAt());
+    return welcomeMessage(promoExpiresAt(), siteUrl());
   }
 
   if (normalized === "MENU") {

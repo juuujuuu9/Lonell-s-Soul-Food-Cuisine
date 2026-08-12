@@ -167,7 +167,7 @@ Use the size that fits; never omit the core five items (frequency, rates, STOP, 
 
 **Condensed (Half sheet / Quarter Variant A, ~7–8pt, never smaller than 7pt):**
 
-> Msg & data rates may apply. ~2–4 msgs/mo. Consent not required to purchase. Reply STOP to cancel, HELP for help. Terms at lonellssoulfood.com/sms
+> Msg & data rates may apply. ~2–4 msgs/mo. Consent not required to purchase. Reply STOP to cancel, HELP for help. Terms at lonellssoulfood.com/terms · Privacy at lonellssoulfood.com/privacy
 
 **Menu-only pieces (Quarter Variant B):** no SMS legal copy required — it carries no opt-in call-to-action.
 

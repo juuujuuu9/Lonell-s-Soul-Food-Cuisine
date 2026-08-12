@@ -1,0 +1,31 @@
+{
+  "accountSid": "(from Twilio Console — Lonell's Loyalty Program)",
+  "brandRegistrationSid": "(from Twilio Console Brand Registration)",
+  "campaignSid": "(from Twilio Console rejected MARKETING campaign)",
+  "messagingServiceSid": "(from Twilio Console Messaging Service)",
+  "useCase": "MARKETING",
+  "description": "Lonell's Soul Food Cuisine SoulFood SMS Club — recurring automated marketing texts (offers, menu previews, event invitations, loyalty rewards) for restaurant customers in Los Angeles.",
+  "messageFlow": "End users opt in to Lonell's Soul Food Cuisine SoulFood SMS Club (recurring automated marketing texts) via two public, no-login paths:\n\n(1) Website form (primary): https://www.lonellssoulfood.com/join\nUsers enter their mobile number and must actively check an OPTIONAL consent checkbox that is UNCHECKED by default, then tap Continue. Checking the box + submitting constitutes consent to recurring automated marketing SMS (offers, menu previews, event invitations, loyalty rewards; approx. 2–4 msgs/month). Msg & data rates may apply. Consent is not required to purchase or use the website. Form links to Terms (https://www.lonellssoulfood.com/terms#sms-program) and Privacy Policy (https://www.lonellssoulfood.com/privacy#sms-privacy). Users may tap \"No thanks, I'll skip texts\" without enrolling.\n\nHosted live proof (form + keyword + flow): https://www.lonellssoulfood.com/a2p-opt-in-proof\nStatic screenshot of the web opt-in form: https://www.lonellssoulfood.com/media/images/a2p-web-opt-in-proof.png\n\n(2) Keyword / QR CTA: https://www.lonellssoulfood.com/sms\nIn-store QR codes and the /sms page instruct customers to text SOUL to (424) 295-8020. The /sms page shows the keyword, number, QR, full disclosures (frequency, rates, STOP/HELP, consent not required), Terms/Privacy links, and the same web form. Sending SOUL constitutes consent. In-store QR encodes sms:+14242958020?body=SOUL.\n\nAfter either opt-in, the system sends an immediate welcome SMS confirming enrollment (includes STOP/HELP, msg & data rates, Terms & Privacy URLs). Reply STOP to cancel (confirmation sent). Reply HELP for help. Opt-in is recorded with consent timestamp and source (web_form or sms_keyword).",
+  "optInType": ["WEB_FORM", "KEYWORD"],
+  "optInKeywords": ["SOUL", "START", "YES", "UNSTOP"],
+  "optOutKeywords": ["STOP", "CANCEL", "END", "QUIT", "UNSUBSCRIBE", "REVOKE", "STOPALL"],
+  "helpKeywords": ["HELP"],
+  "privacyPolicyUrl": "https://www.lonellssoulfood.com/privacy",
+  "termsAndConditionsUrl": "https://www.lonellssoulfood.com/terms",
+  "ctaUrls": [
+    "https://www.lonellssoulfood.com/join",
+    "https://www.lonellssoulfood.com/sms",
+    "https://www.lonellssoulfood.com/a2p-opt-in-proof"
+  ],
+  "proofScreenshotUrl": "https://www.lonellssoulfood.com/media/images/a2p-web-opt-in-proof.png",
+  "messageSamples": [
+    "Lonell's Soul Food Cuisine: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires Jun 15, 2026. Msg & data rates may apply. Reply HELP for help. Reply STOP to opt out. Terms: https://lonellssoulfood.com/terms Privacy: https://lonellssoulfood.com/privacy",
+    "Lonell's Soul Food Cuisine: Live jazz tonight 6-9pm. Walk in or call (323) 451-3104 to reserve. Reply HELP for help. Reply STOP to opt out.",
+    "Lonell's Soul Food Cuisine: You have been unsubscribed. You will not receive any more messages. Reply START to resubscribe.",
+    "Lonell's Soul Food Cuisine: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Msg & data rates may apply. Visit https://lonellssoulfood.com for more. Reply HELP for help. Reply STOP to opt out."
+  ],
+  "ageGatedContent": false,
+  "directLending": false,
+  "hasEmbeddedLinks": true,
+  "hasEmbeddedPhone": true
+}
