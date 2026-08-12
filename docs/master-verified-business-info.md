@@ -37,18 +37,18 @@
 
 ## Hours of Operation
 
-From official print menu (page 1 — "Our Schedule"):
+Effective August 18, 2026 (owner-confirmed operations update):
 
-| Day | Hours |
-|-----|-------|
-| Monday | **Closed** |
-| Tuesday – Thursday | 11:00 AM – 7:00 PM |
-| Friday – Saturday | 11:00 AM – 9:00 PM |
-| Sunday | 11:00 AM – 5:00 PM |
+| Day | Hours | Service |
+|-----|-------|---------|
+| Monday | **Closed** | — |
+| Tuesday | 11:00 AM – 7:00 PM | Take-out only |
+| Wednesday | 11:00 AM – 7:00 PM | Take-out only |
+| Thursday | 11:00 AM – 7:00 PM | Full service / dine-in |
+| Friday – Saturday | 11:00 AM – 9:00 PM | Full service |
+| Sunday | 11:00 AM – 5:00 PM | Full service |
 
-### ⚠️ Discrepancy — confirm with client
-
-The live website currently lists **Tuesday as closed** (open Wed–Sun only). The official print menu shows **Tuesday open** with the same hours as Wed–Thu. Confirm which schedule is current before updating site/schema/GBP.
+Site, schema, FAQ, footer, contact, and entertainment schedule were updated to match on 2026-08-12.
 
 ---
 
@@ -169,7 +169,7 @@ Use when reconciling `src/pages/menu.astro`, `src/data/menu.ts`, and schema mark
 
 | Topic | Official PDF | Current Website | Action |
 |-------|--------------|-----------------|--------|
-| Tuesday hours | Open 11am–7pm | Was Closed | **Fixed — now Open Tue–Sun** |
+| Tuesday hours | Open 11am–7pm | Open Tue–Sun; Tue–Wed take-out only (ops update Aug 18, 2026) | **Current** |
 | Event room name | Dining Room | Was Smoking Room | **Fixed — now Dining Room** |
 | Dinner prices | See tables above (old) | Higher prices in `menu.astro` | **Await updated pricing** |
 | Oxtails availability | Thu–Sun (dinner plate) | Was listed without day restriction | **Fixed — updated to Thu–Sun** |
@@ -209,3 +209,4 @@ Use when reconciling `src/pages/menu.astro`, `src/data/menu.ts`, and schema mark
 | 2026-06-10 | **Removed** "Lunch Specials" and "Lunch Menu" sections from the site entirely — not present in the official dinner PDF. Will reinstate when client provides a lunch menu file. |
 | 2026-06-26 | Added verified ownership/management info from client Company Analysis document (photo): legal entity confirmed as Lonell's LLC, founded 2024, founder Lonell Anderson (catering since 1995, high-profile clients Shaquille O'Neal & Magic Johnson). Updated `our-story.astro` to reflect official narrative; updated Schema.org `foundingDate` and `founder` fields in `BaseLayout.astro`; updated this master doc with Leadership section. |
 | 2026-07-05 | Removed co-manager Rev. Quanetha Hunt from all site pages (schema.org, our-story.astro, docs) per client request. |
+| 2026-08-12 | Updated hours to owner ops schedule effective Aug 18, 2026: open Tue–Sun (closed Mon); Tue–Wed take-out only 11am–7pm; Thu full service 11am–7pm; Fri–Sat full service 11am–9pm; Sun full service 11am–5pm. Applied across footer, contact, entertainment, FAQ, schema, and handoff. |

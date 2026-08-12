@@ -3,8 +3,8 @@ import { GOOGLE_REVIEW_URL } from "../data/business";
 
 const hours = [
   { day: "Monday", time: "CLOSED" },
-  { day: "Tuesday", time: "CLOSED" },
-  { day: "Wednesday", time: "11:00 AM – 7:00 PM" },
+  { day: "Tuesday", time: "11:00 AM – 7:00 PM", note: "Take-out" },
+  { day: "Wednesday", time: "11:00 AM – 7:00 PM", note: "Take-out" },
   { day: "Thursday", time: "11:00 AM – 7:00 PM" },
   { day: "Friday", time: "11:00 AM – 9:00 PM" },
   { day: "Saturday", time: "11:00 AM – 9:00 PM" },
@@ -89,15 +89,18 @@ const todayName = dayNames[todayIndex];
       <div>
         <h4 class="text-xs tracking-[0.15em] uppercase text-[var(--color-accent)] mb-4">Hours</h4>
         <ul class="space-y-1">
-          {hours.map(({ day, time }) => {
+          {hours.map(({ day, time, note }) => {
             const isToday = day === todayName;
             return (
-              <li class="flex justify-between text-sm text-[var(--color-text-secondary)]">
+              <li class="flex justify-between gap-3 text-sm text-[var(--color-text-secondary)]">
                 <span class={isToday ? "text-[var(--color-accent)] font-semibold" : ""}>
                   {day}
                   {isToday && <span class="ml-1.5 text-[10px] uppercase text-[var(--color-neon)]">Today</span>}
                 </span>
-                <span class={`${time === "CLOSED" ? "text-[var(--color-text-muted)]" : ""} ${isToday ? "text-[var(--color-text-primary)] font-medium" : ""}`}>{time}</span>
+                <span class={`text-right ${time === "CLOSED" ? "text-[var(--color-text-muted)]" : ""} ${isToday ? "text-[var(--color-text-primary)] font-medium" : ""}`}>
+                  {time}
+                  {note && <span class="block text-[10px] text-[var(--color-text-muted)] font-normal">{note}</span>}
+                </span>
               </li>
             );
           })}

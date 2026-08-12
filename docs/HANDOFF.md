@@ -88,7 +88,7 @@ Fixed the 8 highest-priority issues from the previous audit (see table below). A
 - Address: 8501 S Vermont Ave, Los Angeles, CA 90044
 - Phone: (323) 451-3104
 - SMS keyword: "Text SOUL to (424) 295-8020" → promo code SOUL10
-- Hours: Wed-Thu 11-7, Fri-Sat 11-9, Sun 11-5. Closed Mon-Tue
+- Hours: Tue–Wed 11–7 take-out only; Thu 11–7 full service; Fri–Sat 11–9 full service; Sun 11–5 full service. Closed Monday.
 - Live entertainment: Jazz Fri, Comedy 3rd Thu, Karaoke Sat. Sunday Brunch has no live music.
 
 ## Contact
