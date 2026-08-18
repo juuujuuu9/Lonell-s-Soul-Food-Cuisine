@@ -121,6 +121,7 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
       "url": siteUrl,
       "priceRange": "$$",
       "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "11:00", "closes": "19:00" },
         { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "11:00", "closes": "21:00" },
@@ -170,7 +171,7 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
         {
           "@type": "Question",
           "name": "What are Lonell's hours of operation?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We are open Wednesday through Sunday. Closed on Monday and Tuesday. Wednesday to Thursday: 11:00 AM to 7:00 PM. Friday to Saturday: 11:00 AM to 9:00 PM. Sunday: 11:00 AM to 5:00 PM." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We are open Tuesday through Sunday. Closed on Monday. Tuesday and Wednesday: 11:00 AM to 7:00 PM, take-out only. Thursday: 11:00 AM to 7:00 PM, full service. Friday and Saturday: 11:00 AM to 9:00 PM, full service. Sunday: 11:00 AM to 5:00 PM, full service." }
         },
         {
           "@type": "Question",
@@ -190,12 +191,12 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
         {
           "@type": "Question",
           "name": "Do you take reservations?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we accept reservations. Call us at (323) 451-3104 or email reservations@lonellssoulfood.com to book a table. Walk-ins are also always welcome." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, we accept reservations for full-service days (Thursday through Sunday). Call us at (323) 451-3104 or email reservations@lonellssoulfood.com to book a table. Walk-ins are also welcome. Tuesday and Wednesday are take-out only." }
         },
         {
           "@type": "Question",
           "name": "Does Lonell's offer takeout?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Call (323) 451-3104 to place a takeout order. Dine-in is always welcome — walk-ins and reservations accepted." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Call (323) 451-3104 to place a takeout order. Tuesday and Wednesday are take-out only. Dine-in is available Thursday through Sunday — walk-ins and reservations accepted." }
         },
         {
           "@type": "Question",
@@ -240,7 +241,7 @@ const showLoyaltyPrompt = !["/", "/join", "/contact"].includes(Astro.url.pathnam
         {
           "@type": "Question",
           "name": "Do you deliver?",
-          "acceptedAnswer": { "@type": "Answer", "text": "We currently offer dine-in and takeout. Call (323) 451-3104 to place a takeout order. We are exploring delivery options for the future." }
+          "acceptedAnswer": { "@type": "Answer", "text": "We offer takeout every open day, and dine-in Thursday through Sunday. Tuesday and Wednesday are take-out only. Call (323) 451-3104 to place a takeout order. We are exploring delivery options for the future." }
         },
         {
           "@type": "Question",
