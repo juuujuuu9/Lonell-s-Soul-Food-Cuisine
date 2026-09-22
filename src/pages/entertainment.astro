@@ -24,11 +24,18 @@ const weeklyEvents = [
     title: "Karaoke Saturdays",
     date: "Every Saturday",
     type: "karaoke" as const,
-    description: "Grab the mic and sing your heart out! Karaoke from 6pm to 9pm. Great food, great vibes, great company.",
+    description: "Grab the mic and sing your heart out! Karaoke from 6pm to 9pm with DJ Goddess Divine. Great food, great vibes, great company.",
     href: "#reserve",
     cta: "Come Through",
   },
 ];
+
+const blackRestaurantWeek = {
+  name: "Los Angeles Black Restaurant Week",
+  startDate: "2026-09-18",
+  endDate: "2026-09-27",
+  dateRangeLabel: "September 18–27, 2026",
+};
 ---
 
 <!-- Event schema -->
@@ -56,7 +63,18 @@ const weeklyEvents = [
     {
       "@type": "Event",
       "name": "Karaoke Saturday",
-      "description": "Karaoke night every Saturday at Lonell's Soul Food. Dinner served 11am-9pm, karaoke 6-9pm.",
+      "description": "Karaoke night every Saturday at Lonell's Soul Food, hosted by DJ Goddess Divine. Dinner served 11am-9pm, karaoke 6-9pm.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "Event",
+      "name": blackRestaurantWeek.name,
+      "description": "Lonell's Soul Food Cuisine is a participating restaurant during LA Black Restaurant Week, a citywide celebration of Black-owned dining in Los Angeles.",
+      "startDate": blackRestaurantWeek.startDate,
+      "endDate": blackRestaurantWeek.endDate,
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "location": { "@type": "Place", "name": "Lonell's Soul Food Cuisine", "address": "8501 S Vermont Ave, Los Angeles, CA 90044" },
@@ -67,11 +85,70 @@ const weeklyEvents = [
 
 <BaseLayout title="Entertainment" description="Live Jazz Fridays and Karaoke Saturdays at Lonell's Soul Food in South Los Angeles, plus Sunday Brunch with free champagne. A cultural hub for food, music, and community.">
   <div class="min-h-screen pb-16">
+    <!-- LA Black Restaurant Week feature -->
+    <section id="black-restaurant-week" class="section-padding pb-0">
+      <div class="max-w-4xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-6 md:p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-brand-amber)]/20">
+          <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)] order-first md:order-last">
+            <source
+              srcset="/media/images/la-black-restaurant-week-2026.webp 1x, /media/images/la-black-restaurant-week-2026@2x.webp 2x"
+              type="image/webp"
+            />
+            <img
+              src="/media/images/la-black-restaurant-week-2026.jpg"
+              alt="LA Black Restaurant Week flyer, September 18–27, 2026"
+              width="642"
+              height="720"
+              class="w-full h-auto object-cover"
+              loading="lazy"
+            />
+          </picture>
+          <div>
+            <span class="eyebrow text-[var(--color-brand-amber)]" data-reveal>Happening Now</span>
+            <h2 class="font-display text-2xl md:text-3xl font-bold mt-2 mb-3" data-reveal>LA Black Restaurant Week</h2>
+            <p class="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed mb-6" data-reveal>
+              Lonell's is a proud participating restaurant in Los Angeles Black Restaurant Week, {blackRestaurantWeek.dateRangeLabel} — 
+              a citywide celebration honoring Black-owned dining across LA. Come out during the week to enjoy Chef Lonell's soul food and support Black-owned business.
+            </p>
+            <a href="#reserve" class="inline-flex items-center justify-center px-8 py-3 bg-[var(--color-brand-amber)] text-black font-semibold rounded-full hover:bg-[var(--color-brand-amber-light)] transition-colors text-sm w-full sm:w-auto text-center">
+              Reserve a Table
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <Section eyebrow="Come Through" title="Entertainment Schedule" description="Lonell's is one of the only soul food restaurants in Los Angeles with consistent live entertainment every week — a cultural hub where food, music, and community come together." wide>
       <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         {weeklyEvents.map((event) => (
           <EventCard {...event} />
         ))}
+      </div>
+
+      <!-- Karaoke Saturdays flier -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center p-6 md:p-8 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+        <div>
+          <span class="eyebrow" data-reveal>Every Saturday, 6–9 PM</span>
+          <h3 class="font-display text-xl md:text-2xl font-semibold mt-2 mb-3" data-reveal>Karaoke Saturdays with DJ Goddess Divine</h3>
+          <p class="text-sm text-[var(--color-text-secondary)] leading-relaxed" data-reveal>
+            DJ Goddess Divine hosts the mic every Saturday from 6:00 PM to 9:00 PM. Grab a plate, grab a mic, 
+            and sing your heart out at 8501 S Vermont Ave.
+          </p>
+        </div>
+        <picture class="block overflow-hidden rounded-xl border border-[var(--color-border-subtle)]">
+          <source
+            srcset="/media/images/karaoke-saturdays-flier.webp 1x, /media/images/karaoke-saturdays-flier@2x.webp 2x"
+            type="image/webp"
+          />
+          <img
+            src="/media/images/karaoke-saturdays-flier.jpg"
+            alt="Karaoke Saturdays flyer, 6:00-9:00 PM with DJ Goddess Divine at Lonell's Soul Food Cuisine"
+            width="670"
+            height="1024"
+            class="w-full h-auto object-cover"
+            loading="lazy"
+          />
+        </picture>
       </div>
 
       <!-- Weekly Schedule Summary -->
@@ -115,7 +192,7 @@ const weeklyEvents = [
               <tr>
                 <td class="py-3 pr-4 font-medium">Saturday</td>
                 <td class="py-3 pr-4">11:00 AM – 9:00 PM <span class="text-[var(--color-text-muted)] text-xs">(full service)</span></td>
-                <td class="py-3 text-[var(--color-neon)]">Karaoke 6:00 PM – 9:00 PM</td>
+                <td class="py-3 text-[var(--color-neon)]">Karaoke 6:00 PM – 9:00 PM with DJ Goddess Divine</td>
               </tr>
             </tbody>
           </table>
