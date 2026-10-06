@@ -7,12 +7,21 @@ import {
   helpMessage,
   menuMessage,
   promoExpiresAt,
-  rejoinMessage,
   stopConfirmationMessage,
   unknownKeywordMessage,
   welcomeMessage,
 } from "./loyalty";
+import { contactPhotoUrl } from "./contact-card";
 import { isSmsEnabled, serverEnv } from "./env";
+
+export type InboundReply = {
+  body: string;
+  mediaUrl?: string;
+};
+
+export type SendSmsOptions = {
+  mediaUrl?: string;
+};
 
 function twilioFromNumber(): string {
   return serverEnv("TWILIO_FROM_NUMBER") ?? "";
@@ -48,7 +57,11 @@ export async function logOutboundMessage(
 }
 
 // ── Send SMS (real or simulated) ──
-export async function sendSms(to: string, body: string): Promise<{ success: boolean; messageId?: number; error?: string }> {
+export async function sendSms(
+  to: string,
+  body: string,
+  opts?: SendSmsOptions,
+): Promise<{ success: boolean; messageId?: number; error?: string }> {
   if (!isDbReady()) {
     log("error", "DB not configured, cannot log message", { to });
     return { success: false, error: "Database not configured" };
@@ -89,6 +102,7 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
       from: twilioFromNumber(),
       body,
       statusCallback,
+      ...(opts?.mediaUrl ? { mediaUrl: [opts.mediaUrl] } : {}),
     });
 
     const [msg] = await db
@@ -116,7 +130,15 @@ export async function sendSms(to: string, body: string): Promise<{ success: bool
 const OPT_OUT_KEYWORDS = new Set(["STOP", "CANCEL", "END", "QUIT", "UNSUBSCRIBE", "REVOKE", "STOPALL"]);
 const OPT_IN_KEYWORDS = new Set(["SOUL", "START", "YES", "UNSTOP"]);
 
-export async function handleInbound(from: string, keyword: string): Promise<string> {
+function welcomeReply(expires: Date): InboundReply {
+  const site = siteUrl();
+  return {
+    body: welcomeMessage(expires, site),
+    mediaUrl: contactPhotoUrl(site),
+  };
+}
+
+export async function handleInbound(from: string, keyword: string): Promise<InboundReply> {
   const normalized = keyword.trim().toUpperCase();
 
   if (OPT_OUT_KEYWORDS.has(normalized)) {
@@ -134,11 +156,11 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
           .where(eq(schema.subscribers.phoneNumber, from));
       }
     }
-    return stopConfirmationMessage();
+    return { body: stopConfirmationMessage() };
   }
 
   if (normalized === "HELP") {
-    return helpMessage(siteUrl());
+    return { body: helpMessage(siteUrl()) };
   }
 
   if (OPT_IN_KEYWORDS.has(normalized)) {
@@ -167,9 +189,9 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
               lastVisitAt: null,
             })
             .where(eq(schema.subscribers.phoneNumber, from));
-          return rejoinMessage(expires, siteUrl());
+          return welcomeReply(expires);
         }
-        return existingMemberMessage(existing[0].promoExpiresAt);
+        return { body: existingMemberMessage(existing[0].promoExpiresAt) };
       }
 
       const expires = promoExpiresAt();
@@ -181,19 +203,19 @@ export async function handleInbound(from: string, keyword: string): Promise<stri
         promoCode: PROMO_CODE,
         promoExpiresAt: expires,
       });
-      return welcomeMessage(expires, siteUrl());
+      return welcomeReply(expires);
     }
 
-    return welcomeMessage(promoExpiresAt(), siteUrl());
+    return welcomeReply(promoExpiresAt());
   }
 
   if (normalized === "MENU") {
-    return menuMessage(siteUrl());
+    return { body: menuMessage(siteUrl()) };
   }
 
   if (normalized === "EVENTS") {
-    return eventsMessage(siteUrl());
+    return { body: eventsMessage(siteUrl()) };
   }
 
-  return unknownKeywordMessage(siteUrl());
+  return { body: unknownKeywordMessage(siteUrl()) };
 }

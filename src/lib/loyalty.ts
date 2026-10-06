@@ -5,6 +5,7 @@ import {
   WIN_BACK_VALID_DAYS,
   YELP_REVIEW_URL,
 } from "../data/business";
+import { contactCardUrl } from "./contact-card";
 
 const BRAND = "Lonell's Soul Food Cuisine";
 const FOOTER = "Reply STOP to opt out.";
@@ -74,7 +75,8 @@ export function isEligibleForWinBack(sub: DripSubscriber, now = new Date()): boo
 export function welcomeMessage(expiresAt: Date, siteUrl = "https://lonellssoulfood.com"): string {
   const expiry = formatPromoExpiry(expiresAt);
   const base = siteUrl.replace(/\/$/, "");
-  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. Msg & data rates may apply. ${FULL_FOOTER} Terms: ${base}/terms Privacy: ${base}/privacy`;
+  const saveContact = contactCardUrl(base);
+  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. Save our contact (photo included): ${saveContact} Msg & data rates may apply. ${FULL_FOOTER} Terms: ${base}/terms Privacy: ${base}/privacy`;
 }
 
 export function existingMemberMessage(expiresAt: Date | null): string {

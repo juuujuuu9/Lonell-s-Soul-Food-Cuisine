@@ -14,9 +14,12 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const reply = await handleInbound(from, body);
-    await logOutboundMessage(from, reply);
+    await logOutboundMessage(from, reply.body);
 
-    const twiml = `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(reply)}</Message></Response>`;
+    const mediaXml = reply.mediaUrl
+      ? `<Media>${escapeXml(reply.mediaUrl)}</Media>`
+      : "";
+    const twiml = `<?xml version="1.0" encoding="UTF-8"?><Response><Message><Body>${escapeXml(reply.body)}</Body>${mediaXml}</Message></Response>`;
 
     return new Response(twiml, {
       status: 200,

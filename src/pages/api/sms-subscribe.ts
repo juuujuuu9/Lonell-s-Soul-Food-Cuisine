@@ -3,6 +3,7 @@ import { db, schema, isDbReady } from "../../db/index";
 import { eq } from "drizzle-orm";
 import { promoExpiresAt, welcomeMessage } from "../../lib/loyalty";
 import { PROMO_CODE } from "../../data/business";
+import { contactPhotoUrl } from "../../lib/contact-card";
 import { sendSms } from "../../lib/sms";
 
 export const prerender = false;
@@ -104,7 +105,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     const site =
       process.env["PUBLIC_SITE_URL"]?.replace(/\/$/, "") || "https://lonellssoulfood.com";
-    await sendSms(phoneNumber, welcomeMessage(expires, site));
+    await sendSms(phoneNumber, welcomeMessage(expires, site), {
+      mediaUrl: contactPhotoUrl(site),
+    });
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

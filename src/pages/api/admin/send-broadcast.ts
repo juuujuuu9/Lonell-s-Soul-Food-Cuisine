@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { and, eq, gt } from "drizzle-orm";
+import { and, count, eq, gt } from "drizzle-orm";
 import { db, schema, isDbReady } from "../../../db/index";
 import { isSmsEnabled } from "../../../lib/env";
 import { sendSms } from "../../../lib/sms";
@@ -13,9 +13,10 @@ const CONCURRENCY = 10;
 
 async function sendBatch(
   subscribers: { id: number; phoneNumber: string | null }[],
-  message: string
-): Promise<number> {
+  message: string,
+): Promise<{ sent: number; failed: number }> {
   let sent = 0;
+  let failed = 0;
   const groups: typeof subscribers[] = [];
   for (let i = 0; i < subscribers.length; i += CONCURRENCY) {
     groups.push(subscribers.slice(i, i + CONCURRENCY));
@@ -25,13 +26,14 @@ async function sendBatch(
       group.map((sub) => {
         if (!sub.phoneNumber) return Promise.resolve({ success: false } as const);
         return sendSms(sub.phoneNumber, message);
-      })
+      }),
     );
     for (const r of results) {
       if (r.status === "fulfilled" && r.value.success) sent++;
+      else failed++;
     }
   }
-  return sent;
+  return { sent, failed };
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -61,7 +63,14 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    const [totalRow] = await db
+      .select({ value: count() })
+      .from(schema.subscribers)
+      .where(eq(schema.subscribers.optOut, false));
+    const total = totalRow?.value ?? 0;
+
     let totalSent = 0;
+    let totalFailed = 0;
     let offset = 0;
     let hasMore = true;
 
@@ -80,13 +89,17 @@ export const POST: APIRoute = async ({ request }) => {
         break;
       }
 
-      totalSent += await sendBatch(batch, trimmed);
+      const batchResult = await sendBatch(batch, trimmed);
+      totalSent += batchResult.sent;
+      totalFailed += batchResult.failed;
       offset = batch[batch.length - 1].id;
       hasMore = batch.length === BATCH_SIZE;
     }
 
     return new Response(JSON.stringify({
       sent: totalSent,
+      failed: totalFailed,
+      total,
       simulated: !isSmsEnabled(),
     }), {
       status: 200,

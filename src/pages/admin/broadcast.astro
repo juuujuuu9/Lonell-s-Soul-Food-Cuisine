@@ -43,7 +43,7 @@ if (isDbReady()) {
         </div>
       )}
 
-      <form id="broadcast-form" class="space-y-6">
+      <form id="broadcast-form" class="space-y-6" method="post" action="#">
         <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
           <label for="message" class="block text-xs tracking-wider uppercase text-[var(--color-text-muted)] mb-3">
             Message
@@ -75,66 +75,76 @@ if (isDbReady()) {
         </button>
       </form>
 
-  <script define:vars={{ smsEnabled }}>
-    const form = document.getElementById("broadcast-form") as HTMLFormElement;
-    const messageEl = document.getElementById("message") as HTMLTextAreaElement;
-    const charCount = document.getElementById("char-count")!;
-    const statusEl = document.getElementById("broadcast-status")!;
-    const sendBtn = document.getElementById("send-btn") as HTMLButtonElement;
+  <script>
+    const form = document.getElementById("broadcast-form");
+    const messageEl = document.getElementById("message");
+    const charCount = document.getElementById("char-count");
+    const statusEl = document.getElementById("broadcast-status");
+    const sendBtn = document.getElementById("send-btn");
 
-    messageEl.addEventListener("input", () => {
-      charCount.textContent = `${messageEl.value.length} / 1600`;
-    });
+    if (!form || !messageEl || !charCount || !statusEl || !sendBtn) {
+      console.error("[Broadcast] Form controls missing — cannot send.");
+    } else {
+      messageEl.addEventListener("input", () => {
+        charCount.textContent = `${messageEl.value.length} / 1600`;
+      });
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const message = messageEl.value.trim();
-      if (!message) return;
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const message = messageEl.value.trim();
+        if (!message) return;
 
-      const count = parseInt(sendBtn.textContent?.match(/\d+/)?.[0] ?? "0", 10);
-      const confirmed = confirm(
-        `Send this message to ${count} subscriber${count === 1 ? "" : "s"}?\n\n${message.slice(0, 200)}${message.length > 200 ? "…" : ""}`
-      );
-      if (!confirmed) return;
+        const count = parseInt(sendBtn.textContent?.match(/\d+/)?.[0] ?? "0", 10);
+        const confirmed = confirm(
+          `Send this message to ${count} subscriber${count === 1 ? "" : "s"}?\n\n${message.slice(0, 200)}${message.length > 200 ? "…" : ""}`,
+        );
+        if (!confirmed) return;
 
-      sendBtn.disabled = true;
-      sendBtn.textContent = "Sending…";
-      statusEl.className = "hidden";
+        sendBtn.disabled = true;
+        sendBtn.textContent = "Sending…";
+        statusEl.className = "hidden";
 
-      try {
-        const res = await fetch("/api/admin/send-broadcast", {
-          method: "POST",
-          credentials: "same-origin",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message }),
-        });
-
-        const text = await res.text();
-        let data: Record<string, unknown> = {};
         try {
-          data = text ? JSON.parse(text) : {};
-        } catch {
-          throw new Error(`${res.status} ${res.statusText}: ${text.slice(0, 120)}`);
-        }
+          const res = await fetch("/api/admin/send-broadcast", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message }),
+          });
 
-        statusEl.classList.remove("hidden");
-        if (res.ok) {
-          statusEl.className = "p-4 rounded-xl text-sm bg-green-900/30 border border-green-500/40 text-green-300";
-          statusEl.textContent = `Sent to ${data.sent} of ${data.total} subscribers.${data.simulated ? " (Simulated — check Messages log.)" : ""}`;
-          messageEl.value = "";
-          charCount.textContent = "0 / 1600";
-        } else {
+          const text = await res.text();
+          let data = {};
+          try {
+            data = text ? JSON.parse(text) : {};
+          } catch {
+            throw new Error(`${res.status} ${res.statusText}: ${text.slice(0, 120)}`);
+          }
+
+          statusEl.classList.remove("hidden");
+          if (res.ok) {
+            statusEl.className = "p-4 rounded-xl text-sm bg-green-900/30 border border-green-500/40 text-green-300";
+            const total = data.total ?? count;
+            const simulatedNote = data.simulated ? " (Simulated — check Messages log.)" : "";
+            const failedNote =
+              typeof data.failed === "number" && data.failed > 0
+                ? ` ${data.failed} failed — check Admin → Messages.`
+                : "";
+            statusEl.textContent = `Sent to ${data.sent ?? 0} of ${total} subscribers.${simulatedNote}${failedNote}`;
+            messageEl.value = "";
+            charCount.textContent = "0 / 1600";
+          } else {
+            statusEl.className = "p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
+            statusEl.textContent = String(data.error ?? `Request failed (${res.status})`);
+          }
+        } catch (err) {
+          statusEl.classList.remove("hidden");
           statusEl.className = "p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-          statusEl.textContent = String(data.error ?? `Request failed (${res.status})`);
+          statusEl.textContent = err instanceof Error ? err.message : "Request failed";
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = `Send to ${count} subscriber${count === 1 ? "" : "s"}`;
         }
-      } catch (err) {
-        statusEl.classList.remove("hidden");
-        statusEl.className = "p-4 rounded-xl text-sm bg-red-900/30 border border-red-500/40 text-red-300";
-        statusEl.textContent = err instanceof Error ? err.message : "Request failed";
-      } finally {
-        sendBtn.disabled = false;
-        sendBtn.textContent = `Send to ${count} subscriber${count === 1 ? "" : "s"}`;
-      }
-    });
+      });
+    }
   </script>
 </AdminLayout>
