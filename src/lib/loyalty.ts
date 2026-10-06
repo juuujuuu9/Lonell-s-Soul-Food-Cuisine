@@ -5,6 +5,12 @@ import {
   WIN_BACK_VALID_DAYS,
   YELP_REVIEW_URL,
 } from "../data/business";
+import {
+  entertainmentScheduleSummary,
+  KARAOKE_SATURDAY,
+  LIVE_JAZZ_FRIDAY,
+  SUNDAY_BRUNCH,
+} from "../data/entertainment";
 import { contactSaveOptInLine } from "./contact-card";
 
 const BRAND = "Lonell's Soul Food Cuisine";
@@ -93,26 +99,26 @@ export function rejoinMessage(expiresAt: Date, siteUrl?: string): string {
 
 export function reviewPromptMessage(): string {
   const google = getGoogleReviewUrl();
-  return `${BRAND}: We hope you enjoyed your visit! We'd love a review on Google or Yelp. Share your experience and show us your posted review for a complimentary side on your next visit.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
+  return `${BRAND}: We hope you enjoyed your visit! If you have a moment, we'd really appreciate a review on Google or Yelp — it helps our small business more than you know.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
 }
 
 export function day7NudgeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We'd love to see you again! Live jazz this Fri 6-9pm & Sunday brunch 11am-5pm. Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return `${BRAND}: We'd love to see you again! ${entertainmentScheduleSummary()} Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
 }
 
 export function winBackMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We miss you! Come back this week for 15% off your next dinner plate. Show this message to redeem. Valid through ${expiry}. Walk in or call ${MANAGER_PHONE}. ${FOOTER}`;
+  return `${BRAND}: We miss you! Come back this week for 10% off your next dinner plate. Show this message to redeem. Valid through ${expiry}. Walk in or call ${MANAGER_PHONE}. ${FOOTER}`;
 }
 
 export function weeklyJazzMessage(): string {
-  return `${BRAND}: Live jazz tonight 6-9pm. Walk in or call ${MANAGER_PHONE} to reserve. ${FULL_FOOTER}`;
+  return `${BRAND}: This Friday — ${LIVE_JAZZ_FRIDAY}. Walk in or call ${MANAGER_PHONE} to reserve. ${FULL_FOOTER}`;
 }
 
 export function weeklyBrunchMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: Sunday Brunch is live at Lonell's! Kitchen open 11am-5pm. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
+  return `${BRAND}: ${SUNDAY_BRUNCH}. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
 }
 
 export function menuMessage(siteUrl: string): string {
@@ -120,7 +126,7 @@ export function menuMessage(siteUrl: string): string {
 }
 
 export function eventsMessage(siteUrl: string): string {
-  return `${BRAND}: Events at ${siteUrl}/entertainment. Live jazz Fri, Karaoke Sat, Brunch Sun. ${FULL_FOOTER}`;
+  return `${BRAND}: Events at ${siteUrl}/entertainment. ${LIVE_JAZZ_FRIDAY}. ${KARAOKE_SATURDAY}. ${SUNDAY_BRUNCH}. ${FULL_FOOTER}`;
 }
 
 export function stopConfirmationMessage(): string {
