@@ -6,7 +6,7 @@ import {
   YELP_REVIEW_URL,
 } from "../data/business";
 import {
-  entertainmentScheduleSummary,
+  COMEDY_THIRD_THURSDAY,
   KARAOKE_SATURDAY,
   LIVE_JAZZ_FRIDAY,
   SUNDAY_BRUNCH,
@@ -16,7 +16,11 @@ import { contactSaveOptInLine } from "./contact-card";
 const BRAND = "Lonell's Soul Food Cuisine";
 const FOOTER = "Reply STOP to opt out.";
 const HELP_FOOTER = "Reply HELP for help.";
-const FULL_FOOTER = `${HELP_FOOTER} ${FOOTER}`;
+
+/** Blank line between each thought so texts stay readable on a phone. */
+function sms(...parts: string[]): string {
+  return parts.join("\n\n");
+}
 
 export type DripSubscriber = {
   consentAt: Date;
@@ -81,16 +85,33 @@ export function isEligibleForWinBack(sub: DripSubscriber, now = new Date()): boo
 export function welcomeMessage(expiresAt: Date, siteUrl = "https://lonellssoulfood.com"): string {
   const expiry = formatPromoExpiry(expiresAt);
   const base = siteUrl.replace(/\/$/, "");
-  const saveContact = contactSaveOptInLine(base);
-  return `${BRAND}: Welcome to the Soul Food Family! Show this message for 10% off your dinner plate. Expires ${expiry}. ${saveContact} Msg & data rates may apply. Terms: ${base}/terms Privacy: ${base}/privacy`;
+  return sms(
+    `${BRAND}:`,
+    "Welcome to the Soul Food Family!",
+    "Show this message for 10% off your dinner plate.",
+    `Expires ${expiry}.`,
+    contactSaveOptInLine(base),
+    "Msg & data rates may apply.",
+    `Terms: ${base}/terms`,
+    `Privacy: ${base}/privacy`,
+    HELP_FOOTER,
+    FOOTER,
+  );
 }
 
 export function existingMemberMessage(expiresAt: Date | null): string {
   if (expiresAt && expiresAt > new Date()) {
     const expiry = formatPromoExpiry(expiresAt);
-    return `${BRAND}: You're already a member. Show this message for 10% off your dinner plate. Expires ${expiry}. ${FULL_FOOTER}`;
+    return sms(
+      `${BRAND}:`,
+      "You're already a member.",
+      "Show this message for 10% off your dinner plate.",
+      `Expires ${expiry}.`,
+      HELP_FOOTER,
+      FOOTER,
+    );
   }
-  return `${BRAND}: You're already a member. ${FULL_FOOTER}`;
+  return sms(`${BRAND}:`, "You're already a member.", HELP_FOOTER, FOOTER);
 }
 
 export function rejoinMessage(expiresAt: Date, siteUrl?: string): string {
@@ -99,46 +120,122 @@ export function rejoinMessage(expiresAt: Date, siteUrl?: string): string {
 
 export function reviewPromptMessage(): string {
   const google = getGoogleReviewUrl();
-  return `${BRAND}: We hope you enjoyed your visit! If you have a moment, we'd really appreciate a review on Google or Yelp — it helps our small business more than you know.\nGoogle: ${google}\nYelp: ${YELP_REVIEW_URL}\n${FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    "We hope you enjoyed your visit!",
+    "If you have a moment, we'd really appreciate a review on Google or Yelp — it helps our small business more than you know.",
+    `Google:\n\n${google}`,
+    `Yelp:\n\n${YELP_REVIEW_URL}`,
+    FOOTER,
+  );
 }
 
 export function day7NudgeMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We'd love to see you again! ${entertainmentScheduleSummary()} Show this message for 10% off your meal. Expires ${expiry}. Walk in or call ${MANAGER_PHONE} to reserve. ${FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    "We'd love to see you again!",
+    `${LIVE_JAZZ_FRIDAY}.`,
+    `${KARAOKE_SATURDAY}.`,
+    `${COMEDY_THIRD_THURSDAY}.`,
+    `${SUNDAY_BRUNCH}.`,
+    "Show this message for 10% off your meal.",
+    `Expires ${expiry}.`,
+    `Walk in or call ${MANAGER_PHONE} to reserve.`,
+    FOOTER,
+  );
 }
 
 export function winBackMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: We miss you! Come back this week for 10% off your next dinner plate. Show this message to redeem. Valid through ${expiry}. Walk in or call ${MANAGER_PHONE}. ${FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    "We miss you!",
+    "Come back this week for 10% off your next dinner plate.",
+    "Show this message to redeem.",
+    `Valid through ${expiry}.`,
+    `Walk in or call ${MANAGER_PHONE}.`,
+    FOOTER,
+  );
 }
 
 export function weeklyJazzMessage(): string {
-  return `${BRAND}: This Friday — ${LIVE_JAZZ_FRIDAY}. Walk in or call ${MANAGER_PHONE} to reserve. ${FULL_FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    `This Friday — ${LIVE_JAZZ_FRIDAY}.`,
+    `Walk in or call ${MANAGER_PHONE} to reserve.`,
+    HELP_FOOTER,
+    FOOTER,
+  );
 }
 
 export function weeklyBrunchMessage(expiresAt: Date): string {
   const expiry = formatPromoExpiry(expiresAt);
-  return `${BRAND}: ${SUNDAY_BRUNCH}. Show this message for 10% off your meal. Expires ${expiry}. Call ${MANAGER_PHONE} to reserve, or walk in. ${FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    `${SUNDAY_BRUNCH}.`,
+    "Show this message for 10% off your meal.",
+    `Expires ${expiry}.`,
+    `Call ${MANAGER_PHONE} to reserve, or walk in.`,
+    FOOTER,
+  );
 }
 
 export function menuMessage(siteUrl: string): string {
-  return `${BRAND}: Menu at ${siteUrl}/menu. Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler! ${FULL_FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    `Menu at ${siteUrl}/menu.`,
+    "Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!",
+    HELP_FOOTER,
+    FOOTER,
+  );
 }
 
 export function eventsMessage(siteUrl: string): string {
-  return `${BRAND}: Events at ${siteUrl}/entertainment. ${LIVE_JAZZ_FRIDAY}. ${KARAOKE_SATURDAY}. ${SUNDAY_BRUNCH}. ${FULL_FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    `Events at ${siteUrl}/entertainment.`,
+    `${LIVE_JAZZ_FRIDAY}.`,
+    `${KARAOKE_SATURDAY}.`,
+    `${SUNDAY_BRUNCH}.`,
+    HELP_FOOTER,
+    FOOTER,
+  );
 }
 
 export function stopConfirmationMessage(): string {
-  return `${BRAND}: You have been unsubscribed. You will not receive any more messages. Reply START to resubscribe.`;
+  return sms(
+    `${BRAND}:`,
+    "You have been unsubscribed.",
+    "You will not receive any more messages.",
+    "Reply START to resubscribe.",
+  );
 }
 
 export function helpMessage(siteUrl: string): string {
-  return `${BRAND}: Text MENU for our menu, EVENTS for upcoming events, or STOP to cancel. Msg & data rates may apply. Visit ${siteUrl} for more. ${FULL_FOOTER}`;
+  return sms(
+    `${BRAND}:`,
+    "Text MENU for our menu.",
+    "Text EVENTS for upcoming events.",
+    "Text STOP to cancel.",
+    "Msg & data rates may apply.",
+    `Visit ${siteUrl} for more.`,
+    HELP_FOOTER,
+    FOOTER,
+  );
 }
 
 export function unknownKeywordMessage(siteUrl: string): string {
-  return `${BRAND}: Reply SOUL to join, MENU for menu, EVENTS for events, HELP for info, or STOP to cancel. Msg & data rates may apply. Visit ${siteUrl}.`;
+  return sms(
+    `${BRAND}:`,
+    "Reply SOUL to join.",
+    "Reply MENU for the menu.",
+    "Reply EVENTS for events.",
+    "Reply HELP for info.",
+    "Reply STOP to cancel.",
+    "Msg & data rates may apply.",
+    `Visit ${siteUrl}.`,
+  );
 }
 
 if (import.meta.env?.DEV) {
@@ -155,4 +252,8 @@ if (import.meta.env?.DEV) {
   console.assert(!isEligibleForDay7Nudge({ ...base, lastVisitAt: new Date("2026-06-05T12:00:00Z") }, now), "day7: skip after visit");
   console.assert(isEligibleForWinBack(base, now), "winback: eligible after 30 days idle");
   console.assert(!isEligibleForWinBack({ ...base, lastVisitAt: new Date("2026-06-10T12:00:00Z") }, now), "winback: skip after recent visit");
+  const welcome = welcomeMessage(new Date("2026-07-15T12:00:00Z"));
+  console.assert(welcome.includes("\n\nWelcome to the Soul Food Family!"), "sms: blank line after the brand");
+  console.assert(!welcome.includes("\n\n\n"), "sms: one blank line, not two");
+  console.assert(welcome.endsWith("Reply STOP to opt out."), "sms: stop line is last");
 }

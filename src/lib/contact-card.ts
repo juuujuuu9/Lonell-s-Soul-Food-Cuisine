@@ -23,10 +23,10 @@ export function contactPhotoUrl(siteUrl: string): string {
   return `${normalizeSiteUrl(siteUrl)}${CONTACT_PHOTO_PATH}`;
 }
 
-/** Shown on SMS opt-in welcome (vCard link + HELP/STOP). */
+/** Shown on SMS opt-in welcome. URL sits on its own line with a blank line above it. */
 export function contactSaveOptInLine(siteUrl: string): string {
   const card = contactCardUrl(siteUrl);
-  return `Click the link to save our text deals number in your phone: ${card}. Reply HELP for help. Reply STOP to opt out.`;
+  return `Click the link to save our text deals number in your phone:\n\n${card}`;
 }
 
 function escapeVCardText(value: string): string {
