@@ -27,6 +27,34 @@ function twilioFromNumber(): string {
   return serverEnv("TWILIO_FROM_NUMBER") ?? "";
 }
 
+function twilioMessagingServiceSid(): string {
+  return serverEnv("TWILIO_MESSAGING_SERVICE_SID") ?? "";
+}
+
+/** Params for Messages.create. The messaging service ties the send to the approved A2P campaign. */
+export function twilioCreateParams(
+  to: string,
+  body: string,
+  opts: {
+    from: string;
+    messagingServiceSid: string;
+    statusCallback: string;
+    mediaUrl?: string;
+  },
+) {
+  if (!opts.messagingServiceSid && !opts.from) {
+    throw new Error("TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER must be set");
+  }
+  return {
+    to,
+    body,
+    statusCallback: opts.statusCallback,
+    ...(opts.messagingServiceSid ? { messagingServiceSid: opts.messagingServiceSid } : {}),
+    ...(opts.from ? { from: opts.from } : {}),
+    ...(opts.mediaUrl ? { mediaUrl: [opts.mediaUrl] } : {}),
+  };
+}
+
 function siteUrl(): string {
   return serverEnv("PUBLIC_SITE_URL") || "https://lonellssoulfood.com";
 }
@@ -96,14 +124,18 @@ export async function sendSms(
       throw new Error("TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set");
     }
     const client = twilio(accountSid, authToken);
-    const statusCallback = `${siteUrl()}/api/sms-status-callback`;
-    const result = await client.messages.create({
-      to,
-      from: twilioFromNumber(),
-      body,
-      statusCallback,
-      ...(opts?.mediaUrl ? { mediaUrl: [opts.mediaUrl] } : {}),
-    });
+    const messagingServiceSid = twilioMessagingServiceSid();
+    if (!messagingServiceSid) {
+      log("info", "TWILIO_MESSAGING_SERVICE_SID is unset; this send is not tied to the A2P campaign");
+    }
+    const result = await client.messages.create(
+      twilioCreateParams(to, body, {
+        from: twilioFromNumber(),
+        messagingServiceSid,
+        statusCallback: `${siteUrl()}/api/sms-status-callback`,
+        mediaUrl: opts?.mediaUrl,
+      }),
+    );
 
     const [msg] = await db
       .insert(schema.messages)

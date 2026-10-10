@@ -30,6 +30,7 @@ const smsEnabled = isSmsEnabled();
               { key: "CRON_SECRET", label: "Cron Secret" },
               { key: "TWILIO_ACCOUNT_SID", label: "Twilio Account" },
               { key: "TWILIO_FROM_NUMBER", label: "Twilio From Number" },
+              { key: "TWILIO_MESSAGING_SERVICE_SID", label: "Twilio Messaging Service" },
               { key: "CLERK_PUBLISHABLE_KEY", label: "Clerk Publishable Key" },
               { key: "GOOGLE_PLACES_API_KEY", label: "Google Places API Key" },
               { key: "GOOGLE_PLACE_ID", label: "Google Place ID" },
@@ -72,6 +73,10 @@ const smsEnabled = isSmsEnabled();
             <li class="flex items-start gap-3">
               <span class="mt-1 shrink-0 flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500 text-white text-xs font-bold">✓</span>
               <span class="line-through text-[var(--color-text-muted)]"><strong class="text-emerald-400">Twilio Number</strong>. Purchased +1 (424) 295-8020. Set SMS_ENABLED=true in production.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] mt-1.5 shrink-0" />
+              <span><strong class="text-white">A2P 10DLC live send</strong>. MARKETING campaign is carrier-approved and (424) 295-8020 is on the messaging service. Set TWILIO_MESSAGING_SERVICE_SID, then SMS_ENABLED=true in production.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="mt-1 shrink-0 flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500 text-white text-xs font-bold">✓</span>
