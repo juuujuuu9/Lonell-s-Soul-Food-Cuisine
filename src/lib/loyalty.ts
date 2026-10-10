@@ -182,10 +182,10 @@ export function weeklyBrunchMessage(expiresAt: Date): string {
 }
 
 export function menuMessage(siteUrl: string): string {
+  const base = siteUrl.replace(/\/$/, "");
   return sms(
     `${BRAND}:`,
-    `Menu at ${siteUrl}/menu.`,
-    "Favorites: Pork Chop, Fried Chicken, Catfish, and Peach Cobbler!",
+    `Full menu:\n\n${base}/menu`,
     HELP_FOOTER,
     FOOTER,
   );
@@ -256,4 +256,7 @@ if (import.meta.env?.DEV) {
   console.assert(welcome.includes("\n\nWelcome to the Soul Food Family!"), "sms: blank line after the brand");
   console.assert(!welcome.includes("\n\n\n"), "sms: one blank line, not two");
   console.assert(welcome.endsWith("Reply STOP to opt out."), "sms: stop line is last");
+  const menu = menuMessage("https://lonellssoulfood.com");
+  console.assert(menu.includes("https://lonellssoulfood.com/menu"), "menu: website link");
+  console.assert(!menu.includes("Pork Chops"), "menu: no dish list in the text");
 }
