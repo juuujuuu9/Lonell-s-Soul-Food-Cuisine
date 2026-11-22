@@ -1,12 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SignUp } from "@clerk/astro/components";
+
+export const prerender = false;
+
+const { userId } = Astro.locals.auth();
+if (userId) {
+  return Astro.redirect("/admin");
+}
 ---
 
 <BaseLayout title="Sign Up" noindex>
   <div class="min-h-screen flex items-center justify-center px-4 py-24">
     <div class="w-full max-w-md">
-      <SignUp />
+      <SignUp forceRedirectUrl="/admin" signInForceRedirectUrl="/admin" />
     </div>
   </div>
 </BaseLayout>

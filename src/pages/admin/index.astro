@@ -2,16 +2,29 @@
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { db, schema, isDbReady } from "../../db/index";
 import { isSmsEnabled } from "../../lib/env";
-import { count } from "drizzle-orm";
+import { fetchTwilioAccountInfo, formatTwilioBalance } from "../../lib/twilio-account";
+import { count, desc, eq, or } from "drizzle-orm";
 
 export const prerender = false;
 
 const smsEnabled = isSmsEnabled();
+const twilio = await fetchTwilioAccountInfo();
+const twilioBalance = formatTwilioBalance(twilio);
+const twilioStatus = (twilio.status ?? "").toLowerCase();
+const twilioHealthy = twilio.configured && !twilio.error && twilioStatus === "active";
 
 let subscriberCount = 0;
 let messageCount = 0;
 let reviewCount = 0;
 let dbError: string | null = null;
+let recentAlerts: Array<{
+  id: number;
+  toNumber: string | null;
+  body: string | null;
+  status: string | null;
+  simulated: boolean | null;
+  createdAt: Date | null;
+}> = [];
 
 if (isDbReady()) {
   try {
@@ -23,12 +36,34 @@ if (isDbReady()) {
 
     const [revResult] = await db.select({ value: count() }).from(schema.reviews);
     reviewCount = revResult.value;
+
+    recentAlerts = await db
+      .select({
+        id: schema.messages.id,
+        toNumber: schema.messages.toNumber,
+        body: schema.messages.body,
+        status: schema.messages.status,
+        simulated: schema.messages.simulated,
+        createdAt: schema.messages.createdAt,
+      })
+      .from(schema.messages)
+      .where(
+        or(eq(schema.messages.status, "failed"), eq(schema.messages.simulated, true)),
+      )
+      .orderBy(desc(schema.messages.createdAt))
+      .limit(8);
   } catch (e) {
     dbError = e instanceof Error ? e.message : "Unknown database error";
     console.error("[Admin Dashboard] DB error:", e);
   }
 } else {
   dbError = "DATABASE_URL is not configured. Add it to your .env.local file.";
+}
+
+function statusTone(status: string | null | undefined, simulated: boolean | null | undefined) {
+  if (simulated || status === "simulated") return "bg-amber-900/30 text-amber-400";
+  if (status === "failed") return "bg-red-900/30 text-red-400";
+  return "bg-green-900/30 text-green-400";
 }
 ---
 
@@ -59,16 +94,116 @@ if (isDbReady()) {
     </a>
   </div>
 
-  <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
-    <div class="flex items-center justify-between">
-      <div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+    <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div class="flex items-center justify-between mb-4">
         <h2 class="font-display text-xl font-semibold">SMS Service</h2>
+        <span class={`inline-block w-3 h-3 rounded-full ${smsEnabled ? "bg-[var(--color-neon)]" : "bg-[var(--color-accent)]"}`} />
+      </div>
+      <p class="text-sm text-[var(--color-text-secondary)]">
+        App flag:{" "}
+        <strong class={smsEnabled ? "text-[var(--color-neon)]" : "text-[var(--color-brand-amber)]"}>
+          {smsEnabled ? "ENABLED" : "SIMULATED"}
+        </strong>
+        {!smsEnabled && " — messages are logged without sending."}
+      </p>
+    </div>
+
+    <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-display text-xl font-semibold">Twilio Account</h2>
+        <span
+          class={`inline-block w-3 h-3 rounded-full ${
+            twilioHealthy ? "bg-[var(--color-neon)]" : twilio.error || twilioStatus === "suspended" ? "bg-red-500" : "bg-[var(--color-accent)]"
+          }`}
+        />
+      </div>
+      {!twilio.configured ? (
+        <p class="text-sm text-[var(--color-text-secondary)]">Twilio credentials are not configured.</p>
+      ) : twilio.error ? (
+        <div>
+          <p class="text-sm text-red-400 font-medium">Could not reach Twilio</p>
+          <p class="text-xs text-red-300/80 mt-1 break-words">{twilio.error}</p>
+        </div>
+      ) : (
+        <dl class="space-y-2 text-sm">
+          <div class="flex items-center justify-between gap-4">
+            <dt class="text-[var(--color-text-muted)]">Status</dt>
+            <dd>
+              <span
+                class={`inline-block px-2 py-0.5 rounded text-xs font-medium uppercase ${
+                  twilioStatus === "active"
+                    ? "bg-green-900/30 text-green-400"
+                    : twilioStatus === "suspended"
+                      ? "bg-red-900/30 text-red-400"
+                      : "bg-amber-900/30 text-amber-400"
+                }`}
+              >
+                {twilio.status}
+              </span>
+            </dd>
+          </div>
+          {twilio.friendlyName && (
+            <div class="flex items-center justify-between gap-4">
+              <dt class="text-[var(--color-text-muted)]">Name</dt>
+              <dd class="text-[var(--color-text-secondary)]">{twilio.friendlyName}</dd>
+            </div>
+          )}
+          {twilioBalance && (
+            <div class="flex items-center justify-between gap-4">
+              <dt class="text-[var(--color-text-muted)]">Balance</dt>
+              <dd class="text-[var(--color-text-secondary)]">{twilioBalance}</dd>
+            </div>
+          )}
+        </dl>
+      )}
+    </div>
+  </div>
+
+  <div class="p-6 bg-[var(--color-surface-card)] rounded-xl border border-[var(--color-border-subtle)]">
+    <div class="flex items-center justify-between gap-4 mb-4">
+      <div>
+        <h2 class="font-display text-xl font-semibold">Twilio / SMS alerts</h2>
         <p class="text-sm text-[var(--color-text-secondary)] mt-1">
-          SMS is currently <strong class={smsEnabled ? "text-[var(--color-neon)]" : "text-[var(--color-brand-amber)]"}>{smsEnabled ? "ENABLED" : "SIMULATED"}</strong>.
-          {!smsEnabled && " Messages are being logged to the database without sending."}
+          Recent failed or simulated outbound messages.
         </p>
       </div>
-      <span class={`inline-block w-3 h-3 rounded-full ${smsEnabled ? "bg-[var(--color-neon)]" : "bg-[var(--color-accent)]"}`} />
+      <a href="/admin/messages" class="text-xs tracking-wider uppercase text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] transition-colors">
+        All messages
+      </a>
     </div>
+
+    {recentAlerts.length === 0 ? (
+      <p class="text-sm text-[var(--color-text-muted)]">No failed or simulated messages in the recent log.</p>
+    ) : (
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-[var(--color-border-subtle)] text-xs tracking-wider uppercase text-[var(--color-text-muted)]">
+              <th class="text-left py-2 pr-4">To</th>
+              <th class="text-left py-2 pr-4">Status</th>
+              <th class="text-left py-2 pr-4">Body</th>
+              <th class="text-left py-2">When</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentAlerts.map((msg) => (
+              <tr class="border-b border-[var(--color-border-subtle)] last:border-0">
+                <td class="py-3 pr-4 text-xs whitespace-nowrap">{msg.toNumber}</td>
+                <td class="py-3 pr-4">
+                  <span class={`inline-block px-2 py-0.5 rounded text-xs font-medium ${statusTone(msg.status, msg.simulated)}`}>
+                    {msg.simulated ? "Simulated" : msg.status}
+                  </span>
+                </td>
+                <td class="py-3 pr-4 text-[var(--color-text-secondary)] max-w-md truncate">{msg.body}</td>
+                <td class="py-3 text-xs text-[var(--color-text-muted)] whitespace-nowrap">
+                  {msg.createdAt?.toLocaleString("en-US", { timeZone: "America/Los_Angeles" })}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
   </div>
 </AdminLayout>
