@@ -153,8 +153,21 @@ export async function sendSms(
     log("info", `Sent via Twilio to ${to}`, { sid: result.sid });
     return { success: true, messageId: msg.id };
   } catch (err) {
-    log("error", `Failed to send SMS to ${to}`, { error: String(err) });
-    return { success: false, error: String(err) };
+    const error = String(err);
+    log("error", `Failed to send SMS to ${to}`, { error });
+    try {
+      await db.insert(schema.messages).values({
+        toNumber: to,
+        fromNumber: twilioFromNumber(),
+        body,
+        direction: "outbound",
+        status: "failed",
+        simulated: false,
+      });
+    } catch (logErr) {
+      log("error", `Failed to record failed SMS to ${to}`, { error: String(logErr) });
+    }
+    return { success: false, error };
   }
 }
 

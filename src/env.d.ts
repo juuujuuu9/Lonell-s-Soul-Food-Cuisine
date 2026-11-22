@@ -7,6 +7,8 @@ interface ImportMetaEnv {
   readonly PUBLIC_CLERK_PUBLISHABLE_KEY: string;
   readonly PUBLIC_CLERK_SIGN_IN_URL: string;
   readonly PUBLIC_CLERK_SIGN_UP_URL: string;
+  readonly PUBLIC_CLERK_SIGN_IN_FORCE_REDIRECT_URL: string;
+  readonly PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL: string;
   readonly TWILIO_ACCOUNT_SID: string;
   readonly TWILIO_AUTH_TOKEN: string;
   readonly TWILIO_FROM_NUMBER: string;
